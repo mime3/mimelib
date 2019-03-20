@@ -1,0 +1,11 @@
+LogFile Init
+Player Created
+Received Packet : dfPACKET_SC_CREATE_MY_CHARACTER
+Received Packet : dfPACKET_SC_DAMAGE
+Player Created
+Received Packet : dfPACKET_SC_CREATE_OTHER_CHARACTER
+Received Packet : dfPACKET_SC_DAMAGE
+Player Deleted
+Received Packet : dfPACKET_SC_DELETE_CHARACTER
+Received Packet : dfPACKET_SC_DAMAGE
+Log End

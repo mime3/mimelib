@@ -1,0 +1,7 @@
+2018-09-14 15:51:09 :: [1] 쿼리 실패 SELECT `accountNo` FROM session WHERE accountno = 6
+2018-09-14 16:00:34 :: [1] 쿼리 실패 SELECT `accountNo` FROM session WHERE accountno = 3
+2018-09-14 16:01:53 :: [4] error No 1146, msg : Table 'accountdb.session' doesn't exist
+2018-11-22 19:09:16 :: [3] 쿼리중 DB연결 오류 1 회
+2018-11-22 19:09:16 :: [5] 쿼리중 DB연결 오류 1 회
+2018-11-22 19:09:16 :: [2] 쿼리중 DB연결 오류 1 회
+2018-11-22 19:09:16 :: [4] 쿼리중 DB연결 오류 1 회

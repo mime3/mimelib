@@ -1,0 +1,199 @@
+2019-02-21 15:01:55 :: [1] Mysql connection error : 
+2019-02-21 15:10:54 :: [2] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1201, `date` = NOW(), `log` = '새 살 차오르지 못한 상처가'
+2019-02-21 15:10:54 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [4] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 52, `date` = NOW(), `log` = '바로 너 그건 너 날 위한 남자는 바로 너'
+2019-02-21 15:10:54 :: [5] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [6] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1203, `date` = NOW(), `log` = '하나 둘 모아 둔 기억을 지워'
+2019-02-21 15:10:54 :: [7] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [8] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 53, `date` = NOW(), `log` = '오빠 집이 어디야? 난 압구정! 난 까!치!산!'
+2019-02-21 15:10:54 :: [9] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [10] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 2051, `date` = NOW(), `log` = '이게 바로 무도 Style3'
+2019-02-21 15:10:54 :: [11] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [12] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1, `date` = NOW(), `log` = 'shake it shake it baby 밤새도록 '
+2019-02-21 15:10:54 :: [13] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [14] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 2053, `date` = NOW(), `log` = '오오오 오오오 오오오 오오오 '
+2019-02-21 15:10:54 :: [15] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:10:54 :: [16] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 902, `date` = NOW(), `log` = '어떻게 쌈바 괜찮으셨쎄요?준워'
+2019-02-21 15:10:54 :: [17] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use???
+2019-02-21 15:13:33 :: [2] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1000, `date` = NOW(), `log` = '쉽게 못 고칠것 같은 이 이별의 불치병 온몸이 그리움으로 전이가 된 이 불치병 '
+2019-02-21 15:13:38 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use큐??
+2019-02-21 15:14:43 :: [2] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4601, `date` = NOW(), `log` = 'shake it shake it shake it shake it baby, ch???耀 SMB File Server sends the correspon')
+2019-02-21 15:14:43 :: [3] error No 1136, msg : Column count doesn't match value count at row 1
+2019-02-21 15:14:43 :: [4] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4551, `date` = NOW(), `log` = 'Come Back ')
+2019-02-21 15:14:43 :: [5] error No 1136, msg : Column count doesn't match value count at row 1
+2019-02-21 15:14:43 :: [6] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4801, `date` = NOW(), `log` = '뛰어 높이 가는거야 ')
+2019-02-21 15:14:43 :: [7] error No 1136, msg : Column count doesn't match value count at row 1
+2019-02-21 15:14:43 :: [8] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 2202, `date` = NOW(), `log` = '남이남이남이 되버리고 흔들어주세요! ')
+2019-02-21 15:14:43 :: [9] error No 1136, msg : Column count doesn't match value count at row 1
+2019-02-21 15:14:43 :: [10] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 3751, `date` = NOW(), `log` = 'let's come let's go ')
+2019-02-21 15:14:43 :: [11] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:43 :: [12] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 51, `date` = NOW(), `log` = 'Bye Bye Bye Boy (Bye Bye Bye Boy)')
+2019-02-21 15:14:43 :: [13] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:43 :: [14] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 53, `date` = NOW(), `log` = '이별의 슬픈 노래를 써내려갔어!쟀을까?')
+2019-02-21 15:14:43 :: [15] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:43 :: [16] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 3752, `date` = NOW(), `log` = '살다보면 막히는게 많아! 하고 싶은데 못하는게 많아!?tel(R)끎袍?耀')
+2019-02-21 15:14:43 :: [17] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:43 :: [18] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 56, `date` = NOW(), `log` = '나만 몰랐었던 이야기')
+2019-02-21 15:14:43 :: [19] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:43 :: [20] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 57, `date` = NOW(), `log` = '바라보는 내 마음도 아팠어요 ')
+2019-02-21 15:14:44 :: [21] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [22] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 58, `date` = NOW(), `log` = '새 살 차오르지 못한 상처가')
+2019-02-21 15:14:44 :: [23] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [24] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 59, `date` = NOW(), `log` = '잘생기지 않아도 마음이 따뜻한 그런 남자 Oh')
+2019-02-21 15:14:44 :: [25] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [26] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 2552, `date` = NOW(), `log` = '뭘 기다리는지 그대여 이리와요 ')
+2019-02-21 15:14:44 :: [27] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [28] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 61, `date` = NOW(), `log` = '뚫리고 막히고 뚫리고 막히고 ')
+2019-02-21 15:14:44 :: [29] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [30] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 2554, `date` = NOW(), `log` = '알럽 쌈바!?')
+2019-02-21 15:14:44 :: [31] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [32] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4602, `date` = NOW(), `log` = '나는야 소녀들의 대통령 ')
+2019-02-21 15:14:44 :: [33] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [34] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4603, `date` = NOW(), `log` = '난 바람났어 ')
+2019-02-21 15:14:44 :: [35] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [36] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 4604, `date` = NOW(), `log` = '알아! 인생이 짧은것도 알아! 그래서 오늘도 치열한 인생을 살아!x2l byte???耀505')
+2019-02-21 15:14:44 :: [37] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [38] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1201, `date` = NOW(), `log` = '휘파람을 불렀지')
+2019-02-21 15:14:44 :: [39] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:14:44 :: [40] 쿼리 실패 INSERT INTO `chatlog` VALUES(`accountno` = 1202, `date` = NOW(), `log` = '강남가는데 한시간 반 서울에서 대전까지 한시간 반')
+2019-02-21 15:14:44 :: [41] error No 1136, msg : Column count doesn't match value count at row 1 manual that corresponds to your MySQL server version for the right syntax to use픰??
+2019-02-21 15:39:03 :: [2] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(3954, NOW(),'let's come let's go ???{')
+2019-02-21 15:39:03 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use쵐??
+2019-02-21 15:42:07 :: [2] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(1307, NOW(),'Don't say my name')
+2019-02-21 15:42:07 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use픰즔?
+2019-02-21 15:57:13 :: [2] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(91500, NOW(), "우근형 "아 왜~!?")
+2019-02-21 15:57:13 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use쪰??
+2019-02-21 16:16:31 :: [2] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52950, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:31 :: [3] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:33 :: [4] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50853, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:33 :: [5] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:36 :: [6] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51966, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:36 :: [7] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:36 :: [8] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51163, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:36 :: [9] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:41 :: [10] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52255, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:41 :: [11] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:42 :: [12] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53177, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:42 :: [13] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:42 :: [14] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54039, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:42 :: [15] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:45 :: [16] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53768, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:45 :: [17] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:46 :: [18] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50869, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:46 :: [19] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:46 :: [20] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50609, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:46 :: [21] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:49 :: [22] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50383, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:49 :: [23] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:53 :: [24] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51006, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:53 :: [25] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:54 :: [26] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51804, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:54 :: [27] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:54 :: [28] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51774, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:16:54 :: [29] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:16:56 :: [30] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51226, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:16:56 :: [31] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:10 :: [32] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54954, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:10 :: [33] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:17 :: [34] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52268, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:17 :: [35] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:17 :: [36] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53265, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:17 :: [37] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:17 :: [38] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50899, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:17 :: [39] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:21 :: [40] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50075, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:21 :: [41] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:23 :: [42] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53298, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:23 :: [43] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:25 :: [44] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51572, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:25 :: [45] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:35 :: [46] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53486, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:35 :: [47] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:36 :: [48] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54679, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:36 :: [49] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:38 :: [50] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51546, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:38 :: [51] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:38 :: [52] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54477, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:38 :: [53] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:41 :: [54] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50601, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:41 :: [55] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:47 :: [56] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51156, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:47 :: [57] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:49 :: [58] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53534, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:49 :: [59] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:51 :: [60] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52570, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:17:51 :: [61] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:55 :: [62] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53667, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:55 :: [63] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:17:56 :: [64] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52332, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:17:56 :: [65] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:00 :: [66] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54152, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:00 :: [67] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:04 :: [68] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51960, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:04 :: [69] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:04 :: [70] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51943, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:04 :: [71] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:05 :: [72] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50829, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:05 :: [73] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:11 :: [74] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52246, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:11 :: [75] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:20 :: [76] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53238, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:20 :: [77] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:21 :: [78] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50798, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:21 :: [79] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:23 :: [80] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50135, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:23 :: [81] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:23 :: [82] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52022, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:23 :: [83] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:24 :: [84] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51052, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:24 :: [85] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:24 :: [86] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51028, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:24 :: [87] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:25 :: [88] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51413, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:25 :: [89] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:26 :: [90] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53100, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:26 :: [91] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:27 :: [92] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51235, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:27 :: [93] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:28 :: [94] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52950, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:28 :: [95] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:29 :: [96] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53405, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:29 :: [97] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:31 :: [98] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50262, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:31 :: [99] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:36 :: [100] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51884, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:36 :: [101] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:37 :: [102] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51553, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:37 :: [103] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:38 :: [104] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52468, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:38 :: [105] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:44 :: [106] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51434, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:44 :: [107] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:45 :: [108] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54510, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:45 :: [109] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:46 :: [110] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52204, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:18:46 :: [111] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:46 :: [112] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52231, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:46 :: [113] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:47 :: [114] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53779, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:47 :: [115] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:48 :: [116] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51896, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:48 :: [117] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:53 :: [118] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53500, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:53 :: [119] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:54 :: [120] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51611, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:54 :: [121] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:54 :: [122] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54423, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:54 :: [123] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:18:59 :: [653] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51975, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:18:59 :: [655] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:19:02 :: [1185] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(50929, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:19:02 :: [1187] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:19:05 :: [1725] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(53484, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:19:05 :: [1727] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:19:06 :: [1771] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(52294, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:19:06 :: [1773] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:19:07 :: [2019] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(54011, NOW(), "우근형 "아 왜~!")
+2019-02-21 16:19:07 :: [2021] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
+2019-02-21 16:19:12 :: [2877] 쿼리 실패 INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(51636, NOW(), ""저기 저는 집이 까치산인데 댁이 어디세요? 전.. 모란시장이요 ")
+2019-02-21 16:19:12 :: [2879] error No 1064, msg : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use첐??
