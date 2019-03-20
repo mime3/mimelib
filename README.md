@@ -93,13 +93,13 @@ StreamQueue
 
 
 
-    정리중
-----------------------------------------------------------------
-GDIColor 
-BMPLoader
-DoubleBuffer
-ScreenDIB
-SpriteDIB
+작업중
+
+    GDIColor 
+    BMPLoader
+    DoubleBuffer
+    ScreenDIB
+    SpriteDIB
 
 
 ----------------------------------------------------------------
