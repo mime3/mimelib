@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "Clock.h"
 
 void Clock::GetTimeString(wstring * timeStr)

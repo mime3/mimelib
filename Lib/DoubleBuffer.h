@@ -1,52 +1,58 @@
+#ifndef __MIBLIB_DOUBLE_BUFFER__
+#define __MIBLIB_DOUBLE_BUFFER__
 #pragma once
-
-class DoubleBuffer
+#include <Windows.h>
+namespace MibLib
 {
-private:
-	HWND	_hWnd;
-	HDC		_memDC;
-	HBITMAP	_bitMap;
-
-protected:
-public:
-	RECT	_rect;
-
-	DoubleBuffer(const HWND hWnd);
-	virtual ~DoubleBuffer();
-	inline HDC GetMemDC();
-	void Clear();
-	void ReSizeBitMap();
-	void Flipping();
-};
-
-class AlertDoubleBuffer : public DoubleBuffer
-{
-public:
-	enum ALERT
+	class DoubleBuffer
 	{
-		ALERT_ON,
-		ALERT_OFF
-	};
-	enum BACK_STATE
-	{
-		COLOR_NORMAL,
-		COLOR_ALERT
+	private:
+		HWND	_hWnd;
+		HDC		_memDC;
+		HBITMAP	_bitMap;
+
+	protected:
+	public:
+		RECT	_rect;
+
+		DoubleBuffer(const HWND hWnd);
+		virtual ~DoubleBuffer();
+		inline HDC GetMemDC();
+		void Clear();
+		void ReSizeBitMap();
+		void Flipping();
 	};
 
-private:
-	HBRUSH	_oldBrsuh;
-	HBRUSH	_alertBrush;
-	ALERT _alertOnOff;
-	BACK_STATE _state;
+	class AlertDoubleBuffer : public DoubleBuffer
+	{
+	public:
+		enum ALERT
+		{
+			ALERT_ON,
+			ALERT_OFF
+		};
+		enum BACK_STATE
+		{
+			COLOR_NORMAL,
+			COLOR_ALERT
+		};
 
-protected:
-public:
-	AlertDoubleBuffer(const HWND hWnd);
-	~AlertDoubleBuffer();
+	private:
+		HBRUSH	_oldBrsuh;
+		HBRUSH	_alertBrush;
+		ALERT _alertOnOff;
+		BACK_STATE _state;
 
-	ALERT GetAlertOnOff();
-	void AlertOnOff();
-	void Alert();
-	BACK_STATE GetState();
-	void StateChange();
-};
+	protected:
+	public:
+		AlertDoubleBuffer(const HWND hWnd);
+		~AlertDoubleBuffer();
+
+		ALERT GetAlertOnOff();
+		void AlertOnOff();
+		void Alert();
+		BACK_STATE GetState();
+		void StateChange();
+	};
+}
+#endif // !__MIBLIB_DOUBLE_BUFFER__

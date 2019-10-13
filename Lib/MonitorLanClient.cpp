@@ -1,5 +1,6 @@
-#include "pch.h"
+//#include "pch.h"
 #include "MonitorLanClient.h"
+#include "CommonProtocol.h"
 
 MonitorLanClient::MonitorLanClient(const char * config, TCHAR * processName, int ID) : LanClient(config)
 {

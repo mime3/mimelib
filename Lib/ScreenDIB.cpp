@@ -1,4 +1,6 @@
-#include "stdafx.h"
+//#include "stdafx.h"
+//#include "pch.h"
+#include "ScreenDIB.h"
 
 void ScreenDIB::CreateDIBBuffer(int width, int height, int colorBit)
 {

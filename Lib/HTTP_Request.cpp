@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "HTTP_Request.h"
 
 BOOL HTTP_Request::DomainToIP(const WCHAR *domain, IN_ADDR *addr)

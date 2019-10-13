@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "MMOSession.h"
 
 inline BYTE MMOSession::GetCheckSum(char * buffer, int size)

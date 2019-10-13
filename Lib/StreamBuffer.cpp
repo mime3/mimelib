@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+//#include "pch.h"
 //#include "stdafx.h"
 #include "StreamBuffer.h"
 
@@ -29,10 +29,6 @@ StreamBuffer::~StreamBuffer()
 {
 	delete[] _buffer;
 }
-
-
-
-
 
 /*----------------------------------------------------------*/
 // StreamBuffer::Alloc (public)

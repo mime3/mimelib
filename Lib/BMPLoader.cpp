@@ -1,4 +1,6 @@
-#include "stdafx.h"
+//#include "stdafx.h"
+//#include "pch.h"
+#include "BMPLoader.h"
 
 inline COLORREF BMPLoader::GetColor(const int x, const int y) const
 {

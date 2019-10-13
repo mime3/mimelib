@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "NetClient.h"
 #include "CrashDump.h"
 
@@ -231,8 +231,8 @@ bool NetClient::LoadConfig(const char * configFile)
 	_configParser.GetValue_Str("BIND_IP", _bindIP, "SERVER");
 	_configParser.GetValue_Int("BIND_PORT", _serverPort, "SERVER");
 	_configParser.GetValue_Int("WORKER_THREAD", _workerThreadCount, "SERVER");
-	_configParser.GetValue_Int("CLIENT_MAX", _clientMAX, "SERVER");
-	_configParser.GetValue_Int("MONITOR_NO", _monitorNo, "SERVER");
+	//_configParser.GetValue_Int("CLIENT_MAX", _clientMAX, "SERVER");
+	//_configParser.GetValue_Int("MONITOR_NO", _monitorNo, "SERVER");
 
 
 	_configParser.GetValue_BYTE("PACKET_CODE", _packetCode, "SERVER");
@@ -579,10 +579,10 @@ void NetClient::PutHeader(StreamBuffer * packet)
 	PACKET_HEADER header;
 	int headerSize = sizeof(PACKET_HEADER);
 
-	//header.code = _packetCode;
+	header.code = _packetCode;
 	header.len = packet->GetUseSize() - headerSize;
-	//header.randXORKey = rand() % 256;
-	//header.checkSum = GetCheckSum(packet->GetBuffer() + headerSize, header.len);
+	header.randXORKey = rand() % 256;
+	header.checkSum = GetCheckSum(packet->GetBuffer() + headerSize, header.len);
 
 	packet->FillHeader((char *)&header, sizeof(header));
 	Encode(packet);
@@ -607,39 +607,39 @@ void NetClient::XOR(char * buffer, int size, char key)
 	}
 }
 
-//void NetClient::Encode(StreamBuffer * packet)
-//{
-//	PACKET_HEADER * bufferPointer = (PACKET_HEADER *)packet->GetBuffer();
-//
-//	XOR((char *)&bufferPointer->checkSum, bufferPointer->len + 1, bufferPointer->randXORKey);
-//	XOR((char *)&bufferPointer->randXORKey, bufferPointer->len + 2, _XORKey1);
-//	XOR((char *)&bufferPointer->randXORKey, bufferPointer->len + 2, _XORKey2);
-//}
+void NetClient::Encode(StreamBuffer * packet)
+{
+	PACKET_HEADER * bufferPointer = (PACKET_HEADER *)packet->GetBuffer();
 
-//bool NetClient::Decode(PACKET_HEADER * header, StreamBuffer * payloadPacket)
-//{
-//	char key1 = _XORKey1;
-//	char key2 = _XORKey2;
-//	char * payloadPointer = payloadPacket->GetBuffer();
-//	int payloadSize = payloadPacket->GetUseSize();
-//
-//	XOR(payloadPointer, payloadSize, key2);
-//	XOR((char *)&(header->randXORKey), 2, key2);
-//
-//	XOR(payloadPointer, payloadSize, key1);
-//	XOR((char *)&(header->randXORKey), 2, key1);
-//
-//	XOR(payloadPointer, payloadSize, header->randXORKey);
-//	XOR((char *)&header->checkSum, 1, header->randXORKey);
-//
-//	BYTE checkSum = GetCheckSum(payloadPointer, payloadSize);
-//	if (checkSum != header->checkSum)
-//	{
-//		LOG(L"Client", LOG_ERROR, L"Decode CheckSum Error");
-//		return false;
-//	}
-//	return true;
-//}
+	XOR((char *)&bufferPointer->checkSum, bufferPointer->len + 1, bufferPointer->randXORKey);
+	XOR((char *)&bufferPointer->randXORKey, bufferPointer->len + 2, _XORKey1);
+	XOR((char *)&bufferPointer->randXORKey, bufferPointer->len + 2, _XORKey2);
+}
+
+bool NetClient::Decode(PACKET_HEADER * header, StreamBuffer * payloadPacket)
+{
+	char key1 = _XORKey1;
+	char key2 = _XORKey2;
+	char * payloadPointer = payloadPacket->GetBuffer();
+	int payloadSize = payloadPacket->GetUseSize();
+
+	XOR(payloadPointer, payloadSize, key2);
+	XOR((char *)&(header->randXORKey), 2, key2);
+
+	XOR(payloadPointer, payloadSize, key1);
+	XOR((char *)&(header->randXORKey), 2, key1);
+
+	XOR(payloadPointer, payloadSize, header->randXORKey);
+	XOR((char *)&header->checkSum, 1, header->randXORKey);
+
+	BYTE checkSum = GetCheckSum(payloadPointer, payloadSize);
+	if (checkSum != header->checkSum)
+	{
+		LOG(L"Client", LOG_ERROR, L"Decode CheckSum Error");
+		return false;
+	}
+	return true;
+}
 
 /*----------------------------------------------------------*/
 // NetClient::RecvProc (protected)

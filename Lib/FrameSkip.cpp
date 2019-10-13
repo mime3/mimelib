@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
+//#include "stdafx.h"
+//#include "pch.h"
 #include "FrameSkip.h"
-#pragma comment(lib, "Winmm.lib")
 
 //////////////////////////////////////////////////////////////
 // class : public class

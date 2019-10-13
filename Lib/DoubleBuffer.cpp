@@ -1,9 +1,13 @@
-#include "stdafx.h"
+//#include "stdafx.h"
+//#include "pch.h"
+#include "DoubleBuffer.h"
 
 DoubleBuffer::DoubleBuffer(HWND hWnd)
 {
 	_hWnd = hWnd;
-	_memDC = CreateCompatibleDC(GetDC(hWnd));
+	HDC hdc = GetDC(hWnd);
+	_memDC = CreateCompatibleDC(hdc);
+	ReleaseDC(hWnd, hdc);
 	GetClientRect(_hWnd, &_rect);
 	_bitMap = CreateCompatibleBitmap(GetDC(hWnd), _rect.right, _rect.bottom);
 	SelectObject(_memDC, _bitMap);

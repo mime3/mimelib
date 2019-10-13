@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "CpuUsage.h"
 
 CpuUsage::CpuUsage(HANDLE process)

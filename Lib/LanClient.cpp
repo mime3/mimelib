@@ -1,4 +1,4 @@
-#include "pch.h"
+//#include "pch.h"
 #include "LanClient.h"
 #include "CrashDump.h"
 
@@ -153,6 +153,8 @@ unsigned int WINAPI LanClient::ConnectThreadMain(LPVOID lpParam)
 		if (retval == SOCKET_ERROR)
 		{
 			DWORD error = GetLastError();
+			if (error == 10038)
+				return 0;
 			//printf("연결 실패, 5초뒤 재시도\n");
 			Sleep(5000);
 		}

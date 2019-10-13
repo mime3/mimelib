@@ -1,4 +1,6 @@
-#include "stdafx.h"
+//#include "stdafx.h"
+//#include "pch.h"
+#include "GDIColor.h"
 
 GDIColor::GDIColor()
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "pch.h"
+//#include "pch.h"
 //#include "stdafx.h"
 #include <Windows.h>
 #include "StreamQueue.h"
@@ -13,12 +13,11 @@ StreamQueue::~StreamQueue()
 	delete[] _bufferPointer;
 }
 
-/*----------------------------------------------------------*/
-// StreamQueue::Initial (protected)
-// 설명 : 초기세팅
-// 인자 : (int)버퍼 크기
-// 리턴 :
-/*----------------*////////////////////////*----------------*/
+/////////////////////////////////////////////////////////////////////////
+// 초기세팅
+// Parameters: (int)버퍼 크기
+// Return: 
+/////////////////////////////////////////////////////////////////////////
 void StreamQueue::Initial(int iBufferSize)
 {
 	_bufferPointer = new char[iBufferSize];
@@ -29,12 +28,11 @@ void StreamQueue::Initial(int iBufferSize)
 	_availableSize = _size - 1;
 	_useSize = 0;
 }
-/*----------------------------------------------------------*/
-// StreamQueue::Enqueue (public)
-// 설명 : WritePos 에 데이타 넣음
-// 인자 : (char *)데이타 포인터, (int)크기
-// 리턴 : (int)넣은 크기
-/*----------------*////////////////////////*----------------*/
+/////////////////////////////////////////////////////////////////////////
+// WritePos 에 데이타 넣음.
+// Parameters: (char *)데이타 포인터. (int)크기.
+// Return: (int)넣은 크기.
+/////////////////////////////////////////////////////////////////////////
 int StreamQueue::Enqueue(char * chpData, int iSize)
 {
 	int freeSize = GetFreeSize();
@@ -65,12 +63,11 @@ int StreamQueue::Enqueue(char * chpData, int iSize)
 	//_useSize += iSize;
 	return iSize;
 }
-/*----------------------------------------------------------*/
-// StreamQueue::Dequeue (public)
-// 설명 : ReadPos 에서 데이타 가져옴, ReadPos이동
-// 인자 : (char *)데이타 포인터. (int)크기.
-// 리턴 : (int)가져온 크기.
-/*----------------*////////////////////////*----------------*/
+/////////////////////////////////////////////////////////////////////////
+// ReadPos 에서 데이타 가져옴. ReadPos 이동.
+// Parameters: (char *)데이타 포인터. (int)크기.
+// Return: (int)가져온 크기.
+/////////////////////////////////////////////////////////////////////////
 int StreamQueue::Dequeue(char * chpDest, int iSize)
 {
 	int useSize = GetUseSize();
@@ -99,12 +96,11 @@ int StreamQueue::Dequeue(char * chpDest, int iSize)
 	//_useSize -= iSize;
 	return iSize;
 }
-/*----------------------------------------------------------*/
-// StreamQueue::Peek (public)
-// 설명 : ReadPos 에서 데이타 읽어옴. ReadPos 고정
-// 인자 : (char *)데이타 포인터, (int)크기, (int)뛰어넘을 크기 
-// 리턴 : (int)가져온 크기
-/*----------------*////////////////////////*----------------*/
+/////////////////////////////////////////////////////////////////////////
+// ReadPos 에서 데이타 읽어옴. ReadPos 고정.
+// Parameters: (char *)데이타 포인터. (int)크기.
+// Return: (int)가져온 크기.
+/////////////////////////////////////////////////////////////////////////
 int StreamQueue::Peek(char * chpDest, int iSize, int jumpSize)
 {
 	int useSize = GetUseSize();
