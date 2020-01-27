@@ -1,15 +1,6 @@
 #ifndef __MINLIB_LOGGER__
 #define __MINLIB_LOGGER__
 
-#pragma once
-#define LOGGER			Logger::GetInstance()
-#define LOG_DEBUG		Logger::LOG_LEVEL_DEBUG
-#define LOG_WARNING		Logger::LOG_LEVEL_WARNING
-#define LOG_ERROR		Logger::LOG_LEVEL_ERROR
-#define LOG(filename, logLevel, fmt, ...)		LOGGER.Log(filename, logLevel, fmt, __VA_ARGS__)
-#define LOGHEX(filename, logLevel, log, size)	LOGGER.LogHex(filename, logLevel, log, size)
-
-
 #include <string>
 #include <Windows.h>
 #include <time.h>
@@ -17,28 +8,51 @@
 #include <strsafe.h>
 #include <locale.h>
 #include "Clock.h"
+#include "LockFreeQueue.h"
+#include "MemoryPool.h"
 
 using namespace std;
-// 로그 클래스
+
 namespace MinLib
 {
+#pragma once
+#define LOGGER			Logger::GetInstance()
+#define LOG_DEBUG		Logger::LOG_LEVEL::LOG_LEVEL_DEBUG
+#define LOG_WARNING		Logger::LOG_LEVEL::LOG_LEVEL_WARNING
+#define LOG_ERROR		Logger::LOG_LEVEL::LOG_LEVEL_ERROR
+#define LOG(filename, logLevel, fmt, ...)		LOGGER.Log(filename, logLevel, fmt, __VA_ARGS__)
+#define LOGHEX(filename, logLevel, log, size)	LOGGER.LogHex(filename, logLevel, log, size)
+
+	// 로그 클래스
 	class Logger
 	{
 	public:
-		enum LOG_LEVEL
+		enum class LOG_LEVEL
 		{
 			LOG_LEVEL_DEBUG,
 			LOG_LEVEL_WARNING,
 			LOG_LEVEL_ERROR
 		};
+
+		struct LOG_MESSAGE
+		{
+			wstring messageString;
+		}LogMessage;
+
 	private:
-		int _logLevel;					// 로그 레벨
+		static Logger* _instance;		// 싱글톤
+		LOG_LEVEL _logLevel;			// 로그 레벨
 		bool _fileSaveFlag;				// 파일저장 플래그s
 		wstring _logDir;				// 로그저장 경로이름
 		unsigned int _logCount;			// 로그 카운트
-		static Logger* _instance;		// 싱글톤
+
+		LF_Queue<LOG_MESSAGE*> messageQueue_;		// 로그메시지 큐
+		MemoryPoolTLS<LOG_MESSAGE> messagePool_;	// 로그메시지 블록 메모리풀
+
+	private:
 		Logger();
 		~Logger() {};
+
 	public:
 		static Logger& GetInstance()
 		{

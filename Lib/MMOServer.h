@@ -25,7 +25,7 @@
 //constexpr auto MAX_AUTH_TO_CONTENTS = 10;
 //constexpr auto AUTH_PACKET_PROCESS = 1;
 //constexpr auto CONTENTS_PACKET_PROCESS = 50;
-namespace MibLib
+namespace MinLib
 {
 	constexpr auto MAX_SESSION = 20000;
 	constexpr auto MAX_THREAD = 16;

@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_HTTP_REQUEST__
-#define __MIBLIB_HTTP_REQUEST__
+#ifndef __MINLIB_HTTP_REQUEST__
+#define __MINLIB_HTTP_REQUEST__
 #pragma once
 #include <WinSock2.h>
 #include <Windows.h>
@@ -9,7 +9,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 using namespace std;
-namespace MibLib
+namespace MinLib
 {
 	class HTTP_Request
 	{
@@ -37,4 +37,4 @@ namespace MibLib
 		bool SendData(wstring* sendData, int resultCode, wstring* recvData);
 	};
 }
-#endif // !__MIBLIB_HTTP_REQUEST__
+#endif // !__MINLIB_HTTP_REQUEST__

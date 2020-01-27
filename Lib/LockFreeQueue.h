@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_LOCKFREE_QUEUE__
-#define __MIBLIB_LOCKFREE_QUEUE__
+#ifndef __MINLIB_LOCKFREE_QUEUE__
+#define __MINLIB_LOCKFREE_QUEUE__
 #pragma once
 #include <Windows.h>
 #include "MemoryPool.h"
@@ -245,4 +245,4 @@ namespace MinLib
 		}
 	};
 }
-#endif // !__MIBLIB_LOCKFREE_QUEUE__
+#endif // !__MINLIB_LOCKFREE_QUEUE__

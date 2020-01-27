@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_DB_CONNECTOR__
-#define __MIBLIB_DB_CONNECTOR__
+#ifndef __MINLIB_DB_CONNECTOR__
+#define __MINLIB_DB_CONNECTOR__
 #pragma once
 #pragma comment(lib,"thirdparty/mysql-c/lib/vs14/mysqlclient.lib")
 
@@ -143,4 +143,4 @@ namespace MinLib
 		WCHAR* GetLastErrorMsg(void);
 	};
 }
-#endif // !__MIBLIB_DB_CONNECTOR__
+#endif // !__MINLIB_DB_CONNECTOR__

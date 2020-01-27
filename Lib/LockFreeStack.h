@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_LOCKFREE_STACK__
-#define __MIBLIB_LOCKFREE_STACK__
+#ifndef __MINLIB_LOCKFREE_STACK__
+#define __MINLIB_LOCKFREE_STACK__
 
 
 #pragma once
@@ -78,4 +78,4 @@ namespace MinLib
 		}
 	};
 }
-#endif // !__MIBLIB_LOCKFREE_STACK__
+#endif // !__MINLIB_LOCKFREE_STACK__

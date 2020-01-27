@@ -1,8 +1,8 @@
-#ifndef __MIBLIB_GDI_COLOR__
-#define __MIBLIB_GDI_COLOR__
+#ifndef __MINLIB_GDI_COLOR__
+#define __MINLIB_GDI_COLOR__
 #pragma once
 #include <windows.h>
-namespace MibLib
+namespace MinLib
 {
 	class GDIColor
 	{
@@ -26,4 +26,4 @@ namespace MibLib
 #define BRUSH(i)	GDIColor::GetInstance()->_brush[i]
 #define FONT(i)		GDIColor::GetInstance()->_font[i]
 }
-#endif // !__MIBLIB_GDI_COLOR__
+#endif // !__MINLIB_GDI_COLOR__

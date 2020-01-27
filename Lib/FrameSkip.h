@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_FRAME_SKIP__
-#define __MIBLIB_FRAME_SKIP__
+#ifndef __MINLIB_FRAME_SKIP__
+#define __MINLIB_FRAME_SKIP__
 #pragma once
 #include <Windows.h>
 #pragma comment(lib, "winmm.lib")
@@ -29,4 +29,4 @@ namespace MinLib
 		void ChangeTick(int tick);
 	};
 }
-#endif // !__MIBLIB_FRAME_SKIP__
+#endif // !__MINLIB_FRAME_SKIP__

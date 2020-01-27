@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_LAN_SERVER__
-#define __MIBLIB_LAN_SERVER__
+#ifndef __MINLIB_LAN_SERVER__
+#define __MINLIB_LAN_SERVER__
 
 #pragma once
 #pragma comment(lib,"ws2_32.lib")
@@ -112,4 +112,4 @@ namespace MinLib
 
 	};
 }
-#endif // !__MIBLIB_LAN_SERVER__
+#endif // !__MINLIB_LAN_SERVER__

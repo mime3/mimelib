@@ -1,5 +1,5 @@
-#ifndef __MIBLIB_LAN_CLIENT__
-#define __MIBLIB_LAN_CLIENT__
+#ifndef __MINLIB_LAN_CLIENT__
+#define __MINLIB_LAN_CLIENT__
 #pragma once
 #pragma comment(lib,"ws2_32.lib")
 #include <WinSock2.h>
@@ -22,7 +22,7 @@
 // LanClient :
 // 설명 : 서버 클래스
 //////////////////////////////////////////////////////////////
-namespace MibLib
+namespace MinLib
 {
 	class LanClient
 	{
@@ -111,4 +111,4 @@ namespace MibLib
 		virtual void OnConnect(INT64 ClientID) = 0;
 	};
 }
-#endif // !__MIBLIB_LAN_CLIENT__
+#endif // !__MINLIB_LAN_CLIENT__

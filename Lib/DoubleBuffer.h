@@ -1,8 +1,8 @@
-#ifndef __MIBLIB_DOUBLE_BUFFER__
-#define __MIBLIB_DOUBLE_BUFFER__
+#ifndef __MINLIB_DOUBLE_BUFFER__
+#define __MINLIB_DOUBLE_BUFFER__
 #pragma once
 #include <Windows.h>
-namespace MibLib
+namespace MinLib
 {
 	class DoubleBuffer
 	{
@@ -55,4 +55,4 @@ namespace MibLib
 		void StateChange();
 	};
 }
-#endif // !__MIBLIB_DOUBLE_BUFFER__
+#endif // !__MINLIB_DOUBLE_BUFFER__
