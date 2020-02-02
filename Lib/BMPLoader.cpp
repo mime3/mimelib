@@ -63,7 +63,7 @@ namespace MinLib
 			_bitmapPointer = nullptr;
 		}
 
-		FILE* file;
+		FILE* file = nullptr;
 
 		INT errNo = fopen_s(&file, BMPFileName, "rb");
 		if (errNo != 0)
@@ -72,6 +72,8 @@ namespace MinLib
 		BITMAPFILEHEADER fileHeader;
 		ZeroMemory(&fileHeader, sizeof(fileHeader));
 		ZeroMemory(&_infoHeader, sizeof(_infoHeader));
+		if (!file)
+			return false;
 
 		fread_s(&fileHeader, sizeof(fileHeader), sizeof(fileHeader), 1, file);
 		if (fileHeader.bfType != TYPE_BITMAP)
@@ -79,8 +81,7 @@ namespace MinLib
 			fclose(file);
 			return false;
 		}
-
-		fread_s(&_infoHeader, sizeof(_infoHeader), sizeof(_infoHeader), 1, file);
+			fread_s(&_infoHeader, sizeof(_infoHeader), sizeof(_infoHeader), 1, file);
 		_width = _infoHeader.biWidth;
 		_height = _infoHeader.biHeight;
 
@@ -88,7 +89,8 @@ namespace MinLib
 		_size = ((_infoHeader.biWidth * (_infoHeader.biBitCount / 8) + 3) & ~3) * _infoHeader.biHeight;
 		_bitmapPointer = (BYTE*)malloc(_size);
 		//_bitmapPointer = new BYTE[_size];
-		fread_s(_bitmapPointer, _size, _size, 1, file);
+		if(_bitmapPointer)
+			fread_s(_bitmapPointer, _size, _size, 1, file);
 		fclose(file);
 		return true;
 	}

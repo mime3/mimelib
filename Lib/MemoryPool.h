@@ -29,32 +29,27 @@ namespace MinLib
 		// 각 블럭 앞에 사용될 노드 구조체.
 		struct BLOCK_NODE
 		{
-			BLOCK_NODE()
-			{
-				nextBlock = nullptr;
-				endCode = 0x77;
-			}
-			~BLOCK_NODE() { ; };
-			DATA data;
-			BLOCK_NODE* nextBlock;
-			char endCode;
+			DATA		data		= {};
+			BLOCK_NODE* nextBlock	= { nullptr };
+			char		endCode		= { 0x77 };
 		};
 
 		struct BYTE16TOP
 		{
-			BLOCK_NODE* _topNode;
-			INT64		 _unique;
+			BLOCK_NODE*		topNode;
+			INT64			unique;
 		};
 
-		alignas(16) BYTE16TOP _topNodeBlock;
-		BLOCK_NODE* _nullNode;
-		int		_top;
-		int		_totalBlockCount;
-		int		_useBlockCount;
-		bool	_placementNewFlag;
+		alignas(16) BYTE16TOP topNodeBlock_;
+		BLOCK_NODE* nullNode_;
+		int		top_				= { 0 };
+		int		totalBlockCount_	= { 0 };
+		int		useBlockCount_		= { 0 };
+		bool	placementNewFlag_	= { false };
 	public:
 		MemoryPool(int blockNum = 0, bool placementNew = false);
 		~MemoryPool();
+
 		DATA* Alloc();
 		bool Free(DATA* pData);
 		int	GetTotalBlockCount();
@@ -70,27 +65,27 @@ namespace MinLib
 	template<class DATA>
 	inline MemoryPool<DATA>::MemoryPool(int blockNum, bool placementNew)
 	{
-		_top = blockNum - 1;
-		_totalBlockCount = blockNum;
-		_useBlockCount = 0;
-		_topNodeBlock._unique = 0;
-		_placementNewFlag = placementNew;
-		_nullNode = new BLOCK_NODE;
+		top_ = blockNum - 1;
+		totalBlockCount_ = blockNum;
+		useBlockCount_ = 0;
+		topNodeBlock_.unique = 0;
+		placementNewFlag_ = placementNew;
+		nullNode_ = new BLOCK_NODE;
 		/*---------------*/
 		// 하나하나 새로 만들기
-		_topNodeBlock._topNode = _nullNode;
+		topNodeBlock_.topNode = nullNode_;
 		for (int i = 0; i < blockNum; ++i)
 		{
 			BLOCK_NODE* newNode = new BLOCK_NODE;
-			if (!_placementNewFlag)
+			if (!placementNewFlag_)
 			{
 				DATA* data;
 				data = (DATA*)& newNode->data;
 				new (data) DATA;
 			}
-			newNode->nextBlock = _topNodeBlock._topNode;
+			newNode->nextBlock = topNodeBlock_.topNode;
 			newNode->endCode = 0x77;
-			_topNodeBlock._topNode = newNode;
+			topNodeBlock_.topNode = newNode;
 		}
 		/*---------------*/
 
@@ -122,16 +117,16 @@ namespace MinLib
 		BLOCK_NODE* tempNode;
 		while (1)
 		{
-			tempNode = _topNodeBlock._topNode->nextBlock;
-			if (!_placementNewFlag)
+			tempNode = topNodeBlock_.topNode->nextBlock;
+			if (!placementNewFlag_)
 			{
 				//((DATA *)&(_topNodeBlock._topNode->data))->~DATA();
 			}
 			// 여기서 DATA의 소멸자를 호출하고 있다 왜이럴까
-			delete _topNodeBlock._topNode;
+			delete topNodeBlock_.topNode;
 			if (tempNode == nullptr)
 				break;
-			_topNodeBlock._topNode = tempNode;
+			topNodeBlock_.topNode = tempNode;
 		}
 	}
 
@@ -145,15 +140,15 @@ namespace MinLib
 	{
 		// 새로만들어서 반환
 	AllocStart:
-		if (_topNodeBlock._topNode == _nullNode)
+		if (topNodeBlock_.topNode == nullNode_)
 		{
 			BLOCK_NODE* newNode = new BLOCK_NODE;
 			DATA* allocData = &(newNode->data);
-			if (_placementNewFlag)
+			if (placementNewFlag_)
 				new(allocData) DATA;
-			InterlockedIncrement((LONG*)& _totalBlockCount);
-			InterlockedIncrement((LONG*)& _useBlockCount);
-			InterlockedIncrement64((LONG64*)& _topNodeBlock._unique);
+			InterlockedIncrement((LONG*)& totalBlockCount_);
+			InterlockedIncrement((LONG*)& useBlockCount_);
+			InterlockedIncrement64((LONG64*)& topNodeBlock_.unique);
 			return allocData;
 		}
 		// topNode에서 데이터 포인터 반환
@@ -164,18 +159,18 @@ namespace MinLib
 			BLOCK_NODE* newTop;
 			do
 			{
-				popNode._unique = _topNodeBlock._unique;
-				popNode._topNode = _topNodeBlock._topNode;
-				if (popNode._topNode == _nullNode)
+				popNode.unique = topNodeBlock_.unique;
+				popNode.topNode = topNodeBlock_.topNode;
+				if (popNode.topNode == nullNode_)
 					goto AllocStart;
-				newTop = popNode._topNode->nextBlock;
-			} while (!InterlockedCompareExchange128((LONG64*)& _topNodeBlock, (LONG64)popNode._unique + 1, (LONG64)newTop, (LONG64*)& popNode));
+				newTop = popNode.topNode->nextBlock;
+			} while (!InterlockedCompareExchange128((LONG64*)& topNodeBlock_, (LONG64)popNode.unique + 1, (LONG64)newTop, (LONG64*)& popNode));
 
-			DATA* allocData = &(popNode._topNode->data);
-			if (_placementNewFlag)
+			DATA* allocData = &(popNode.topNode->data);
+			if (placementNewFlag_)
 				new(allocData) DATA;
 			//InterlockedDecrement((LONG *)&_top);
-			InterlockedIncrement((LONG*)& _useBlockCount);
+			InterlockedIncrement((LONG*)& useBlockCount_);
 			return allocData;
 		}
 	}
@@ -192,17 +187,17 @@ namespace MinLib
 		BLOCK_NODE* node = (BLOCK_NODE*)data;
 		if (node->endCode != 0x77)
 			return false;
-		if (_placementNewFlag)
+		if (placementNewFlag_)
 			data->~DATA();
 		__declspec(align(16)) BLOCK_NODE* snapTop[2];
 		do
 		{
-			snapTop[0] = _topNodeBlock._topNode;
-			snapTop[1] = (BLOCK_NODE*)_topNodeBlock._unique;
+			snapTop[0] = topNodeBlock_.topNode;
+			snapTop[1] = (BLOCK_NODE*)topNodeBlock_.unique;
 			node->nextBlock = snapTop[0];
-		} while (!InterlockedCompareExchange128((LONG64*)& _topNodeBlock._topNode, (LONG64)(snapTop[1] + 1), (LONG64)node, (LONG64*)snapTop));
+		} while (!InterlockedCompareExchange128((LONG64*)& topNodeBlock_.topNode, (LONG64)(snapTop[1] + 1), (LONG64)node, (LONG64*)snapTop));
 		//InterlockedIncrement((LONG *)&_top);
-		InterlockedDecrement((LONG*)& _useBlockCount);
+		InterlockedDecrement((LONG*)& useBlockCount_);
 		return true;
 	}
 
@@ -214,7 +209,7 @@ namespace MinLib
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetTotalBlockCount()
 	{
-		return _totalBlockCount;
+		return totalBlockCount_;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -225,7 +220,7 @@ namespace MinLib
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetUseBlockCount()
 	{
-		return _useBlockCount;
+		return useBlockCount_;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -237,21 +232,21 @@ namespace MinLib
 	inline bool MemoryPool<DATA>::Clearance(int blockNum)
 	{
 		if (blockNum == 0)
-			blockNum = _topNodeBlock._top / 2;
-		if (_topNodeBlock._top + 1 < blockNum)
+			blockNum = topNodeBlock_._top / 2;
+		if (topNodeBlock_._top + 1 < blockNum)
 			return false;
 
 		for (int i = 0; i < blockNum; ++i)
 		{
 			BLOCK_NODE* tempNode;
-			tempNode = _topNodeBlock._topNode->nextBlock;
-			if (!_placementNewFlag)
-				((DATA*) & (_topNodeBlock._topNode->data))->~DATA();
-			delete _topNodeBlock._topNode;
-			_topNodeBlock._topNode = tempNode;
+			tempNode = topNodeBlock_.topNode->nextBlock;
+			if (!placementNewFlag_)
+				((DATA*) & (topNodeBlock_.topNode->data))->~DATA();
+			delete topNodeBlock_.topNode;
+			topNodeBlock_.topNode = tempNode;
 		}
-		_totalBlockCount -= blockNum;
-		_topNodeBlock._top -= blockNum;
+		totalBlockCount_ -= blockNum;
+		topNodeBlock_._top -= blockNum;
 		return true;
 	}
 

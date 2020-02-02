@@ -69,35 +69,35 @@ namespace MinLib
 		{
 			PACKET_HEADER header;
 			int headerSize = sizeof(header);
-			int useSize = session->_recvQueue.GetUseSize();
+			int useSize = session->recvQueue_.GetUseSize();
 			if (useSize < headerSize)
 				break;
-			int ret = session->_recvQueue.Peek((char*)&header, headerSize);
+			int ret = session->recvQueue_.Peek((char*)&header, headerSize);
 
 			if (header.code != packetCode)
 			{
 				LOG(L"Server", LOG_ERROR, L"Packet Code is Wrong");
-				shutdown(session->_socket, SD_SEND);
+				shutdown(session->socket_, SD_SEND);
 				break;
 			}
 
 			if (PacketSIZE < header.len)
 			{
 				LOG(L"Server", LOG_ERROR, L"Packet Len is Over %d", PacketSIZE);
-				shutdown(session->_socket, SD_SEND);
+				shutdown(session->socket_, SD_SEND);
 				break;
 			}
 
 			if (useSize < header.len + headerSize)
 				break;
-			session->_recvQueue.RemoveData(headerSize);
+			session->recvQueue_.RemoveData(headerSize);
 			// 패킷을 하나씩 꺼낸다
 			StreamBuffer* packet = PacketAlloc(MMOServer);
-			ret = session->_recvQueue.Dequeue(packet->GetBuffer(), header.len);
+			ret = session->recvQueue_.Dequeue(packet->GetBuffer(), header.len);
 			packet->MoveEndIndex(header.len);
 			InterlockedIncrement(&_recvTPS);
 			if (Decode(&header, packet))
-				session->_completeRecvQueue.EnQueue_UnSafe(packet);
+				session->completeRecvQueue_.EnQueue_UnSafe(packet);
 			//session->_completeRecvQueue.push(packet);
 			else
 				PacketFree(packet);
@@ -163,32 +163,32 @@ namespace MinLib
 	bool MMOServer::RecvPost(MMOSession* session)
 	{
 		//리시브 큐가 꽉 찼는지 체크
-		int fullSize = session->_recvQueue.GetBufferSize();
-		int freeSize = session->_recvQueue.GetFreeSize();
+		int fullSize = session->recvQueue_.GetBufferSize();
+		int freeSize = session->recvQueue_.GetFreeSize();
 		// 리시브큐 5% 미만 남음
 		if (fullSize / 100 * 95 > freeSize)
 		{
 			// 종료
-			LOG(L"Server", LOG_ERROR, L"SessionID : %d , RecvQueue Full", session->_sessionID);
-			shutdown(session->_socket, SD_SEND);
+			LOG(L"Server", LOG_ERROR, L"SessionID : %d , RecvQueue Full", session->sessionID_);
+			shutdown(session->socket_, SD_SEND);
 			return false;
 		}
 		// wsabuf 세팅
 		WSABUF wsaBuf[2];
-		wsaBuf[0].buf = session->_recvQueue.GetWriteBufferPtr();
-		wsaBuf[0].len = session->_recvQueue.GetNotBrokenPutSize();
-		wsaBuf[1].buf = session->_recvQueue.GetBufferPtr();
+		wsaBuf[0].buf = session->recvQueue_.GetWriteBufferPtr();
+		wsaBuf[0].len = session->recvQueue_.GetNotBrokenPutSize();
+		wsaBuf[1].buf = session->recvQueue_.GetBufferPtr();
 		wsaBuf[1].len = freeSize - wsaBuf[0].len;
 		//overlapped 초기화
-		ZeroMemory(&session->_recvOverLapped, sizeof(OVERLAPPED));
+		ZeroMemory(&session->recvOverLapped_, sizeof(OVERLAPPED));
 		//iocount++
-		InterlockedIncrement((LONG*)&session->_ioCount);
+		InterlockedIncrement((LONG*)&session->ioCount_);
 		//wsaRecv()
 		DWORD transBytes = 0;
 		DWORD flags = 0;
 		int check = 0;
 		(freeSize == wsaBuf[0].len) ? (check = 1) : (check = 2);
-		int retval = WSARecv(session->_socket, wsaBuf, 2, &transBytes, &flags, &session->_recvOverLapped, NULL);
+		int retval = WSARecv(session->socket_, wsaBuf, 2, &transBytes, &flags, &session->recvOverLapped_, NULL);
 		//에러처리
 		if (retval == SOCKET_ERROR)
 		{
@@ -196,19 +196,19 @@ namespace MinLib
 			if (errorCode != ERROR_IO_PENDING)
 			{
 				if (errorCode == WSAENOBUFS)
-					LOG(L"Server", LOG_ERROR, L"RecvPost Fail WSAENOBUFS, Socket : %d", session->_socket);
+					LOG(L"Server", LOG_ERROR, L"RecvPost Fail WSAENOBUFS, Socket : %d", session->socket_);
 				else if (errorCode == WSAECONNRESET)
 					;
 				else
 				{
-					LOG(L"Server", LOG_ERROR, L"RecvPost Fail %d, Socket : %d", errorCode, session->_socket);
+					LOG(L"Server", LOG_ERROR, L"RecvPost Fail %d, Socket : %d", errorCode, session->socket_);
 				}
 				// 수신 등록 실패, 종료코드
 				// LOG
-				int ioCount = InterlockedDecrement((LONG*)&session->_ioCount);
-				shutdown(session->_socket, SD_SEND);
+				int ioCount = InterlockedDecrement((LONG*)&session->ioCount_);
+				shutdown(session->socket_, SD_SEND);
 				if (ioCount == 0)
-					session->_logOutFlag = true;
+					session->logOutFlag_ = true;
 				return false;
 			}
 		}
@@ -227,7 +227,7 @@ namespace MinLib
 			InterlockedIncrement(&_this->_acceptTPS);
 			_this->_acceptCount++;
 
-			DWORD opt;
+			DWORD opt = 0;
 			setsockopt(client, SOL_SOCKET, SO_KEEPALIVE, (char*)&opt, sizeof(opt));
 
 			linger ling;
@@ -279,13 +279,13 @@ namespace MinLib
 			{
 				// 비정상 연결종료시작
 				int errorCode = GetLastError();
-				shutdown(session->_socket, SD_SEND);
+				shutdown(session->socket_, SD_SEND);
 				//_this->DisConnect(session);
 			}
 			else
 			{
 				// 수신완료
-				if (&session->_recvOverLapped == overlapped)
+				if (&session->recvOverLapped_ == overlapped)
 				{
 					// 정상적 종료 상황
 					if (transBtyes == 0)
@@ -297,18 +297,18 @@ namespace MinLib
 							if (error != ERROR_NETNAME_DELETED)
 								LOG(L"Server", LOG_ERROR, L"recv GQCS FALSE, code = %d", error);
 						}
-						shutdown(session->_socket, SD_SEND);
+						shutdown(session->socket_, SD_SEND);
 					}
 					// 정상 수신완료
 					else
 					{
-						session->_recvQueue.MoveWritePos(transBtyes);
+						session->recvQueue_.MoveWritePos(transBtyes);
 						_this->RecvProc(session);
 						_this->RecvPost(session);
 					}
 				}
 				// 송신완료
-				else if (&session->_sendOverLapped == overlapped)
+				else if (&session->sendOverLapped_ == overlapped)
 				{
 					if (transBtyes == 0)
 					{
@@ -318,31 +318,31 @@ namespace MinLib
 							int error = GetLastError();
 							LOG(L"Server", LOG_ERROR, L"send GQCS FALSE, code = %d", error);
 						}
-						shutdown(session->_socket, SD_SEND);
-						session->_sendCount = 0;
-						session->_sendFlag = FALSE;
+						shutdown(session->socket_, SD_SEND);
+						session->sendCount_ = 0;
+						session->sendFlag_ = FALSE;
 					}
 					else
 					{
-						int count = session->_sendCount;
+						int count = session->sendCount_;
 						InterlockedAdd(&_this->_sendTPS, count);
 						for (int i = 0; i < count; i++)
 						{
-							PacketFree(session->_sendArray[i]);
+							PacketFree(session->sendArray_[i]);
 						}
-						session->_sendCount = 0;
-						session->_sendFlag = FALSE;
-						ZeroMemory(session->_sendArray, sizeof(session->_sendArray));
+						session->sendCount_ = 0;
+						session->sendFlag_ = FALSE;
+						ZeroMemory(session->sendArray_, sizeof(session->sendArray_));
 					}
 				}
 				// 알수없는 상황
 				else
 					;
 				// 여기서 io 카운트 감소
-				int ioCount = InterlockedDecrement((LONG*)&session->_ioCount);
+				int ioCount = InterlockedDecrement((LONG*)&session->ioCount_);
 				// 연결종료 체크 구간
 				if (ioCount == 0)
-					session->_logOutFlag = true;
+					session->logOutFlag_ = true;
 			}
 		}
 		return 0;
@@ -383,9 +383,9 @@ namespace MinLib
 				_this->_acceptInfoPool.Free(acceptInfo);
 				CreateIoCompletionPort((HANDLE)acceptInfo->socket, _this->_iocp, (ULONG_PTR)_this->_sessionArray[index], 0);
 				_this->RecvPost(_this->_sessionArray[index]);
-				int ioCount = InterlockedDecrement((LONG*)&_this->_sessionArray[index]->_ioCount);
+				int ioCount = InterlockedDecrement((LONG*)&_this->_sessionArray[index]->ioCount_);
 				if (ioCount == 0)
-					_this->_sessionArray[index]->_logOutFlag = true;
+					_this->_sessionArray[index]->logOutFlag_ = true;
 				InterlockedIncrement(&_this->_AuthSession);
 				InterlockedIncrement(&_this->_TotalSession);
 			}
@@ -394,17 +394,17 @@ namespace MinLib
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				if (session->_mode != AUTH)
+				if (session->mode_ != MODE::AUTH)
 					continue;
 
 				// 종료 1단계
-				if (session->_logOutFlag == true)
+				if (session->logOutFlag_ == true)
 				{
-					if (session->_sendFlag == TRUE)
-						session->_mode = LOGOUT_IN_AUTH;
+					if (session->sendFlag_ == TRUE)
+						session->mode_ = MODE::LOGOUT_IN_AUTH;
 					else
 					{
-						session->_mode = WAIT_LOGOUT;
+						session->mode_ = MODE::WAIT_LOGOUT;
 						InterlockedDecrement(&_this->_AuthSession);
 					}
 				}
@@ -412,7 +412,7 @@ namespace MinLib
 				else
 				{
 					//int size = (int)session->_completeRecvQueue.size();
-					int size = (int)session->_completeRecvQueue.GetUseCount();
+					int size = (int)session->completeRecvQueue_.GetUseCount();
 					if (size == 0)
 						continue;
 
@@ -420,7 +420,7 @@ namespace MinLib
 					while (process--)
 					{
 						StreamBuffer* packet = nullptr;
-						session->_completeRecvQueue.DeQueue_UnSafe(&packet);
+						session->completeRecvQueue_.DeQueue_UnSafe(&packet);
 						//packet = session->_completeRecvQueue.front();
 						if (packet == nullptr)
 							continue;
@@ -451,12 +451,12 @@ namespace MinLib
 			{
 				session = sessionArray[i];
 				// 컨텐츠모드 전환
-				if (session->_mode == AUTH)
+				if (session->mode_ == MODE::AUTH)
 				{
-					if (session->_authToContentsFlag == false)
+					if (session->authToContentsFlag_ == false)
 						continue;
 
-					session->_mode = AUTH_TO_CONTENTS;
+					session->mode_ = MODE::AUTH_TO_CONTENTS;
 					session->OnAuth_ClientLeave(false);
 				}
 			}
@@ -491,65 +491,65 @@ namespace MinLib
 			for (int i = seed; i < _this->_maxClient; i += jump)
 			{
 				session = sessionArray[i];
-				if (session->_mode == NONE)
+				if (session->mode_ == MODE::NONE)
 					continue;
 
-				if (session->_logOutFlag == true)
+				if (session->logOutFlag_ == true)
 					continue;
 
-				if (session->_mode != AUTH && session->_mode != AUTH_TO_CONTENTS && session->_mode != CONTENTS)
+				if (session->mode_ != MODE::AUTH && session->mode_ != MODE::AUTH_TO_CONTENTS && session->mode_ != MODE::CONTENTS)
 					continue;
 
-				int useSize = (int)session->_sendQueue.GetUseCount();
+				int useSize = (int)session->sendQueue_.GetUseCount();
 				if (useSize == 0)
 					continue;
 
-				if (session->_sendFlag != FALSE)
+				if (session->sendFlag_ != FALSE)
 					continue;
 
 
-				session->_sendFlag = TRUE;
+				session->sendFlag_ = TRUE;
 
 				WSABUF wsaBuf[mmoSendArraySize];
 				ZeroMemory(wsaBuf, sizeof(wsaBuf));
-				session->_sendCount = min(useSize, mmoSendArraySize);
-				for (int i = 0; i < session->_sendCount; i++)
+				session->sendCount_ = min(useSize, mmoSendArraySize);
+				for (int i = 0; i < session->sendCount_; i++)
 				{
-					StreamBuffer** packet = &session->_sendArray[i];
-					session->_sendQueue.DeQueue_UnSafe(packet);
+					StreamBuffer** packet = &session->sendArray_[i];
+					session->sendQueue_.DeQueue_UnSafe(packet);
 					wsaBuf[i].buf = (*packet)->GetBuffer();
 					wsaBuf[i].len = (*packet)->GetUseSize();
 				}
-				ZeroMemory(&session->_sendOverLapped, sizeof(OVERLAPPED));
+				ZeroMemory(&session->sendOverLapped_, sizeof(OVERLAPPED));
 				DWORD transBytes = 0;
 				DWORD flags = 0;
-				InterlockedIncrement((LONG*)&session->_ioCount);
-				int retval = WSASend(session->_socket, wsaBuf, session->_sendCount, &transBytes, flags, &session->_sendOverLapped, NULL);
+				InterlockedIncrement((LONG*)&session->ioCount_);
+				int retval = WSASend(session->socket_, wsaBuf, session->sendCount_, &transBytes, flags, &session->sendOverLapped_, NULL);
 				if (retval == SOCKET_ERROR)
 				{
 					int errorCode = GetLastError();
 					if (errorCode != ERROR_IO_PENDING)
 					{
 						if (errorCode == WSAENOBUFS)
-							LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->_sessionID);
+							LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->sessionID_);
 						else if (errorCode == WSAECONNRESET)
 							;
 						else if (errorCode == WSAESHUTDOWN)
-							LOG(L"Server", LOG_WARNING, L"SessionID : %d , WSAESHUTDOWN", session->_sessionID);
+							LOG(L"Server", LOG_WARNING, L"SessionID : %d , WSAESHUTDOWN", session->sessionID_);
 						else
 						{
-							LOG(L"Server", LOG_ERROR, L"SessionID : %d , SEND_ERROR %d", session->_sessionID, errorCode);
+							LOG(L"Server", LOG_ERROR, L"SessionID : %d , SEND_ERROR %d", session->sessionID_, errorCode);
 						}
-						int ioCount = InterlockedDecrement((LONG*)&session->_ioCount);
-						shutdown(session->_socket, SD_SEND);
-						for (int i = 0; i < session->_sendCount; i++)
+						int ioCount = InterlockedDecrement((LONG*)&session->ioCount_);
+						shutdown(session->socket_, SD_SEND);
+						for (int i = 0; i < session->sendCount_; i++)
 						{
-							PacketFree(session->_sendArray[i]);
+							PacketFree(session->sendArray_[i]);
 						}
-						session->_sendFlag = FALSE;
-						session->_sendCount = 0;
+						session->sendFlag_ = FALSE;
+						session->sendCount_ = 0;
 						if (ioCount == 0)
-							session->_logOutFlag = true;
+							session->logOutFlag_ = true;
 					}
 				}
 			}
@@ -574,10 +574,10 @@ namespace MinLib
 				if (limit < 0)
 					break;
 				session = sessionArray[i];
-				if (session->_mode != AUTH_TO_CONTENTS)
+				if (session->mode_ != MODE::AUTH_TO_CONTENTS)
 					continue;
 
-				session->_mode = CONTENTS;
+				session->mode_ = MODE::CONTENTS;
 				session->OnContents_ClientJoin();
 				InterlockedIncrement(&_this->_ContentsSession);
 				InterlockedDecrement(&_this->_AuthSession);
@@ -590,16 +590,16 @@ namespace MinLib
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				if (session->_mode != CONTENTS)
+				if (session->mode_ != MODE::CONTENTS)
 					continue;
 				// 로그아웃 처리 1단계
-				if (session->_logOutFlag == true)
+				if (session->logOutFlag_ == true)
 				{
-					if (session->_sendFlag == TRUE)
-						session->_mode = LOGOUT_IN_CONTENTS;
+					if (session->sendFlag_ == TRUE)
+						session->mode_ = MODE::LOGOUT_IN_CONTENTS;
 					else
 					{
-						session->_mode = WAIT_LOGOUT;
+						session->mode_ = MODE::WAIT_LOGOUT;
 						InterlockedDecrement(&_this->_ContentsSession);
 					}
 				}
@@ -610,7 +610,7 @@ namespace MinLib
 					while (process--)
 					{
 						//if (session->_completeRecvQueue.empty())
-						if (session->_completeRecvQueue.DeQueue_UnSafe(&packet) == false)
+						if (session->completeRecvQueue_.DeQueue_UnSafe(&packet) == false)
 							break;
 						//packet = session->_completeRecvQueue.front();
 						//session->_completeRecvQueue.pop();
@@ -670,12 +670,12 @@ namespace MinLib
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				if (session->_mode == LOGOUT_IN_AUTH)
+				if (session->mode_ == MODE::LOGOUT_IN_AUTH)
 				{
-					if (session->_sendFlag == TRUE)
+					if (session->sendFlag_ == TRUE)
 						continue;
 
-					session->_mode = WAIT_LOGOUT;
+					session->mode_ = MODE::WAIT_LOGOUT;
 					session->OnAuth_ClientLeave(true);
 					InterlockedDecrement(&_this->_AuthSession);
 				}
@@ -684,13 +684,13 @@ namespace MinLib
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				if (session->_mode != LOGOUT_IN_CONTENTS)
+				if (session->mode_ != MODE::LOGOUT_IN_CONTENTS)
 					continue;
 
-				if (session->_sendFlag == TRUE)
+				if (session->sendFlag_ == TRUE)
 					continue;
 
-				session->_mode = WAIT_LOGOUT;
+				session->mode_ = MODE::WAIT_LOGOUT;
 				session->OnContents_ClientLeave();
 				InterlockedDecrement(&_this->_ContentsSession);
 			}
@@ -698,10 +698,10 @@ namespace MinLib
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				if (session->_mode != WAIT_LOGOUT)
+				if (session->mode_ != MODE::WAIT_LOGOUT)
 					continue;
 
-				closesocket(session->_socket);
+				closesocket(session->socket_);
 				session->OnContents_ClientRelease();
 				session->Clean();
 				_this->_indexStack.Push(i);
@@ -730,9 +730,9 @@ namespace MinLib
 		LoadConfig(fileName);
 		LOGGER.SetLogDir(&wstring(L"Server_LOG"));
 		LOGGER.SetLogLevel(LOG_DEBUG);
-		MMOSession::_packetCode = _packetCode;
-		MMOSession::_XORKey1 = _XORKey1;
-		MMOSession::_XORKey2 = _XORKey2;
+		MMOSession::packetCode_ = _packetCode;
+		MMOSession::XORKey1_ = _XORKey1;
+		MMOSession::XORKey2_ = _XORKey2;
 
 		if (MAX_SESSION < _maxClient)
 			_maxClient = MAX_SESSION;
@@ -751,7 +751,11 @@ namespace MinLib
 		_clientSeed = 0;
 
 		WSAData wsaData;
-		WSAStartup(MAKEWORD(2, 2), &wsaData);
+		if(WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+		{
+			int errorCode = WSAGetLastError();
+			return;
+		}
 
 		_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, _activeWorkerThreadCount);
 		for (int i = 0; i < _workerThreadCount; ++i)
@@ -763,12 +767,13 @@ namespace MinLib
 		_contentsThread = (HANDLE)_beginthreadex(NULL, 0, ContentsThreadMain, this, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
 		_releaseThread = (HANDLE)_beginthreadex(NULL, 0, ReleaseThreadMain, this, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL);
 
-		SetThreadPriority(_contentsThread, THREAD_PRIORITY_ABOVE_NORMAL);
+		if(_contentsThread)
+			SetThreadPriority(_contentsThread, THREAD_PRIORITY_ABOVE_NORMAL);
 	}
 
 	void MMOServer::DisConnect(MMOSession* session)
 	{
-		shutdown(session->_socket, SD_SEND);
+		shutdown(session->socket_, SD_SEND);
 	}
 
 	void MMOServer::PrintInfo()
@@ -789,7 +794,7 @@ namespace MinLib
 		printf_s("     Packet Alloc Count  = %d\n", StreamBuffer::_allocCount);
 		printf_s("\n");
 		printf_s("          Accept Count = %d\n", _acceptCount);
-		printf_s("      AcceptInfo Count = %d\n", _acceptQueue.GetUseCount());
+		printf_s("      AcceptInfo Count = %I64d\n", _acceptQueue.GetUseCount());
 		printf_s("\n");
 		printf_s("       Auth FPS = %d\n", _authFPS_Display);
 		printf_s("   Contents FPS = %d\n", _contentsFPS_Display);

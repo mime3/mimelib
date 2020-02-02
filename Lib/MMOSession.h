@@ -12,7 +12,7 @@
 namespace MinLib
 {
 	constexpr int mmoSendArraySize = 200;
-	enum MODE
+	enum class MODE
 	{
 		NONE,
 		AUTH,
@@ -32,6 +32,7 @@ namespace MinLib
 
 	class MMOSession
 	{
+	friend class MMOServer;
 	public:
 #pragma pack(push, 1)   
 		struct PACKET_HEADER
@@ -42,27 +43,27 @@ namespace MinLib
 			BYTE checkSum;
 		};
 #pragma pack(pop)
-		static BYTE	_packetCode;
-		static BYTE	_XORKey1;
-		static BYTE	_XORKey2;
+		static BYTE	packetCode_;
+		static BYTE	XORKey1_;
+		static BYTE	XORKey2_;
 
 	private:
-		SOCKET _socket;
-		WCHAR _IP[16];
-		int _port;
-		INT64 _sessionID;
-		int _ioCount;
-		MODE _mode;
+		SOCKET	socket_			= {};
+		WCHAR	IP_[16]			= { 0, };
+		int		port_			= { 0 };
+		INT64	sessionID_		= { 0 };
+		int		ioCount_		= { 0 };
+		MODE	mode_			= { MODE::NONE };
 
-		OVERLAPPED _sendOverLapped;					// sendoverlapped
-		OVERLAPPED _recvOverLapped;					// recvoverlapped
-		BOOL _sendFlag;								// 전송중 여부 플래그
-		int _sendCount;								// 전송한 패킷 수
-		LF_Queue<StreamBuffer*> _sendQueue;
-		StreamQueue	_recvQueue;
-		StreamBuffer* _sendArray[mmoSendArraySize];	// 전송한 패킷 저장배열
+		OVERLAPPED				sendOverLapped_ = {};			// sendoverlapped
+		OVERLAPPED				recvOverLapped_ = {};			// recvoverlapped
+		BOOL					sendFlag_ = { FALSE };			// 전송중 여부 플래그
+		int						sendCount_ = { 0 };				// 전송한 패킷 수
+		LF_Queue<StreamBuffer*> sendQueue_;
+		StreamQueue				recvQueue_;
+		StreamBuffer*			sendArray_[mmoSendArraySize];	// 전송한 패킷 저장배열
 		//std::queue<StreamBuffer *> _completeRecvQueue;
-		LF_Queue<StreamBuffer*> _completeRecvQueue;
+		LF_Queue<StreamBuffer*> completeRecvQueue_;
 
 		virtual void OnAuth_Packet(StreamBuffer* packet) = 0;
 		virtual void OnAuth_ClientLeave(bool isExit) = 0;
@@ -72,8 +73,8 @@ namespace MinLib
 		virtual void OnContents_ClientRelease() = 0;
 
 	protected:
-		bool _logOutFlag;
-		bool _authToContentsFlag;
+		bool logOutFlag_			= { false };
+		bool authToContentsFlag_	= { false };
 
 		inline BYTE GetCheckSum(char* buffer, int size);
 		inline void XOR(char* buffer, int size, char key);
@@ -86,7 +87,6 @@ namespace MinLib
 		void Init(ACCEPT_INFO* acceptInfo, INT64 sessionID);
 		void Clean();
 		bool SendPacket(StreamBuffer* packet);
-		friend class MMOServer;
 	};
 }
 #endif // !__MINLIB_MMO_SESSION__

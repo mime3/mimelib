@@ -34,13 +34,13 @@ namespace MinLib
 	{
 	public:
 #pragma pack(push, 1)   
-		struct PACKET_HEADER
+		typedef struct PACKET_HEADER
 		{
 			BYTE code;
 			WORD len;
 			BYTE randXORKey;
 			BYTE checkSum;
-		};
+		}PacketHeader;
 #pragma pack(pop)   
 	private:
 		Parser _configParser;
@@ -57,20 +57,20 @@ namespace MinLib
 		HANDLE _releaseThread;
 		MMOSession* _sessionArray[MAX_SESSION];
 
-		BYTE	_packetCode;
-		BYTE	_XORKey1;
-		BYTE	_XORKey2;
-		char	_bindIP[20];
-		int		_serverPort;
-		int		_workerThreadCount;
-		int		_activeWorkerThreadCount;
-		int		_sendThreadCount;
-		int		_maxClient;
-		int		_monitorNo;
-		INT64	_clientSeed;
+		BYTE	_packetCode					= { 0 };
+		BYTE	_XORKey1					= { 0 };
+		BYTE	_XORKey2					= { 0 };
+		char	_bindIP[20]					= { 0, };
+		int		_serverPort					= { 0 };
+		int		_workerThreadCount			= { 0 };
+		int		_activeWorkerThreadCount	= { 0 };
+		int		_sendThreadCount			= { 0 };
+		int		_maxClient					= { 0 };
+		int		_monitorNo					= { 0 };
+		INT64	_clientSeed					= { 0 };
 
 		// seed
-		int		_sendThreadSeed = 0;
+		int		_sendThreadSeed				= { 0 };
 
 		// configºÎºÐ
 		int ACCEPT_SLEEP = 10;

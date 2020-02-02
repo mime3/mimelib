@@ -12,31 +12,31 @@ namespace MinLib
 	{
 		struct LF_Queue_NODE
 		{
-			T data;
-			LF_Queue_NODE* next;
+			T				data;
+			LF_Queue_NODE*	next;
 		};
 
 		struct LF_Queue_UNIQUE
 		{
-			LF_Queue_NODE* node;
+			LF_Queue_NODE*	node;
 			INT64			unique;
 		};
 
-		alignas(16) volatile LF_Queue_UNIQUE _head;
-		alignas(16) volatile LF_Queue_UNIQUE _tail;
-		MemoryPool<LF_Queue_NODE> _memoryPool;
-		INT64 _useSize;
+		alignas(16) volatile LF_Queue_UNIQUE head_;
+		alignas(16) volatile LF_Queue_UNIQUE tail_;
+		MemoryPool<LF_Queue_NODE> memoryPool_;
+		INT64 useSize_ = { 0 };
 
 	public:
 		// 생성자
 		LF_Queue()
 		{
 			// 더미 노드 생성
-			_head.node = _memoryPool.Alloc();
-			_head.node->next = nullptr;
-			_tail.node = _head.node;
-			_head.unique = 0;
-			_tail.unique = 0;
+			head_.node = memoryPool_.Alloc();
+			head_.node->next = nullptr;
+			tail_.node = head_.node;
+			head_.unique = 0;
+			tail_.unique = 0;
 		}
 		// 소멸자
 		~LF_Queue()
@@ -46,7 +46,7 @@ namespace MinLib
 
 		void EnQueue(T data)
 		{
-			LF_Queue_NODE* node = _memoryPool.Alloc();
+			LF_Queue_NODE* node = memoryPool_.Alloc();
 			node->data = data;
 			node->next = nullptr;
 
@@ -54,21 +54,21 @@ namespace MinLib
 
 			while (true)
 			{
-				localTail.unique = _tail.unique;
-				localTail.node = _tail.node;
+				localTail.unique = tail_.unique;
+				localTail.node = tail_.node;
 
 				LF_Queue_NODE* next = localTail.node->next;
 
-				if (localTail.unique == _tail.unique)
+				if (localTail.unique == tail_.unique)
 				{
 					// 로컬 tail이 끝지점인거 같다
 					if (next == nullptr)
 					{
 						// 실제로 enqueue한다
-						if (InterlockedCompareExchange64((LONG64*)& _tail.node->next, (LONG64)node, (LONG64)nullptr) == (LONG64)nullptr)
+						if (InterlockedCompareExchange64((LONG64*)& tail_.node->next, (LONG64)node, (LONG64)nullptr) == (LONG64)nullptr)
 						{
 							// tail을 옮기려 해본다
-							InterlockedCompareExchange128((LONG64*)& _tail, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
+							InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
 							break;
 						}
 						// 그사이 로컬tail이 tail이랑 달라졌다
@@ -80,16 +80,16 @@ namespace MinLib
 					// 로컬 tail이 끝지점이아니었다
 					else
 					{
-						InterlockedCompareExchange128((LONG64*)& _tail, localTail.unique + 1, (LONG64)next, (LONG64*)& localTail);
+						InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)next, (LONG64*)& localTail);
 					}
 				}
 			}
-			InterlockedIncrement64((LONG64*)& _useSize);
+			InterlockedIncrement64((LONG64*)& useSize_);
 		}
 
 		bool DeQueue(T* outData)
 		{
-			if (_useSize == 0)
+			if (useSize_ == 0)
 				return false;
 			//__declspec(align(16))
 			//__declspec(align(16))
@@ -102,11 +102,11 @@ namespace MinLib
 			while (1)
 			{
 				// Head저장
-				localHead.unique = _head.unique;
-				localHead.node = _head.node;
+				localHead.unique = head_.unique;
+				localHead.node = head_.node;
 				// Tail저장
-				localTail.unique = _tail.unique;
-				localTail.node = _tail.node;
+				localTail.unique = tail_.unique;
+				localTail.node = tail_.node;
 				// head의 next저장
 				next = localHead.node->next;
 
@@ -137,7 +137,7 @@ namespace MinLib
 				//}
 
 				// head가 아직 바뀌지 않았다
-				if (localHead.unique == _head.unique)
+				if (localHead.unique == head_.unique)
 				{
 					// head와 tail이 붙어있다. 비었거나 아직 tail이 안갔거나
 					if (localHead.node == localTail.node)
@@ -163,7 +163,7 @@ namespace MinLib
 						//if (localTail.node->next != nullptr)
 						else
 						{
-							InterlockedCompareExchange128((LONG64*)& _tail, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
+							InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
 						}
 					}
 					// 일단 head와 tail은 떨어져있다
@@ -172,13 +172,13 @@ namespace MinLib
 						// 혹시모르니까
 						if (next == nullptr)
 							continue;
-						if (localHead.unique != _head.unique)
+						if (localHead.unique != head_.unique)
 							continue;
 						// 실제로 dequeue해본다
 						*outData = next->data;
-						if (InterlockedCompareExchange128((LONG64*)& _head, localHead.unique + 1, (LONG64)next, (LONG64*)& localHead))
+						if (InterlockedCompareExchange128((LONG64*)& head_, localHead.unique + 1, (LONG64)next, (LONG64*)& localHead))
 						{
-							_memoryPool.Free(localHead.node);
+							memoryPool_.Free(localHead.node);
 							break;
 						}
 						// 그사이 head가 바뀌었다 
@@ -189,7 +189,7 @@ namespace MinLib
 					}
 				}
 			}
-			InterlockedDecrement64((LONG64*)& _useSize);
+			InterlockedDecrement64((LONG64*)& useSize_);
 			return true;
 		}
 
@@ -200,7 +200,7 @@ namespace MinLib
 			if (GetUseCount() < jumpCount + 1)
 				return false;
 
-			LF_Queue_NODE* curNode = _head;
+			LF_Queue_NODE* curNode = head_;
 
 			for (int i = 0; i < jumpCount + 1; i++)
 			{
@@ -214,34 +214,34 @@ namespace MinLib
 
 		void EnQueue_UnSafe(T data)
 		{
-			LF_Queue_NODE* node = _memoryPool.Alloc();
+			LF_Queue_NODE* node = memoryPool_.Alloc();
 			node->data = data;
 			node->next = nullptr;
 
-			_tail.node->next = node;
-			_tail.node = node;
-			_tail.unique++;
-			InterlockedIncrement64((LONG64*)& _useSize);
+			tail_.node->next = node;
+			tail_.node = node;
+			tail_.unique++;
+			InterlockedIncrement64((LONG64*)& useSize_);
 		}
 
 		bool DeQueue_UnSafe(T* outData)
 		{
-			if (_useSize == 0)
+			if (useSize_ == 0)
 				return false;
 
-			LF_Queue_NODE* localHead = _head.node;
+			LF_Queue_NODE* localHead = head_.node;
 
-			_head.node = _head.node->next;
-			*outData = _head.node->data;
-			_head.unique++;
-			_memoryPool.Free(localHead);
-			InterlockedDecrement64((LONG64*)& _useSize);
+			head_.node = head_.node->next;
+			*outData = head_.node->data;
+			head_.unique++;
+			memoryPool_.Free(localHead);
+			InterlockedDecrement64((LONG64*)& useSize_);
 			return true;
 		}
 
 		INT64 GetUseCount()
 		{
-			return _useSize;
+			return useSize_;
 		}
 	};
 }

@@ -8,6 +8,7 @@
 #include <DbgHelp.h>
 #include <stdlib.h>
 
+#pragma warning( disable : 6011 )
 //////////////////////////////////////////////////////////////
 // CrashDump 
 // 설명 : 예외를 핸들링하여 덤프파일 만들도록 유도하는 클래스
@@ -125,4 +126,5 @@ namespace MinLib
 		static long _dumpCount;
 	};
 }
+#pragma warning( default : 6011 )
 #endif // !__MINLIB_CRASH_DUMP__

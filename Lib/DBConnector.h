@@ -30,7 +30,7 @@ namespace MinLib
 		// MySQL 연결객체 포인터. 위 변수의 포인터임. 
 		// 이 포인터의 null 여부로 연결상태 확인.
 		//-------------------------------------------------------------
-		MYSQL* _MySQLPointer;
+		MYSQL* _MySQLPointer = { nullptr };
 
 		//-------------------------------------------------------------
 		// 쿼리를 날린 뒤 Result 저장소.
@@ -38,23 +38,23 @@ namespace MinLib
 		//-------------------------------------------------------------
 		MYSQL_RES* _SQLResult;
 
-		WCHAR		_DBIP[16];
-		WCHAR		_DBUser[64];
-		WCHAR		_DBPassword[64];
-		WCHAR		_DBName[64];
-		int			_DBPort;
+		WCHAR		_DBIP[16] = { 0, };
+		WCHAR		_DBUser[64] = { 0, };
+		WCHAR		_DBPassword[64] = { 0, };
+		WCHAR		_DBName[64] = { 0, };
+		int			_DBPort = { 0 };
 
 
-		WCHAR		_Query[eQUERY_MAX_LEN];
-		char		_QueryUTF8[eQUERY_MAX_LEN];
+		WCHAR		_Query[eQUERY_MAX_LEN] = { 0, };
+		char		_QueryUTF8[eQUERY_MAX_LEN] = { 0, };
 
-		int			_LastError;
-		WCHAR		_LastErrorMsg[128];
+		int			_LastError = { 0 };
+		WCHAR		_LastErrorMsg[128] = { 0, };
 
 		//////////////////////////////////////////////////////////////////////
 		// mysql 의 LastError 를 맴버변수로 저장한다.
 		//////////////////////////////////////////////////////////////////////
-		void		SaveLastError(void);
+		void		SaveLastError();
 	protected:
 		Parser		_configParser;
 
@@ -110,18 +110,18 @@ namespace MinLib
 	constexpr int DBConnectorArray = 20;
 	class DBConnectorTLS
 	{
-		DWORD		_tlsIndex;
-		WCHAR		_DBIP[16];
-		WCHAR		_DBUser[64];
-		WCHAR		_DBPassword[64];
-		WCHAR		_DBName[64];
-		int			_DBPort;
+		DWORD		_tlsIndex = { 0 };
+		WCHAR		_DBIP[16] = { 0, };
+		WCHAR		_DBUser[64] = { 0, };
+		WCHAR		_DBPassword[64] = { 0, };
+		WCHAR		_DBName[64] = { 0, };
+		int			_DBPort = { 0 };
 
-		int			_arrayIndex;
-		DBConnector* _DBConnectorPointerArray[DBConnectorArray];
+		int			_arrayIndex = { 0 };
+		DBConnector* _DBConnectorPointerArray[DBConnectorArray] = { nullptr, };
 		Parser		_configParser;
 
-		void		SaveLastError(void);
+		void		SaveLastError();
 
 	public:
 		DBConnectorTLS(const char* config);

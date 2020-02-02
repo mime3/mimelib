@@ -105,7 +105,7 @@ namespace MinLib
 			WSAIoctl(this->socket, SIO_KEEPALIVE_VALS, &tcpkl, sizeof(tcp_keepalive),
 				0, 0, &dwReturnByte, NULL, NULL);
 
-			DWORD opt;
+			//DWORD opt;
 			//setsockopt(this->socket, SOL_SOCKET, SO_KEEPALIVE, (char *)&opt, sizeof(opt));
 			sendFlag = FALSE;
 

@@ -615,7 +615,7 @@ namespace MinLib
 	{
 		if (_size < _rear + (size * 2))
 			throw;
-		memcpy_s(_buffer + _rear, size * 2, buffer, size * 2);
+		memcpy_s(_buffer + _rear, (__int64)size * 2, buffer, (__int64)size * 2);
 		_rear += size * 2;
 		return size * 2;
 	}
@@ -639,7 +639,7 @@ namespace MinLib
 	{
 		if (_size < _front + (size * 2))
 			throw;
-		memcpy_s(buffer, size * 2, _buffer + _front, size * 2);
+		memcpy_s(buffer, (__int64)size * 2, _buffer + _front, (__int64)size * 2);
 		_front += size * 2;
 		return size * 2;
 	}
