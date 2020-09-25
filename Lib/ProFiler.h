@@ -9,9 +9,9 @@
 namespace MinLib
 {
 #ifdef PROFILE
-#define BEGIN(name)		ProFiler::getInstance().BeginProFile(#name)
-#define END(name)		ProFiler::getInstance().EndProFile(#name)
-#define PRINTPROFILE()	ProFiler::getInstance().FilePrint()
+#define BEGIN(name)		MinLib::ProFiler::getInstance().BeginProFile(#name)
+#define END(name)		MinLib::ProFiler::getInstance().EndProFile(#name)
+#define PRINTPROFILE()	MinLib::ProFiler::getInstance().FilePrint()
 #endif // PROFILE
 #ifndef PROFILE
 #define BEGIN(name)  
@@ -43,13 +43,13 @@ namespace MinLib
 	{
 		struct ProFileBlock
 		{
-			bool			_useFlag;
-			char			_name[64];
-			int				_callCount;
-			LARGE_INTEGER	_startTime;
-			LONGLONG		_minTime[NONCOUNTSIZE];
-			LONGLONG		_maxTime[NONCOUNTSIZE];
-			LONGLONG		_totalTime;
+			bool			useFlag;
+			char			name[64];
+			int				callCount;
+			LARGE_INTEGER	startTime;
+			LONGLONG		minTime[NONCOUNTSIZE];
+			LONGLONG		maxTime[NONCOUNTSIZE];
+			LONGLONG		totalTime;
 		};
 
 		struct TLS_BLOCK
@@ -64,11 +64,11 @@ namespace MinLib
 		};
 
 
-		FILE* _file;							// 출력용 파일포인터
-		LARGE_INTEGER	_frequency;						// CPU 1초당 클럭
-		TLS_BLOCK* _blockPointerArray[MAXTHREAD];	// 프로파일 블럭포인터를 저장할 배열
-		int				_index;							// 빈 배열 인덱스
-		DWORD			_tlsIndex;						// TLS인덱스
+		FILE*			file_;							// 출력용 파일포인터
+		LARGE_INTEGER	frequency_;						// CPU 1초당 클럭
+		TLS_BLOCK*		blockPointerArray_[MAXTHREAD];	// 프로파일 블럭포인터를 저장할 배열
+		int				index_;							// 빈 배열 인덱스
+		DWORD			tlsIndex_;						// TLS인덱스
 
 		// name 이름의 프로파일블록 생성후 포인터를 위치시킨다.
 		bool MakeProFile(const char* name, ProFileBlock** proFilePointer, TLS_BLOCK* blockPointer);
@@ -77,7 +77,7 @@ namespace MinLib
 
 	public:
 		ProFiler();
-		~ProFiler();
+		~ProFiler() = default;
 		void BeginProFile(const char* name);
 		void EndProFile(const char* name);
 		void FilePrint();

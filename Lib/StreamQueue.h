@@ -50,48 +50,34 @@ namespace MinLib
 		// 정리
 		inline void Clear();
 	};
+
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
-	// 인자 : 
+	// StreamQueue::Resize (public)
+	// 설명 : 버퍼의 전체 크기 변경(재할당)
+	// 인자 : (int) 바이트 수
 	// 리턴 :
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 크기 변경.
-	// Parameters: (int)새로운 크기.
-	// Return:
-	/////////////////////////////////////////////////////////////////////////
 	inline void StreamQueue::Resize(int size)
 	{
 		delete[] _bufferPointer;
 		_bufferPointer = new char[size];
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
+	// StreamQueue::Method (virtual) (private) (protected) (public)
+	// 설명 : 버퍼의 전체 크기 얻기
 	// 인자 : 
-	// 리턴 :
+	// 리턴 : (int) 바이트 수
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 버퍼의 크기 얻기
-	// Parameters:
-	// Return: (int)버퍼의 크기.
-	/////////////////////////////////////////////////////////////////////////
 	inline int StreamQueue::GetBufferSize()
 	{
 		return _availableSize;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
+	// StreamQueue::GetUseSize (virtual) (private) (protected) (public)
+	// 설명 : 현재 사용중인 바이트 수 얻기.
 	// 인자 : 
-	// 리턴 :
+	// 리턴 : (int) 바이트 수
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 현재 사용중인 용량 얻기.
-	// Parameters: 없음.
-	// Return: (int)사용중인 용량.
-	/////////////////////////////////////////////////////////////////////////
 	inline int StreamQueue::GetUseSize()
 	{
 		//return _useSize;
@@ -107,16 +93,11 @@ namespace MinLib
 			return 0;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
+	// StreamQueue::GetFreeSize (public)
+	// 설명 : 현재 버퍼에 남은 바이트 수 얻기.
 	// 인자 : 
-	// 리턴 :
+	// 리턴 : (int) 바이트 수.
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 현재 버퍼에 남은 용량 얻기.
-	// Parameters: 없음.
-	// Return: (int)남은용량.
-	/////////////////////////////////////////////////////////////////////////
 	inline int StreamQueue::GetFreeSize()
 	{
 		//return _availableSize - _useSize;
@@ -133,17 +114,11 @@ namespace MinLib
 		//return _availableSize - _useSize;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
+	// StreamQueue::GetNotBrokenGetSize (virtual) (private) (protected) (public)
+	// 설명 : 버퍼 포인터로 외부에서 한방에 읽고, 쓸 수 있는 길이.
 	// 인자 : 
-	// 리턴 :
+	// 리턴 : (int) 바이트 수
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 버퍼 포인터로 외부에서 한방에 읽고, 쓸 수 있는 길이.
-	// (끊기지 않은 길이)
-	// Parameters: 없음.
-	// Return: (int)사용가능 용량.
-	////////////////////////////////////////////////////////////////////////
 	inline int StreamQueue::GetNotBrokenGetSize()
 	{
 		// Enqueue Dequeue를 동시에 안전하게 하기위해 정확도를 버린다
@@ -152,7 +127,6 @@ namespace MinLib
 		//else
 		//	return _availableSize - _front;
 
-		// 더 정확하지만 멀티스레드에 안전하지않음
 		// 스레드에 안전하도록 지역변수에 저장
 		int front = _front;
 		int rear = _rear;
@@ -169,10 +143,10 @@ namespace MinLib
 			return 0;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
+	// StreamQueue::GetNotBrokenPutSize (public)
+	// 설명 : 한번에 저장할 수 있는 크기를 얻음
 	// 인자 : 
-	// 리턴 :
+	// 리턴 : (int) 바이트 수
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamQueue::GetNotBrokenPutSize()
 	{
@@ -197,16 +171,11 @@ namespace MinLib
 		}
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 
-	// 인자 : 
+	// StreamQueue::RemoveData (public)
+	// 설명 : 원하는 길이만큼 읽기위치 에서 삭제 / 쓰기 위치 이동
+	// 인자 : (int)크기
 	// 리턴 :
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 원하는 길이만큼 읽기위치 에서 삭제 / 쓰기 위치 이동
-	// Parameters: (int)크기.
-	// Return: 없음.
-	/////////////////////////////////////////////////////////////////////////
 	inline void StreamQueue::RemoveData(int iSize)
 	{
 		int front = _front;
@@ -228,23 +197,18 @@ namespace MinLib
 		//_useSize += iSize;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
+	// StreamQueue::ClearBuffer (public)
 	// 설명 : 버퍼의 모든 데이터 삭제
 	// 인자 : 
 	// 리턴 :
 	/*----------------*////////////////////////*----------------*/
-	/////////////////////////////////////////////////////////////////////////
-	// 버퍼의 모든 데이타 삭제.
-	// Parameters: 없음.
-	// Return: 없음.
-	/////////////////////////////////////////////////////////////////////////
 	inline void StreamQueue::ClearBuffer()
 	{
 		_rear = _front;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
-	// 설명 : 버퍼의 포인터 얻음
+	// StreamQueue::GetBufferPtr (public)
+	// 설명 : 버퍼의 현재 포인터 얻음
 	// 인자 : 
 	// 리턴 :(char *) 버퍼 포인터
 	/*----------------*////////////////////////*----------------*/
@@ -253,7 +217,7 @@ namespace MinLib
 		return _bufferPointer;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
+	// StreamQueue::GetReadBufferPtr (public)
 	// 설명 : 버퍼의 ReadPos 포인터 얻음
 	// 인자 : 
 	// 리턴 : (char *) 버퍼 포인터
@@ -266,7 +230,7 @@ namespace MinLib
 			return _bufferPointer + _front + 1;
 	}
 	/*----------------------------------------------------------*/
-	// Class::Method (virtual) (private) (protected) (public)
+	// StreamQueue::GetWriteBufferPtr (public)
 	// 설명 : 버퍼의 WritePos 포인터 리턴
 	// 인자 : 
 	// 리턴 : (char *) 버퍼 포인터
