@@ -315,6 +315,9 @@ namespace MinLib
 			bool Free(DATA* data);
 
 		private:
+			void Initialize();
+
+		private:
 			DATA_BLOCK		dataBlock_[CHUNK_SIZE]		= {};			// DataBlock 영역
 			short			useSize_					= { 0 };		// 사용중인 개수 (Thread Safe해야함)
 			short			freeSize_					= { 0 };		// 미사용중인 개수 (Thread Safe해야함)
@@ -360,8 +363,8 @@ namespace MinLib
 	inline void MemoryPoolTLS<DATA>::NewChunk(Chunk** chunk)
 	{
 		Chunk* newChunk = memoryPool_.Alloc();
-		newChunk->Init();
-		newChunk->_TLSPointer = this;
+		newChunk->Initialize();
+		newChunk->memoryPoolTLSPointer_ = this;
 		TlsSetValue(tlsIndex_, newChunk);
 		*chunk = newChunk;
 	}
@@ -415,7 +418,7 @@ namespace MinLib
 			new (block) DATA;
 
 		// 마지막으로 썼으면 새 청크로 교체
-		if (chunk->_useSize == CHUNK_SIZE)
+		if (chunk->useSize_ == CHUNK_SIZE)
 			NewChunk(&chunk);
 
 		InterlockedIncrement((LONG*)& allocCount_);
@@ -504,12 +507,12 @@ namespace MinLib
 	{
 		// end코드를 체크한 블럭임
 		int freeSize = InterlockedIncrement16(&freeSize_);
-		if (TLSPointer_->_placementNewFlag)
+		if (memoryPoolTLSPointer_->placementNewFlag_)
 		{
 			block->data.~DATA();
 		}
 		if (freeSize == CHUNK_SIZE)
-			TLSPointer_->_memoryPool.Free(this);
+			memoryPoolTLSPointer_->memoryPool_.Free(this);
 		return true;
 	}
 
@@ -526,6 +529,13 @@ namespace MinLib
 		if (block->endCode != CHUNK_ENDCODE)
 			return false;
 		return Free(block);
+	}
+
+	template<class DATA>
+	inline void MemoryPoolTLS<DATA>::Chunk::Initialize()
+	{
+		useSize_ = 0;
+		freeSize_ = 0;
 	}
 
 }
