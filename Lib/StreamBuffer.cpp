@@ -12,12 +12,12 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	StreamBuffer::StreamBuffer(int size)
 	{
-		_buffer = new char[size];
-		_front = 0;
-		_rear = 0;
-		_size = size;
-		_refCount = 1;
-		_headerFillFlag = false;
+		buffer_ = new char[size];
+		front_ = 0;
+		rear_ = 0;
+		size_ = size;
+		refCount_ = 1;
+		headerFillFlag_ = false;
 	}
 
 	/*----------------------------------------------------------*/
@@ -28,7 +28,7 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	StreamBuffer::~StreamBuffer()
 	{
-		delete[] _buffer;
+		delete[] buffer_;
 	}
 
 	/*----------------------------------------------------------*/
@@ -39,10 +39,10 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	StreamBuffer* StreamBuffer::Alloc(int headerSize)
 	{
-		StreamBuffer* newBuffer = _memoryPool.Alloc();
+		StreamBuffer* newBuffer = memoryPool_.Alloc();
 		newBuffer->Clear();
-		newBuffer->_rear += headerSize;
-		InterlockedIncrement((LONG*)&_allocCount);
+		newBuffer->rear_ += headerSize;
+		InterlockedIncrement((LONG*)&allocCount_);
 		return newBuffer;
 	}
 
@@ -54,14 +54,14 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	void StreamBuffer::Free(StreamBuffer* buffer)
 	{
-		int count = InterlockedDecrement((LONG*)&buffer->_refCount);
+		int count = InterlockedDecrement((LONG*)&buffer->refCount_);
 		if (count == 0)
 		{
-			InterlockedDecrement((LONG*)&_allocCount);
-			_memoryPool.Free(buffer);
+			InterlockedDecrement((LONG*)&allocCount_);
+			memoryPool_.Free(buffer);
 		}
 	}
 
-	int StreamBuffer::_allocCount = 0;
-	MemoryPoolTLS<StreamBuffer> StreamBuffer::_memoryPool;
+	int StreamBuffer::allocCount_ = 0;
+	MemoryPoolTLS<StreamBuffer> StreamBuffer::memoryPool_;
 }

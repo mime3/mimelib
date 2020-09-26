@@ -408,9 +408,9 @@ namespace MinLib
 					if (session->socket != INVALID_SOCKET)
 					{
 						packet->AddRef();
-						if (_InterlockedCompareExchange8((char*)&packet->_headerEnterFlag, true, false) == false)
+						if (_InterlockedCompareExchange8((char*)&packet->headerEnterFlag_, true, false) == false)
 							PutHeader(packet);
-						while (!packet->_encodeFlag)
+						while (!packet->encodeFlag_)
 							Sleep(0);
 #ifdef BOOST
 						session->sendQueue.push(packet);
@@ -588,7 +588,7 @@ namespace MinLib
 
 		packet->FillHeader((char*)&header, sizeof(header));
 		Encode(packet);
-		packet->_encodeFlag = true;
+		packet->encodeFlag_ = true;
 	}
 
 	BYTE NetClient::GetCheckSum(char* buffer, int size)

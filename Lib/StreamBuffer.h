@@ -16,17 +16,17 @@ namespace MinLib
 {
 	class StreamBuffer
 	{
-		char* _buffer;
-		int _front;
-		int _rear;
-		int _size;
-		int _refCount;
-		bool _headerFillFlag;
-		bool _headerEnterFlag;
-		bool _encodeFlag;
-		static MemoryPoolTLS<StreamBuffer> _memoryPool;
+		char*	buffer_;				// 전체 버퍼 포인터
+		int		front_;					// front 포인터
+		int		rear_;					// rear 포인터
+		int		size_;					// 전체 크기
+		int		refCount_;				// 레퍼런스 카운트
+		bool	headerFillFlag_;		// 헤더 채움 플래그
+		bool	headerEnterFlag_;		// 헤더 Fill 시작 플래그
+		bool	encodeFlag_;			// 인코딩 플래그
+		static MemoryPoolTLS<StreamBuffer> memoryPool_;
 	public:
-		static int _allocCount;
+		static int allocCount_;
 		StreamBuffer(int size = PacketSIZE);
 		~StreamBuffer();
 		// _ref 증가
@@ -119,10 +119,10 @@ namespace MinLib
 	inline bool StreamBuffer::In(T buffer)
 	{
 		int size = sizeof(T);
-		if (_size < _rear + size)
+		if (size_ < rear_ + size)
 			throw;
-		memcpy_s(_buffer + _rear, size, &buffer, size);
-		_rear += size;
+		memcpy_s(buffer_ + rear_, size, &buffer, size);
+		rear_ += size;
 		//return size;
 
 		//if (_size < _rear + (int)sizeof(T))
@@ -136,10 +136,10 @@ namespace MinLib
 	inline void StreamBuffer::Out(T* buffer)
 	{
 		int size = sizeof(T);
-		if (_size < _front + size)
+		if (size_ < front_ + size)
 			throw;
-		memcpy_s(buffer, size, _buffer + _front, size);
-		_front += size;
+		memcpy_s(buffer, size, buffer_ + front_, size);
+		front_ += size;
 		//return size;
 		//*buffer = *(T*)(_buffer + _front);
 		//_front += sizeof(T);
@@ -148,100 +148,100 @@ namespace MinLib
 	template<>
 	inline bool StreamBuffer::In(char buffer)
 	{
-		if (_size < _rear + 1)
+		if (size_ < rear_ + 1)
 			return false;
-		*(char*)(_buffer + _rear) = buffer;
-		_rear += 1;
+		*(char*)(buffer_ + rear_) = buffer;
+		rear_ += 1;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(unsigned char buffer)
 	{
-		if (_size < _rear + 1)
+		if (size_ < rear_ + 1)
 			return false;
-		*(unsigned char*)(_buffer + _rear) = buffer;
-		_rear += 1;
+		*(unsigned char*)(buffer_ + rear_) = buffer;
+		rear_ += 1;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(short buffer)
 	{
-		if (_size < _rear + 2)
+		if (size_ < rear_ + 2)
 			return false;
-		*(short*)(_buffer + _rear) = buffer;
-		_rear += 2;
+		*(short*)(buffer_ + rear_) = buffer;
+		rear_ += 2;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(unsigned short buffer)
 	{
-		if (_size < _rear + 2)
+		if (size_ < rear_ + 2)
 			return false;
-		*(unsigned short*)(_buffer + _rear) = buffer;
-		_rear += 2;
+		*(unsigned short*)(buffer_ + rear_) = buffer;
+		rear_ += 2;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(int buffer)
 	{
-		if (_size < _rear + 4)
+		if (size_ < rear_ + 4)
 			return false;
-		*(int*)(_buffer + _rear) = buffer;
-		_rear += 4;
+		*(int*)(buffer_ + rear_) = buffer;
+		rear_ += 4;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(unsigned int buffer)
 	{
-		if (_size < _rear + 4)
+		if (size_ < rear_ + 4)
 			return false;
-		*(unsigned int*)(_buffer + _rear) = buffer;
-		_rear += 4;
+		*(unsigned int*)(buffer_ + rear_) = buffer;
+		rear_ += 4;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(long buffer)
 	{
-		if (_size < _rear + 4)
+		if (size_ < rear_ + 4)
 			return false;
-		*(long*)(_buffer + _rear) = buffer;
-		_rear += 4;
+		*(long*)(buffer_ + rear_) = buffer;
+		rear_ += 4;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(unsigned long buffer)
 	{
-		if (_size < _rear + 4)
+		if (size_ < rear_ + 4)
 			return false;
-		*(unsigned long*)(_buffer + _rear) = buffer;
-		_rear += 4;
+		*(unsigned long*)(buffer_ + rear_) = buffer;
+		rear_ += 4;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(long long buffer)
 	{
-		if (_size < _rear + 8)
+		if (size_ < rear_ + 8)
 			return false;
-		*(long long*)(_buffer + _rear) = buffer;
-		_rear += 8;
+		*(long long*)(buffer_ + rear_) = buffer;
+		rear_ += 8;
 		return true;
 	}
 
 	template<>
 	inline bool StreamBuffer::In(unsigned long long buffer)
 	{
-		if (_size < _rear + 8)
+		if (size_ < rear_ + 8)
 			return false;
-		*(unsigned long long*)(_buffer + _rear) = buffer;
-		_rear += 8;
+		*(unsigned long long*)(buffer_ + rear_) = buffer;
+		rear_ += 8;
 		return true;
 	}
 
@@ -316,71 +316,71 @@ namespace MinLib
 	template<>
 	inline void StreamBuffer::Out(char* buffer)
 	{
-		*buffer = *(char*)(_buffer + _front);
-		_front += 1;
+		*buffer = *(char*)(buffer_ + front_);
+		front_ += 1;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(unsigned char* buffer)
 	{
-		*buffer = *(unsigned char*)(_buffer + _front);
-		_front += 1;
+		*buffer = *(unsigned char*)(buffer_ + front_);
+		front_ += 1;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(short* buffer)
 	{
-		*buffer = *(short*)(_buffer + _front);
-		_front += 2;
+		*buffer = *(short*)(buffer_ + front_);
+		front_ += 2;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(unsigned short* buffer)
 	{
-		*buffer = *(unsigned short*)(_buffer + _front);
-		_front += 2;
+		*buffer = *(unsigned short*)(buffer_ + front_);
+		front_ += 2;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(int* buffer)
 	{
-		*buffer = *(int*)(_buffer + _front);
-		_front += 4;
+		*buffer = *(int*)(buffer_ + front_);
+		front_ += 4;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(unsigned int* buffer)
 	{
-		*buffer = *(unsigned int*)(_buffer + _front);
-		_front += 4;
+		*buffer = *(unsigned int*)(buffer_ + front_);
+		front_ += 4;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(long* buffer)
 	{
-		*buffer = *(long*)(_buffer + _front);
-		_front += 4;
+		*buffer = *(long*)(buffer_ + front_);
+		front_ += 4;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(unsigned long* buffer)
 	{
-		*buffer = *(unsigned long*)(_buffer + _front);
-		_front += 4;
+		*buffer = *(unsigned long*)(buffer_ + front_);
+		front_ += 4;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(long long* buffer)
 	{
-		*buffer = *(long long*)(_buffer + _front);
-		_front += 8;
+		*buffer = *(long long*)(buffer_ + front_);
+		front_ += 8;
 	}
 
 	template<>
 	inline void StreamBuffer::Out(unsigned long long* buffer)
 	{
-		*buffer = *(unsigned long long*)(_buffer + _front);
-		_front += 8;
+		*buffer = *(unsigned long long*)(buffer_ + front_);
+		front_ += 8;
 	}
 
 	/*----------------------------------------------------------*/
@@ -475,7 +475,7 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::AddRef()
 	{
-		InterlockedIncrement((LONG*)& _refCount);
+		InterlockedIncrement((LONG*)& refCount_);
 	}
 
 	/*----------------------------------------------------------*/
@@ -487,9 +487,9 @@ namespace MinLib
 	inline void StreamBuffer::MoveEndIndex(int size)
 	{
 		if (size == 0)
-			_rear = _size - 1;
+			rear_ = size_ - 1;
 		else
-			_rear = size;
+			rear_ = size;
 	}
 
 	/*----------------------------------------------------------*/
@@ -500,12 +500,12 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline char* StreamBuffer::GetBuffer()
 	{
-		return _buffer;
+		return buffer_;
 	}
 
 	inline char* StreamBuffer::GetWritePtr()
 	{
-		return _buffer + _rear;
+		return buffer_ + rear_;
 	}
 
 	/*----------------------------------------------------------*/
@@ -516,7 +516,7 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::GetSize()
 	{
-		return _size;
+		return size_;
 	}
 
 	/*----------------------------------------------------------*/
@@ -527,7 +527,7 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::GetUseSize()
 	{
-		return _rear - _front;
+		return rear_ - front_;
 	}
 
 	/*----------------------------------------------------------*/
@@ -538,8 +538,8 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::ReSize(int size)
 	{
-		delete[] _buffer;
-		_buffer = new char[size];
+		delete[] buffer_;
+		buffer_ = new char[size];
 	}
 
 	/*----------------------------------------------------------*/
@@ -550,9 +550,9 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::BlankHeader(int headerSize)
 	{
-		if (_size < headerSize)
+		if (size_ < headerSize)
 			throw;
-		_rear += headerSize;
+		rear_ += headerSize;
 	}
 
 	/*----------------------------------------------------------*/
@@ -563,12 +563,12 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::FillHeader(char* buffer, int size)
 	{
-		if (_size < size)
+		if (size_ < size)
 			throw;
-		if (_headerFillFlag)
+		if (headerFillFlag_)
 			return;
-		memcpy_s(_buffer, size, buffer, size);
-		_headerFillFlag = true;
+		memcpy_s(buffer_, size, buffer, size);
+		headerFillFlag_ = true;
 	}
 
 	/*----------------------------------------------------------*/
@@ -579,13 +579,13 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::Clear()
 	{
-		_front = 0;
-		_rear = 0;
+		front_ = 0;
+		rear_ = 0;
 		//InterlockedAdd((LONG *)&_refCount, 1 - _refCount);
-		_refCount = 1;
-		_headerEnterFlag = false;
-		_headerFillFlag = false;
-		_encodeFlag = false;
+		refCount_ = 1;
+		headerEnterFlag_ = false;
+		headerFillFlag_ = false;
+		encodeFlag_ = false;
 	}
 
 	inline void StreamBuffer::Encode(char* buffer, int size)
@@ -604,19 +604,19 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::In(char* buffer, int size)
 	{
-		if (_size < _rear + size)
+		if (size_ < rear_ + size)
 			throw;
-		memcpy_s(_buffer + _rear, size, buffer, size);
-		_rear += size;
+		memcpy_s(buffer_ + rear_, size, buffer, size);
+		rear_ += size;
 		return size;
 	}
 
 	inline int StreamBuffer::In(WCHAR* buffer, int size)
 	{
-		if (_size < _rear + (size * 2))
+		if (size_ < rear_ + (size * 2))
 			throw;
-		memcpy_s(_buffer + _rear, (__int64)size * 2, buffer, (__int64)size * 2);
-		_rear += size * 2;
+		memcpy_s(buffer_ + rear_, (__int64)size * 2, buffer, (__int64)size * 2);
+		rear_ += size * 2;
 		return size * 2;
 	}
 
@@ -628,19 +628,19 @@ namespace MinLib
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::Out(char* buffer, int size)
 	{
-		if (_size < _front + size)
+		if (size_ < front_ + size)
 			throw;
-		memcpy_s(buffer, size, _buffer + _front, size);
-		_front += size;
+		memcpy_s(buffer, size, buffer_ + front_, size);
+		front_ += size;
 		return size;
 	}
 
 	inline int StreamBuffer::Out(WCHAR* buffer, int size)
 	{
-		if (_size < _front + (size * 2))
+		if (size_ < front_ + (size * 2))
 			throw;
-		memcpy_s(buffer, (__int64)size * 2, _buffer + _front, (__int64)size * 2);
-		_front += size * 2;
+		memcpy_s(buffer, (__int64)size * 2, buffer_ + front_, (__int64)size * 2);
+		front_ += size * 2;
 		return size * 2;
 	}
 

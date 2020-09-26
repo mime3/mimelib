@@ -22,14 +22,14 @@ namespace MinLib
 			INT64			unique;
 		};
 
+		// 16바이트 정렬
 		alignas(16) volatile LF_Queue_UNIQUE head_;
 		alignas(16) volatile LF_Queue_UNIQUE tail_;
 		MemoryPool<LF_Queue_NODE> memoryPool_;
 		INT64 useSize_ = { 0 };
 
 	public:
-		// 생성자
-		LF_Queue()
+		LF_Queue()	// 생성자
 		{
 			// 더미 노드 생성
 			head_.node = memoryPool_.Alloc();
@@ -38,11 +38,7 @@ namespace MinLib
 			head_.unique = 0;
 			tail_.unique = 0;
 		}
-		// 소멸자
-		~LF_Queue()
-		{
-
-		}
+		~LF_Queue() = default;
 
 		void EnQueue(T data)
 		{

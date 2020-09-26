@@ -51,7 +51,7 @@ namespace MinLib
 		header->randXORKey = rand() % 256;
 		header->checkSum = GetCheckSum(packet->GetBuffer() + sizeof(PACKET_HEADER), header->len);
 
-		packet->_headerFillFlag = true;
+		packet->headerFillFlag_ = true;
 
 		Encode(packet);
 	}
@@ -130,7 +130,7 @@ namespace MinLib
 			return false;
 
 		packet->AddRef();
-		if (!packet->_headerFillFlag)
+		if (!packet->headerFillFlag_)
 			PutHeader(packet);
 		sendQueue_.EnQueue_UnSafe(packet);
 		return true;

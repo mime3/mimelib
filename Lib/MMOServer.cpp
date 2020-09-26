@@ -791,7 +791,7 @@ namespace MinLib
 		printf_s("    Total Session Count  = %d\n", _TotalSession);
 		printf_s("     Auth Session Count  = %d\n", _AuthSession);
 		printf_s(" Contents Session Count  = %d\n", _ContentsSession);
-		printf_s("     Packet Alloc Count  = %d\n", StreamBuffer::_allocCount);
+		printf_s("     Packet Alloc Count  = %d\n", StreamBuffer::allocCount_);
 		printf_s("\n");
 		printf_s("          Accept Count = %d\n", _acceptCount);
 		printf_s("      AcceptInfo Count = %I64d\n", _acceptQueue.GetUseCount());

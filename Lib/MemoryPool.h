@@ -34,34 +34,42 @@ namespace MinLib
 			char		endCode		= { 0x77 };
 		};
 
-		struct BYTE16TOP
+		// ABA 문제를 해결하기 위해 unique값을 포함한 16바이트 정렬 구조체
+		struct ALIGNAS16_BLOCK
 		{
-			BLOCK_NODE*		topNode;
-			INT64			unique;
+			BLOCK_NODE*	topNode = { nullptr };
+			INT64		unique	= { 0 };
 		};
 
-		alignas(16) BYTE16TOP topNodeBlock_;
-		BLOCK_NODE* nullNode_;
-		int		top_				= { 0 };
-		int		totalBlockCount_	= { 0 };
-		int		useBlockCount_		= { 0 };
-		bool	placementNewFlag_	= { false };
+		alignas(16) ALIGNAS16_BLOCK topNodeBlock_	= {};				// 16바이트 정렬된 Top Node
+		BLOCK_NODE* nullNode_						= { nullptr };		// Null Node
+		int		top_								= { 0 };			// Top Index
+		int		totalBlockCount_					= { 0 };			// 블럭 전체 수
+		int		useBlockCount_						= { 0 };			// 사용중인 블럭 수
+		bool	placementNewFlag_					= { false };		// placementNew 사용 여부
 	public:
+		// 생성자
 		MemoryPool(int blockNum = 0, bool placementNew = false);
+		// 소멸자
 		~MemoryPool();
 
+		// Data 할당
 		DATA* Alloc();
+		// Data 해제
 		bool Free(DATA* pData);
+		// Data 블럭 전체 수
 		int	GetTotalBlockCount();
+		// 사용중인 Data 블럭 수
 		int	GetUseBlockCount();
+		// Free 된 Data 블럭 정리
 		bool Clearance(int blockNum = 0);
 	};
-	//////////////////////////////////////////////////////////////////////////
-	// 생성자, 파괴자.
-	// Parameters:	(int) 초기 블럭 개수.
-	//				(bool) 생성자 호출 여부.
-	// Return:
-	//////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPool::MemoryPool (public)
+	// 설명 : 생성자
+	// 인자 : (int) 초기 블럭 개수, (bool) DATA생성자 호출 여부.
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline MemoryPool<DATA>::MemoryPool(int blockNum, bool placementNew)
 	{
@@ -110,10 +118,17 @@ namespace MinLib
 		//}
 		/*---------------*/
 	}
-	// 사용자가 반환하지 않는 블럭은 해제하지 않는다.
+
+	/*----------------------------------------------------------*/
+	// MemoryPool::~MemoryPool (public)
+	// 설명 : 파괴자
+	// 인자 : 
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline MemoryPool<DATA>::~MemoryPool()
 	{
+		// 사용자가 반환하지 않는 블럭은 해제하지 않는다.
 		BLOCK_NODE* tempNode;
 		while (1)
 		{
@@ -130,11 +145,12 @@ namespace MinLib
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// 블럭 하나를 할당받는다.
-	// Parameters: 없음.
-	// Return: (DATA *) 데이타 블럭 포인터.
-	//////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPool::Alloc (public)
+	// 설명 : DATA 블럭 하나를 할당받는다.
+	// 인자 : 
+	// 리턴 : (DATA *) 데이타 블럭 포인터
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline DATA* MemoryPool<DATA>::Alloc()
 	{
@@ -154,7 +170,7 @@ namespace MinLib
 		// topNode에서 데이터 포인터 반환
 		else
 		{
-			alignas(16) BYTE16TOP popNode;
+			alignas(16) ALIGNAS16_BLOCK popNode;
 			//alignas(16) BLOCK_NODE * popNode[2];
 			BLOCK_NODE* newTop;
 			do
@@ -174,11 +190,13 @@ namespace MinLib
 			return allocData;
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////
-	// 사용중이던 블럭을 해제한다.
-	// Parameters: (DATA *) 블럭 포인터.
-	// Return: (BOOL) TRUE, FALSE.
-	//////////////////////////////////////////////////////////////////////////
+
+	/*----------------------------------------------------------*/
+	// MemoryPool::Free (virtual) (private) (protected) (public)
+	// 설명 : 사용중이던 블럭을 해제한다
+	// 인자 : (DATA *) 블럭 포인터
+	// 리턴 : (bool) 해제 성공 여부
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline bool MemoryPool<DATA>::Free(DATA* data)
 	{
@@ -201,33 +219,36 @@ namespace MinLib
 		return true;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// 현재 확보 된 블럭 개수를 얻는다. (메모리풀 내부의 전체 개수)
-	// Parameters: 없음.
-	// Return: (int) 메모리 풀 내부 전체 개수
-	//////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPool::GetTotalBlockCount (public)
+	// 설명 : 현재 확보 된 블럭 개수를 얻는다. (메모리풀 내부의 전체 개수)
+	// 인자 : 
+	// 리턴 : (int) 메모리 풀 내부 전체 개수
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetTotalBlockCount()
 	{
 		return totalBlockCount_;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// 현재 사용중인 블럭 개수를 얻는다.
-	// Parameters: 없음.
-	// Return: (int) 사용중인 블럭 개수.
-	//////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPool::GetUseBlockCount (public)
+	// 설명 : 현재 사용중인 블럭 개수를 얻는다
+	// 인자 : 
+	// 리턴 : (int) 사용중인 블럭 개수
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetUseBlockCount()
 	{
 		return useBlockCount_;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// 미사용중인 블럭을 해제한다.
-	// Parameters: (int) 갯수, 0이면 현재의 절반.
-	// Return: (bool) 성공여부.
-	//////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPool::Clearance (public)
+	// 설명 : 미사용중인 블럭을 해제한다
+	// 인자 : (int) 갯수, 0이면 현재의 절반.
+	// 리턴 : (bool) 성공여부.
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline bool MemoryPool<DATA>::Clearance(int blockNum)
 	{
@@ -250,95 +271,136 @@ namespace MinLib
 		return true;
 	}
 
+	//////////////////////////////////////////////////////////////
+	// MemoryPoolTLS :
+	// 설명 : MemoryPool TLS 버전
+	//////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////////
-
-
-	//#define CHUNK_SIZE 200
-	constexpr int CHUNK_SIZE = 500;
-	constexpr LONG64 CHUNK_ENDCODE = 0x7777777777777777;
+	constexpr int CHUNK_SIZE = 500;							// Chunk 당 DATA 블럭 수
+	constexpr LONG64 CHUNK_ENDCODE = 0x7777777777777777;	// Chunk 검증용 EndCode
 
 	template <class DATA>
 	class MemoryPoolTLS
 	{
 	public:
 		class Chunk;
-		struct DATABLOCK
+		//////////////////////////////////////////////////
+		// DATA_BLOCK :
+		// 설명 : DATA를 포함하는 블럭
+		//////////////////////////////////////////////////
+		struct DATA_BLOCK
 		{
-			DATA data;
-			Chunk* chunk;
-			LONG64 endCode;
-			DATABLOCK();
+			DATA	data	= {};						// Data 영역
+			Chunk*	chunk	= { nullptr };				// 자신을 포함한 Chunk Pointer
+			LONG64	endCode	= { CHUNK_ENDCODE };		// 검증용 Chunk EndCode
 		};
 
+		//////////////////////////////////////////////////
+		// Chunk :
+		// 설명 : MemoryPoolTLS 에서 사용하는 DATA 덩어리
+		//////////////////////////////////////////////////
 		class Chunk
 		{
-			DATABLOCK _dataBlock[CHUNK_SIZE];
-			short _useSize;
-			short _freeSize;
-			MemoryPoolTLS* _TLSPointer;
-		public:
-			Chunk();
-			void Init();
-			DATA* Alloc();
-			bool Free(DATABLOCK* block);
-			bool Free(DATA* data);
-
 			friend class MemoryPool<Chunk>;
 			friend class MemoryPoolTLS<DATA>;
+
+		public:
+			// 생성자
+			Chunk();
+			// DATA 블록 할당
+			DATA* Alloc();
+			// DATA Free
+			bool Free(DATA_BLOCK* block);
+			// DATA Free
+			bool Free(DATA* data);
+
+		private:
+			DATA_BLOCK		dataBlock_[CHUNK_SIZE]		= {};			// DataBlock 영역
+			short			useSize_					= { 0 };		// 사용중인 개수 (Thread Safe해야함)
+			short			freeSize_					= { 0 };		// 미사용중인 개수 (Thread Safe해야함)
+			MemoryPoolTLS*	memoryPoolTLSPointer_		= { nullptr };	// MemoryPoolTLS Pointer
 		};
 
-
-	private:
-		DWORD	_tlsIndex;
-		bool	_placementNewFlag;
-		MemoryPool<Chunk> _memoryPool;
-
-	protected:
-		void NewChunk(Chunk** chunk);
+		friend class Chunk;
 
 	public:
-		INT _allocCount;
+		// 생성자
 		MemoryPoolTLS(bool placementNewFlag = false);
+		// 소멸자
 		~MemoryPoolTLS();
-		DATA* Alloc();
-		bool Free(DATA* block);
-		int GetUseBlockCount();
-		int GetTotalBlockCount();
 
-		friend class Chunk;
+		// Data 블럭 할당
+		DATA* Alloc();
+		// Data 블럭 해제
+		bool Free(DATA* block);
+		// 전체 Chunk 수
+		int GetTotalBlockCount();
+		// 사용중인 Chunk 수
+		int GetUseBlockCount();
+
+	protected:
+		// 새 Chunk 생성
+		void NewChunk(Chunk** chunk);
+
+	private:
+		INT					allocCount_				= { 0 };		// 할당 받은 수
+		DWORD				tlsIndex_				= { 0 };		// TLS Index
+		bool				placementNewFlag_		= { false };	// placementNew 사용 여부
+		MemoryPool<Chunk>	memoryPool_				= {};			// Chunk를 관리하는 MemoryPool
+
 	};
 
-	////////////////////////////////////////////////////////////////////
-
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS::NewChunk (protected)
+	// 설명 : 새로운 Chunk 생성, MemoryPool<Chunk>로부터 할당 받는다
+	// 인자 : (Chunk**) 할당받을 새 Chunk 포인터의 포인터
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline void MemoryPoolTLS<DATA>::NewChunk(Chunk** chunk)
 	{
-		Chunk* newChunk = _memoryPool.Alloc();
+		Chunk* newChunk = memoryPool_.Alloc();
 		newChunk->Init();
 		newChunk->_TLSPointer = this;
-		TlsSetValue(_tlsIndex, newChunk);
+		TlsSetValue(tlsIndex_, newChunk);
 		*chunk = newChunk;
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS::MemoryPoolTLS (public)
+	// 설명 : 생성자
+	// 인자 : (bool) placementNew 사용 여부
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::MemoryPoolTLS(bool placementNewFlag)
+		: placementNewFlag_(placementNewFlag)
 	{
-		_allocCount = 0;
-		_placementNewFlag = placementNewFlag;
-		_tlsIndex = TlsAlloc();
+		tlsIndex_ = TlsAlloc();
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS::~MemoryPoolTLS (public)
+	// 설명 : 소멸자
+	// 인자 : 
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::~MemoryPoolTLS()
 	{
-
+		// 자원 정리?
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS::Alloc (public)
+	// 설명 : Data 블럭 1개 할당, Chunk의 Alloc을 호출함
+	// 인자 : 
+	// 리턴 : Data 블럭 포인터
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline DATA* MemoryPoolTLS<DATA>::Alloc()
 	{
-		Chunk* chunk = (Chunk*)TlsGetValue(_tlsIndex);
+		Chunk* chunk = (Chunk*)TlsGetValue(tlsIndex_);
 		// 없으면 TLS 세팅
 		if (chunk == nullptr)
 			NewChunk(&chunk);
@@ -349,95 +411,122 @@ namespace MinLib
 
 		// 실제 메모리 Alloc
 		DATA* block = chunk->Alloc();
-		if (_placementNewFlag)
-		{
+		if (placementNewFlag_)
 			new (block) DATA;
-		}
 
 		// 마지막으로 썼으면 새 청크로 교체
 		if (chunk->_useSize == CHUNK_SIZE)
 			NewChunk(&chunk);
 
-		InterlockedIncrement((LONG*)& _allocCount);
+		InterlockedIncrement((LONG*)& allocCount_);
 
 		return block;
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS::Free (public)
+	// 설명 : Data 블럭을 Chunk에 반납, Chunk의 Free를 호출함
+	// 인자 : (Data*) Data 블럭 포인터
+	// 리턴 : 
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline bool MemoryPoolTLS<DATA>::Free(DATA* block)
 	{
-		MemoryPoolTLS<DATA>::DATABLOCK* chunkBlock = (MemoryPoolTLS<DATA>::DATABLOCK*)block;
+		MemoryPoolTLS<DATA>::DATA_BLOCK* chunkBlock = (MemoryPoolTLS<DATA>::DATA_BLOCK*)block;
 		if (chunkBlock->endCode != CHUNK_ENDCODE)
 			return false;
-		InterlockedDecrement((LONG*)& _allocCount);
+		InterlockedDecrement((LONG*)& allocCount_);
 		return chunkBlock->chunk->Free(chunkBlock);
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPool::GetUseBlockCount (public)
+	// 설명 : 사용중인 Chunk 수
+	// 인자 : 
+	// 리턴 : (int) Chunk 수
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline int MemoryPoolTLS<DATA>::GetUseBlockCount()
 	{
-		return _memoryPool.GetUseBlockCount();
+		return memoryPool_.GetUseBlockCount();
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPool::GetTotalBlockCount (public)
+	// 설명 : 전체 Chunk 수
+	// 인자 : 
+	// 리턴 : (int) Chunk 수
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline int MemoryPoolTLS<DATA>::GetTotalBlockCount()
 	{
-		return _memoryPool.GetTotalBlockCount();
+		return memoryPool_.GetTotalBlockCount();
 	}
 
-	//Chunk
-
+	//////////////////////////////////////////////////////////////
+	// Chunk
+	//////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS<DATA>::Chunk::Chunk (public)
+	// 설명 : Chunk 생성자
+	// 인자 : 
+	// 리턴 :
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::Chunk::Chunk()
 	{
-		Init();
-		for (auto& block : _dataBlock)
+		for (auto& block : dataBlock_)
 		{
 			block.chunk = this;
 		}
 	}
 
-	template<class DATA>
-	inline void MemoryPoolTLS<DATA>::Chunk::Init()
-	{
-		_useSize = 0;
-		_freeSize = 0;
-	}
-
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS<DATA>::Chunk::Alloc (public)
+	// 설명 : Data 블럭 1개 할당
+	// 인자 : 
+	// 리턴 : (DATA*) Data 블럭 포인터
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline DATA* MemoryPoolTLS<DATA>::Chunk::Alloc()
 	{
-		return &_dataBlock[_useSize++].data;
+		return &dataBlock_[useSize_++].data;
 	}
 
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS<DATA>::Chunk::Free (public)
+	// 설명 : Data블럭을 Free 함
+	// 인자 : 
+	// 리턴 : (bool) Free 성공 여부
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
-	inline bool MemoryPoolTLS<DATA>::Chunk::Free(DATABLOCK* block)
+	inline bool MemoryPoolTLS<DATA>::Chunk::Free(DATA_BLOCK* block)
 	{
 		// end코드를 체크한 블럭임
-		int freeSize = InterlockedIncrement16(&_freeSize);
-		if (_TLSPointer->_placementNewFlag)
+		int freeSize = InterlockedIncrement16(&freeSize_);
+		if (TLSPointer_->_placementNewFlag)
 		{
 			block->data.~DATA();
 		}
 		if (freeSize == CHUNK_SIZE)
-			_TLSPointer->_memoryPool.Free(this);
+			TLSPointer_->_memoryPool.Free(this);
 		return true;
 	}
 
-	// 실제로 사용하지는 않음
+	/*----------------------------------------------------------*/
+	// MemoryPoolTLS<DATA>::Chunk::Free (public)
+	// 설명 : Data블럭을 Free 함, 현재 사용하지는 않음
+	// 인자 : (DATA* data) Data 블럭 포인터
+	// 리턴 : (bool) Free 성공 여부
+	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline bool MemoryPoolTLS<DATA>::Chunk::Free(DATA* data)
 	{
-		DATABLOCK* block = (DATABLOCK*)data;
+		DATA_BLOCK* block = (DATA_BLOCK*)data;
 		if (block->endCode != CHUNK_ENDCODE)
 			return false;
 		return Free(block);
 	}
 
-	template <class DATA>
-	inline MemoryPoolTLS<DATA>::DATABLOCK::DATABLOCK()
-	{
-		endCode = CHUNK_ENDCODE;
-	}
 }
 #endif // !__MINLIB_MEMORY_POOL__

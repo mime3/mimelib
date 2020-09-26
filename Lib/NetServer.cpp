@@ -449,9 +449,9 @@ namespace MinLib
 					{
 						packet->AddRef();
 						//if (!packet->_headerFillFlag)
-						if (_InterlockedCompareExchange8((char*)&packet->_headerEnterFlag, true, false) == false)
+						if (_InterlockedCompareExchange8((char*)&packet->headerEnterFlag_, true, false) == false)
 							PutHeader(packet);
-						while (!packet->_encodeFlag)
+						while (!packet->encodeFlag_)
 							Sleep(0);
 #ifdef BOOST
 						session->sendQueue.push(packet);
@@ -491,7 +491,7 @@ namespace MinLib
 					{
 						session->disConnectFlag = true;
 						packet->AddRef();
-						if (!packet->_headerFillFlag)
+						if (!packet->headerFillFlag_)
 							PutHeader(packet);
 #ifdef BOOST
 						session->sendQueue.push(packet);
@@ -657,7 +657,7 @@ namespace MinLib
 
 		packet->FillHeader((char*)&header, sizeof(header));
 		Encode(packet);
-		packet->_encodeFlag = true;
+		packet->encodeFlag_ = true;
 	}
 
 	BYTE NetServer::GetCheckSum(char* buffer, int size)

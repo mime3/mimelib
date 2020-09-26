@@ -389,7 +389,7 @@ namespace MinLib
 					if (session->socket != INVALID_SOCKET)
 					{
 						packet->AddRef();
-						if (!packet->_headerFillFlag)
+						if (!packet->headerFillFlag_)
 							PutHeader(packet);
 #ifdef BOOST
 						session->sendQueue.push(packet);
