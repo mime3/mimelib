@@ -63,7 +63,7 @@ namespace MinLib
 		_bufferPointer = new char[size];
 	}
 	/*----------------------------------------------------------*/
-	// StreamQueue::Method (virtual) (private) (protected) (public)
+	// StreamQueue::GetBufferSize (public)
 	// 설명 : 버퍼의 전체 크기 얻기
 	// 인자 : 
 	// 리턴 : (int) 바이트 수
@@ -73,7 +73,7 @@ namespace MinLib
 		return _availableSize;
 	}
 	/*----------------------------------------------------------*/
-	// StreamQueue::GetUseSize (virtual) (private) (protected) (public)
+	// StreamQueue::GetUseSize (public)
 	// 설명 : 현재 사용중인 바이트 수 얻기.
 	// 인자 : 
 	// 리턴 : (int) 바이트 수
@@ -114,7 +114,7 @@ namespace MinLib
 		//return _availableSize - _useSize;
 	}
 	/*----------------------------------------------------------*/
-	// StreamQueue::GetNotBrokenGetSize (virtual) (private) (protected) (public)
+	// StreamQueue::GetNotBrokenGetSize (public)
 	// 설명 : 버퍼 포인터로 외부에서 한방에 읽고, 쓸 수 있는 길이.
 	// 인자 : 
 	// 리턴 : (int) 바이트 수

@@ -15,11 +15,12 @@ namespace MinLib
 		delete[] _bufferPointer;
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	// 초기세팅
-	// Parameters: (int)버퍼 크기
-	// Return: 
-	/////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// StreamQueue::Initial (protected)
+	// 설명 : 초기화
+	// 인자 : (int) 버퍼 바이트 크기
+	// 리턴 : 
+	/*----------------*////////////////////////*----------------*/
 	void StreamQueue::Initial(int iBufferSize)
 	{
 		_bufferPointer = new char[iBufferSize];
@@ -30,11 +31,12 @@ namespace MinLib
 		_availableSize = _size - 1;
 		_useSize = 0;
 	}
-	/////////////////////////////////////////////////////////////////////////
-	// WritePos 에 데이타 넣음.
-	// Parameters: (char *)데이타 포인터. (int)크기.
-	// Return: (int)넣은 크기.
-	/////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// StreamQueue::Enqueue (public)
+	// 설명 : WritePos 에 데이터 Enqueue
+	// 인자 : (char *) 데이터 포인터, (int) 크기
+	// 리턴 : (int) Enqueue 된 크기.
+	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Enqueue(char* chpData, int iSize)
 	{
 		int freeSize = GetFreeSize();
@@ -65,11 +67,12 @@ namespace MinLib
 		//_useSize += iSize;
 		return iSize;
 	}
-	/////////////////////////////////////////////////////////////////////////
-	// ReadPos 에서 데이타 가져옴. ReadPos 이동.
-	// Parameters: (char *)데이타 포인터. (int)크기.
-	// Return: (int)가져온 크기.
-	/////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// StreamQueue::Dequeue (public)
+	// 설명 : ReadPos 에서 데이터 가져옴. ReadPos 이동
+	// 인자 : (char *) 데이터 포인터, (int)크기
+	// 리턴 : (int) Dequeue 된 크기.
+	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Dequeue(char* chpDest, int iSize)
 	{
 		int useSize = GetUseSize();
@@ -98,11 +101,12 @@ namespace MinLib
 		//_useSize -= iSize;
 		return iSize;
 	}
-	/////////////////////////////////////////////////////////////////////////
-	// ReadPos 에서 데이타 읽어옴. ReadPos 고정.
-	// Parameters: (char *)데이타 포인터. (int)크기.
-	// Return: (int)가져온 크기.
-	/////////////////////////////////////////////////////////////////////////
+	/*----------------------------------------------------------*/
+	// StreamQueue::Peek (public)
+	// 설명 : ReadPos 에서 데이타 읽어옴. ReadPos 고정
+	// 인자 : (char *) 데이터 포인터, (int) 크기
+	// 리턴 : (int) 가져온 크기
+	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Peek(char* chpDest, int iSize, int jumpSize)
 	{
 		int useSize = GetUseSize();
