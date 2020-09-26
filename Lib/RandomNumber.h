@@ -37,10 +37,10 @@ namespace MinLib
 		Random();
 		~Random();
 
-		void ReInit();
+		void ReInitialize();
 		void AddItem(int ratio, const WCHAR* name);
 		void Shaffle();
-		bool GetNum(int* outNumber, WCHAR** name);
+		bool GetNumber(int* outNumber, WCHAR** name);
 	};
 }
 #endif // !__MINLIB_RANDOM_NUMBER__

@@ -5,11 +5,23 @@
 #include "StreamQueue.h"
 namespace MinLib
 {
+	/*----------------------------------------------------------*/
+	// StreamQueue::StreamQueue (public)
+	// 설명 : 생성자
+	// 인자 : (int) 버퍼 바이트 크기
+	// 리턴 : 
+	/*----------------*////////////////////////*----------------*/
 	StreamQueue::StreamQueue(int iBufferSize)
 	{
 		Initial(iBufferSize);
 	}
 
+	/*----------------------------------------------------------*/
+	// StreamQueue::~StreamQueue (public)
+	// 설명 : 소멸자
+	// 인자 :
+	// 리턴 : 
+	/*----------------*////////////////////////*----------------*/
 	StreamQueue::~StreamQueue()
 	{
 		delete[] _bufferPointer;

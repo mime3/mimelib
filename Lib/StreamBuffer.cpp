@@ -34,7 +34,7 @@ namespace MinLib
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Alloc (public)
 	// 설명 : 직렬화 버퍼를 메모리 풀에서 할당
-	// 인자 : (int) size <미사용>
+	// 인자 : (int) header 영역 size 
 	// 리턴 : (StreamBuffer *) 직렬화 버퍼 포인터
 	/*----------------*////////////////////////*----------------*/
 	StreamBuffer* StreamBuffer::Alloc(int headerSize)
