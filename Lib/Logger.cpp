@@ -1,18 +1,30 @@
 //#include "pch.h"
 #include "Logger.h"
+
+#include <time.h>
+#include <direct.h>
+#include <strsafe.h>
+#include <locale.h>
+#include <process.h>
+
 namespace MinLib
 {
 	Logger::Logger()
 	{
-		_logLevel = LOG_LEVEL::LOG_LEVEL_DEBUG;
-		_fileSaveFlag = false;
-		_logCount = 0;
-		setlocale(LC_ALL, "korean");
+		initialize();
 	}
 
-	void Logger::Log(const WCHAR* filename, LOG_LEVEL logLevel, const WCHAR* fmt, ...)
+	Logger::~Logger()
 	{
-		if (_logLevel <= logLevel)
+		CloseHandle(messageQueueEvent_);
+		isFinalize_ = true;
+		WaitForSingleObject(logThread_, INFINITE);
+		CloseHandle(logThread_);
+	}
+
+	void Logger::Log(const WCHAR* filename, LogLevel logLevel, const WCHAR* fmt, ...)
+	{
+		if (logLevel_ <= logLevel)
 		{
 			va_list args;
 			va_start(args, fmt);
@@ -31,12 +43,12 @@ namespace MinLib
 		//wstring logMessage = L"["; 
 		//logMessage += filename;
 		//logMessage += L"] "; 
-		wstring logMessage;
+		std::wstring logMessage;
 
 		CLOCK.GetTimeString(&logMessage);
 
 		WCHAR countstring[64];
-		int lockcount = InterlockedIncrement(&_logCount);
+		int lockcount = InterlockedIncrement(&logCount_);
 		_itow_s(lockcount, countstring, 10);
 		logMessage += L"[";
 		logMessage += countstring;
@@ -47,25 +59,30 @@ namespace MinLib
 
 		//wprintf_s(logMessage.c_str());
 
-		if (_fileSaveFlag)
+		if (fileSaveFlag_)
 		{
+			LogMessage* newLog = messagePool_.Alloc();
+			newLog->messageString = logMessage;
+			messageQueue_.EnQueue(newLog);
+			return;
+
 			FILE* file;
-			wstring fileFullPath;
-			fileFullPath += _logDir;
+			std::wstring fileFullPath;
+			fileFullPath += logDir_;
 			fileFullPath += L"/";
 			fileFullPath += filename;
 			fileFullPath += L".txt";
 			while (_wfopen_s(&file, fileFullPath.data(), L"at+, ccs = UNICODE") != 0)
 			{
+				YieldProcessor();
 				Sleep(0);
 			}
 			fwprintf_s(file, L"%ws", logMessage.c_str());
 			fclose(file);
-
 		}
 	}
 
-	void Logger::LogHex(const WCHAR* filename, LOG_LEVEL logLevel, const CHAR* loghex, int hexSize)
+	void Logger::LogHex(const WCHAR* filename, LogLevel logLevel, const CHAR* loghex, int hexSize)
 	{
 		wstring logStr;
 		for (int i = 0; i < hexSize; ++i)
@@ -75,14 +92,14 @@ namespace MinLib
 			logStr += ByteHex;
 		}
 
-		wstring logMessage = L"[";
+		std::wstring logMessage = L"[";
 		logMessage += filename;
 		logMessage += L"] ";
 
 		CLOCK.GetTimeString(&logMessage);
 
 		WCHAR countstring[64];
-		int lockcount = InterlockedIncrement(&_logCount);
+		int lockcount = InterlockedIncrement(&logCount_);
 		_itow_s(lockcount, countstring, 10);
 		logMessage += L"[";
 		logMessage += countstring;
@@ -93,11 +110,16 @@ namespace MinLib
 
 		//wprintf_s(logMessage.c_str());
 
-		if (_fileSaveFlag)
+		if (fileSaveFlag_)
 		{
+			LogMessage* newLog = messagePool_.Alloc();
+			newLog->messageString = logMessage;
+			messageQueue_.EnQueue(newLog);
+			return;
+
 			FILE* file;
-			wstring fileFullPath;
-			fileFullPath += _logDir;
+			std::wstring fileFullPath;
+			fileFullPath += logDir_;
 			fileFullPath += L"/";
 			fileFullPath += filename;
 			fileFullPath += L".txt";
@@ -110,21 +132,64 @@ namespace MinLib
 		}
 	}
 
-	void Logger::SetLogLevel(LOG_LEVEL level)
+	void Logger::SetLogLevel(LogLevel level)
 	{
-		_logLevel = level;
+		logLevel_ = level;
 	}
 
-	void Logger::SetLogDir(wstring* logdir)
+	void Logger::SetLogDir(std::wstring* logdir)
 	{
 		_wmkdir(logdir->c_str());
-		_logDir = logdir->c_str();
-		_fileSaveFlag = true;
+		logDir_ = logdir->c_str();
+		fileSaveFlag_ = true;
 	}
 
 	void Logger::OnOff(bool onoff)
 	{
-		_fileSaveFlag = onoff;
+		fileSaveFlag_ = onoff;
 	}
-	Logger* Logger::_instance = nullptr;
+
+	bool Logger::isFinalize()
+	{
+		return isFinalize_;
+	}
+
+	void Logger::initialize()
+	{
+		setlocale(LC_ALL, "korean");
+
+		messageQueueEvent_ = CreateEvent(NULL, FALSE, FALSE, NULL);
+		logThread_ = (HANDLE)_beginthreadex(NULL, NULL, logThreadMain, this, NULL, NULL);
+	}
+
+	unsigned int Logger::logThreadMain(LPVOID logger)
+	{
+		Logger* this_ = (Logger*)logger;
+		std::wstring logString;
+		while (true)
+		{
+			if (this_->isFinalize())
+				break;
+
+			WaitForSingleObject(this_->messageQueueEvent_, 10 * 1000);
+
+			FILE* file = nullptr;
+			std::wstring fileFullPath;
+			fileFullPath += this_->logDir_;
+			fileFullPath += L"/Log.txt";
+			if (_wfopen_s(&file, fileFullPath.data(), L"at+, ccs = UNICODE") == 0)
+				continue;
+
+			LogMessage* logMessage = nullptr;
+			while (this_->messageQueue_.DeQueue(&logMessage))
+			{
+				logString += logMessage->messageString;
+			}
+
+			fwprintf_s(file, L"%ws", logString.c_str());
+			fclose(file);
+			logString.clear();
+		}
+		return 0;
+	}
 }

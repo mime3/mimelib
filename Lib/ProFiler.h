@@ -1,6 +1,8 @@
 #ifndef __MINLIB_SIGLETON_PROFILE__
 #define __MINLIB_SIGLETON_PROFILE__
 #pragma once
+#include "SingleTon.h"
+
 #include <Windows.h>
 #include <stdio.h>
 #include <time.h>
@@ -9,32 +11,18 @@
 namespace MinLib
 {
 #ifdef PROFILE
-#define BEGIN(name)		MinLib::ProFiler::getInstance().BeginProFile(#name)
-#define END(name)		MinLib::ProFiler::getInstance().EndProFile(#name)
-#define PRINTPROFILE()	MinLib::ProFiler::getInstance().FilePrint()
+#define AUTOPROFILE(name)	MinLib::AutoProFile(name)
+#define BEGIN(name)			MinLib::ProFiler::getInstance().BeginProFile(name)
+#define END(name)			MinLib::ProFiler::getInstance().EndProFile(name)
+#define PRINTPROFILE()		MinLib::ProFiler::getInstance().FilePrint()
 #endif // PROFILE
 #ifndef PROFILE
+#define	AUTOPROFILE(name)
 #define BEGIN(name)  
 #define END(name)  	
 #define PRINTPROFILE()	
 #endif // !PROFILE
 
-	template <class T>
-	class SingleTon
-	{
-	protected:
-		SingleTon() {}
-		~SingleTon() {}
-	public:
-		SingleTon(const SingleTon&);
-
-		SingleTon& operator = (const SingleTon&);
-		static T& getInstance()
-		{
-			static T instance;
-			return instance;
-		}
-	};
 #define NONCOUNTSIZE 10
 #define BLOCKCOUNT 10
 #define MAXTHREAD 10
@@ -82,6 +70,16 @@ namespace MinLib
 		void EndProFile(const char* name);
 		void FilePrint();
 		void Reset();
+	};
+
+	class AutoProFile
+	{
+	public:
+		AutoProFile(const char* name);
+		~AutoProFile();
+
+	private:
+		char name_[64];
 	};
 }
 #endif // !__MINLIB_SIGLETON_PROFILE__

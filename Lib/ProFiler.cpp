@@ -236,4 +236,15 @@ namespace MinLib
 		}
 	}
 
+	AutoProFile::AutoProFile(const char * name)
+	{
+		BEGIN(name);
+		strcpy_s(name_, name);
+	}
+
+	AutoProFile::~AutoProFile()
+	{
+		END(name_);
+	}
+
 }
