@@ -30,16 +30,16 @@
     <ClInclude Include="JPS.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\0212\GUIMonitorVer2\DoubleBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\0212\GUIMonitorVer2\GDIColor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="MapFunction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="BresenhamLine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GDIColor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,16 +53,16 @@
     <ClCompile Include="JPS.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\0212\GUIMonitorVer2\DoubleBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\0212\GUIMonitorVer2\GDIColor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="MapFunction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="BresenhamLine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DoubleBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIColor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

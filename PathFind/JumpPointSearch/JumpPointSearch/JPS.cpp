@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "JPS.h"
 
+using namespace MinLib;
+
 void JPS::DrawLine()
 {
 	SelectObject(_doubleBuffer->GetMemDC(), PEN(2));

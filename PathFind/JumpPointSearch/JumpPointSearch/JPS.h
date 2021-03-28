@@ -2,10 +2,12 @@
 #define BLOCKSIZE 20
 #define MAP_X_SIZE 60
 #define MAP_Y_SIZE 30
-#define JUMP_MAX 10
+#define JUMP_MAX 20
 #define POINT_MAX 100
 // 과정표시용
 #define JPS_DISPLAY
+
+using namespace MinLib;
 
 class JPS
 {
