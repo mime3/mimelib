@@ -24,7 +24,9 @@ namespace MinLib
 		bool	headerFillFlag_;		// 헤더 채움 플래그
 		bool	headerEnterFlag_;		// 헤더 Fill 시작 플래그
 		bool	encodeFlag_;			// 인코딩 플래그
-		static MemoryPoolTLS<StreamBuffer> memoryPool_;
+
+		static MemoryPoolTLS<StreamBuffer> memoryPool_ ; // 메모리 관리 Pool
+
 	public:
 		static int allocCount_;
 		StreamBuffer(int size = PacketSIZE);
