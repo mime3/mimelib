@@ -1,4 +1,4 @@
-#ifndef __MINLIB_PARSER__
+ï»¿#ifndef __MINLIB_PARSER__
 #define __MINLIB_PARSER__
 #pragma once
 #include <Windows.h>
@@ -13,7 +13,7 @@ namespace MinLib
 	struct Block
 	{
 		char _name[64];
-		char* _startPoint, * _endPoint; //°¢°¢ {,}À§Ä¡
+		char* _startPoint, * _endPoint; //ê°ê° {,}ìœ„ì¹˜
 		Block()
 		{
 			ZeroMemory(this, sizeof(Block));
@@ -24,19 +24,19 @@ namespace MinLib
 	{
 		enum Flag : unsigned char
 		{
-			LINECOMMENT = 0x01, // ÁÙ ÁÖ¼®
-			BLOCKCOMMENT = 0x02, // ºí·ÏÁÖ¼®
-			STRINGMODE = 0x04,	// ¹®ÀÚ¿­¸ğµå
-			SPECIALMODE = 0x08	// Æ¯º°Ã³¸®¸ğµå
+			LINECOMMENT = 0x01, // ì¤„ ì£¼ì„
+			BLOCKCOMMENT = 0x02, // ë¸”ë¡ì£¼ì„
+			STRINGMODE = 0x04,	// ë¬¸ìì—´ëª¨ë“œ
+			SPECIALMODE = 0x08	// íŠ¹ë³„ì²˜ë¦¬ëª¨ë“œ
 		};
 
 		enum BLANKASKII : CHAR
 		{
-			SPACE = 0x20,  // ½ºÆäÀÌ½º
-			BACK_SPACE = 0x08,  // ¹é½ºÆäÀÌ½º
-			TAB = 0x09,  // ÅÇ
-			LINE_FEED = 0x0a,  // ¶óÀÎÇÇµå LF
-			CARRIAGE_RETURN = 0x0d   // Ä³¸®Áö¸®ÅÏ CR ,°ø¹éÀº (CR LF)
+			SPACE = 0x20,  // ìŠ¤í˜ì´ìŠ¤
+			BACK_SPACE = 0x08,  // ë°±ìŠ¤í˜ì´ìŠ¤
+			TAB = 0x09,  // íƒ­
+			LINE_FEED = 0x0a,  // ë¼ì¸í”¼ë“œ LF
+			CARRIAGE_RETURN = 0x0d   // ìºë¦¬ì§€ë¦¬í„´ CR ,ê³µë°±ì€ (CR LF)
 		};
 
 		FILE* _file;
@@ -46,8 +46,8 @@ namespace MinLib
 		unsigned char _flag;
 		char* _checkChar[2];
 		char _box[2];
-		char* _curPointer;  // ¾ÆÁ÷ ÀĞÁö ¾ÊÀººÎºĞÀÇ Ã¹ ºÎºĞ
-		char* _filePointer; // Èü¿¡ ÇÒ´çµÈ ¸Ş¸ğ¸®Æ÷ÀÎÅÍ
+		char* _curPointer;  // ì•„ì§ ì½ì§€ ì•Šì€ë¶€ë¶„ì˜ ì²« ë¶€ë¶„
+		char* _filePointer; // í™ì— í• ë‹¹ëœ ë©”ëª¨ë¦¬í¬ì¸í„°
 		char* _fileEndPointer;
 
 		void Read();
@@ -79,7 +79,7 @@ namespace MinLib
 	struct BlockUNI
 	{
 		WCHAR	_name[64];
-		WCHAR* _startPoint, * _endPoint; //°¢°¢ {,}À§Ä¡
+		WCHAR* _startPoint, * _endPoint; //ê°ê° {,}ìœ„ì¹˜
 	};
 
 
@@ -87,19 +87,19 @@ namespace MinLib
 	{
 		enum Flag : unsigned char
 		{
-			LINECOMMENT = 0x01, // ÁÙ ÁÖ¼®
-			BLOCKCOMMENT = 0x02, // ºí·ÏÁÖ¼®
-			STRINGMODE = 0x04,	// ¹®ÀÚ¿­¸ğµå
-			SPECIALMODE = 0x08	// Æ¯º°Ã³¸®¸ğµå
+			LINECOMMENT = 0x01, // ì¤„ ì£¼ì„
+			BLOCKCOMMENT = 0x02, // ë¸”ë¡ì£¼ì„
+			STRINGMODE = 0x04,	// ë¬¸ìì—´ëª¨ë“œ
+			SPECIALMODE = 0x08	// íŠ¹ë³„ì²˜ë¦¬ëª¨ë“œ
 		};
 
 		enum BLANKUNI : WORD
 		{
-			//SPACE = 0x20,  // ½ºÆäÀÌ½º
-			//BACK_SPACE = 0x08,  // ¹é½ºÆäÀÌ½º
-			//TAB = 0x09,  // ÅÇ
-			//LINE_FEED = 0x0a,  // ¶óÀÎÇÇµå LF
-			//CARRIAGE_RETURN = 0x0d   // Ä³¸®Áö¸®ÅÏ CR ,°ø¹éÀº (CR LF)
+			//SPACE = 0x20,  // ìŠ¤í˜ì´ìŠ¤
+			//BACK_SPACE = 0x08,  // ë°±ìŠ¤í˜ì´ìŠ¤
+			//TAB = 0x09,  // íƒ­
+			//LINE_FEED = 0x0a,  // ë¼ì¸í”¼ë“œ LF
+			//CARRIAGE_RETURN = 0x0d   // ìºë¦¬ì§€ë¦¬í„´ CR ,ê³µë°±ì€ (CR LF)
 			SPACE = 0x0020,
 			BACK_SPACE = 0x0008,
 			TAB = 0x0009,
@@ -114,8 +114,8 @@ namespace MinLib
 		unsigned char _flag;
 		WCHAR* _checkChar[2];
 		WCHAR _box[2];
-		WCHAR* _curPointer;  // ¾ÆÁ÷ ÀĞÁö ¾ÊÀººÎºĞÀÇ Ã¹ ºÎºĞ
-		WCHAR* _filePointer; // Èü¿¡ ÇÒ´çµÈ ¸Ş¸ğ¸®Æ÷ÀÎÅÍ
+		WCHAR* _curPointer;  // ì•„ì§ ì½ì§€ ì•Šì€ë¶€ë¶„ì˜ ì²« ë¶€ë¶„
+		WCHAR* _filePointer; // í™ì— í• ë‹¹ëœ ë©”ëª¨ë¦¬í¬ì¸í„°
 		WCHAR* _fileEndPointer;
 
 		void Read();

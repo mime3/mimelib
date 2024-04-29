@@ -1,4 +1,4 @@
-#ifndef __MINLIB_DOUBLE_BUFFER__
+﻿#ifndef __MINLIB_DOUBLE_BUFFER__
 #define __MINLIB_DOUBLE_BUFFER__
 #pragma once
 #include <Windows.h>

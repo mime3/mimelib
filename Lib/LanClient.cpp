@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "LanClient.h"
 #include "CrashDump.h"
 namespace MinLib
@@ -7,9 +7,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::LanClient (public)
-	// ¼³¸í : »ı¼ºÀÚ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ìƒì„±ì
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	LanClient::LanClient()
 	{
@@ -35,9 +35,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::~LanClient (public)
-	// ¼³¸í : ¼Ò¸êÀÚ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ì†Œë©¸ì
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	LanClient::~LanClient()
 	{
@@ -45,9 +45,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::WorkerThreadMain (protected)
-	// ¼³¸í : Worker½º·¹µå ¸ŞÀÎÇÔ¼ö
-	// ÀÎÀÚ : (LPVOID) Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (unsigned int) Á¤»óÁ¾·á½Ã 0
+	// ì„¤ëª… : WorkerìŠ¤ë ˆë“œ ë©”ì¸í•¨ìˆ˜
+	// ì¸ì : (LPVOID) í¬ì¸í„°
+	// ë¦¬í„´ : (unsigned int) ì •ìƒì¢…ë£Œì‹œ 0
 	/*----------------*////////////////////////*----------------*/
 	unsigned int WINAPI LanClient::WorkerThreadMain(LPVOID lpParam)
 	{
@@ -61,55 +61,55 @@ namespace MinLib
 			BOOL ret = GetQueuedCompletionStatus(_this->_iocp, &transBtyes, (PULONG_PTR)&session, &overlapped, INFINITE);
 			if (ret && session == NULL)
 			{
-				//¾²·¹µå Á¾·á
+				//ì“°ë ˆë“œ ì¢…ë£Œ
 				break;
 			}
 			if (overlapped == nullptr)
 			{
-				// ºñÁ¤»ó ¿¬°áÁ¾·á½ÃÀÛ
+				// ë¹„ì •ìƒ ì—°ê²°ì¢…ë£Œì‹œì‘
 				int errorCode = GetLastError();
-				shutdown(session->socket, SD_SEND);
+				shutdown(session->socket_, SD_SEND);
 				_this->TryDisConnect(session);
 			}
 			else
 			{
-				// ¼ö½Å¿Ï·á
-				if (&session->recvOverLapped == overlapped)
+				// ìˆ˜ì‹ ì™„ë£Œ
+				if (&session->recvOverLapped_ == overlapped)
 				{
-					// Á¤»óÀû Á¾·á »óÈ²
+					// ì •ìƒì  ì¢…ë£Œ ìƒí™©
 					if (transBtyes == 0)
 					{
-						//printf("Á¤»óÁ¾·á ¸Ş½ÃÁö ¼ö½Å\n");
-						shutdown(session->socket, SD_SEND);
+						//printf("ì •ìƒì¢…ë£Œ ë©”ì‹œì§€ ìˆ˜ì‹ \n");
+						shutdown(session->socket_, SD_SEND);
 					}
-					// Á¤»ó ¼ö½Å¿Ï·á
+					// ì •ìƒ ìˆ˜ì‹ ì™„ë£Œ
 					else
 					{
-						session->recvQueue.MoveWritePos(transBtyes);
+						session->recvQueue_.MoveWritePos(transBtyes);
 						_this->RecvProc(session);
 						_this->RecvPost(session);
 					}
 				}
-				// ¼Û½Å¿Ï·á
-				else if (&session->sendOverLapped == overlapped)
+				// ì†¡ì‹ ì™„ë£Œ
+				else if (&session->sendOverLapped_ == overlapped)
 				{
-					int size = session->sendCount;
+					int size = session->sendCount_;
 					for (int i = 0; i < size; i++)
 					{
-						PacketFree(session->sendArray[i]);
+						PacketFree(session->sendArray_[i]);
 					}
-					session->sendCount = 0;
-					session->sendFlag = FALSE;
-					_this->OnSend(session->clientID, transBtyes);
+					session->sendCount_ = 0;
+					session->sendFlag_ = FALSE;
+					_this->OnSend(session->clientID_, transBtyes);
 					//SendProc(session);
 					_this->SendPost(session);
 				}
-				// ¾Ë¼ö¾ø´Â »óÈ²
+				// ì•Œìˆ˜ì—†ëŠ” ìƒí™©
 				else
 					;
-				// ¿©±â¼­ io Ä«¿îÆ® °¨¼Ò
-				int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag.ioCount);
-				// ¿¬°áÁ¾·á Ã¼Å© ±¸°£
+				// ì—¬ê¸°ì„œ io ì¹´ìš´íŠ¸ ê°ì†Œ
+				int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag_.ioCount);
+				// ì—°ê²°ì¢…ë£Œ ì²´í¬ êµ¬ê°„
 				if (ioCount == 0)
 					_this->TryDisConnect(session);
 			}
@@ -119,9 +119,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::ConnectThreadMain (protected)
-	// ¼³¸í : Connect½º·¹µå ¸ŞÀÎÇÔ¼ö
-	// ÀÎÀÚ : (LPVOID) Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (unsigned int) Á¤»óÁ¾·á½Ã 0
+	// ì„¤ëª… : ConnectìŠ¤ë ˆë“œ ë©”ì¸í•¨ìˆ˜
+	// ì¸ì : (LPVOID) í¬ì¸í„°
+	// ë¦¬í„´ : (unsigned int) ì •ìƒì¢…ë£Œì‹œ 0
 	/*----------------*////////////////////////*----------------*/
 	unsigned int WINAPI LanClient::ConnectThreadMain(LPVOID lpParam)
 	{
@@ -156,7 +156,7 @@ namespace MinLib
 				DWORD error = GetLastError();
 				if (error == 10038)
 					return 0;
-				//printf("¿¬°á ½ÇÆĞ, 5ÃÊµÚ Àç½Ãµµ\n");
+				//printf("ì—°ê²° ì‹¤íŒ¨, 5ì´ˆë’¤ ì¬ì‹œë„\n");
 				Sleep(5000);
 			}
 			else
@@ -166,7 +166,7 @@ namespace MinLib
 		CreateIoCompletionPort((HANDLE)_this->_listenSocket, _this->_iocp, (ULONG_PTR)(&_this->_sessionArray[0]), 0);
 		_this->OnConnect(_this->_clientSeed++);
 		_this->RecvPost(_this->_sessionArray);
-		int ioCount = InterlockedDecrement((LONG*)&_this->_sessionArray->ioCountUseFlag.ioCount);
+		int ioCount = InterlockedDecrement((LONG*)&_this->_sessionArray->ioCountUseFlag_.ioCount);
 		if (ioCount == 0)
 			_this->TryDisConnect(_this->_sessionArray);
 		//listen(_this->_listenSocket, SOMAXCONN);
@@ -185,15 +185,15 @@ namespace MinLib
 		//			Sleep(1000);
 		//			continue;
 		//		}
-		//		// acceptÁß ¸®½¼¼ÒÄÏÀ» ´İ¾Æ¼­ ÀÌÂÊÀ¸·Î À¯µµ
+		//		// acceptì¤‘ ë¦¬ìŠ¨ì†Œì¼“ì„ ë‹«ì•„ì„œ ì´ìª½ìœ¼ë¡œ ìœ ë„
 		//		else if (errorCode == WSAEINTR)
 		//			break;
 		//		else if (errorCode == WSAENOTSOCK)
 		//			break;
-		//		// ¹º°¡ ¿¡·¯ÀÎºÎºĞ
+		//		// ë­”ê°€ ì—ëŸ¬ì¸ë¶€ë¶„
 		//		continue;
 		//	}
-		//	// °¡»ó ÇÔ¼ö
+		//	// ê°€ìƒ í•¨ìˆ˜
 		//	char buffer[128];
 		//	inet_ntop(AF_INET, &newAddr.sin_addr, buffer, 128);
 		//	if (!_this->OnConnectionRequest(buffer, ntohs(newAddr.sin_port)))
@@ -211,16 +211,16 @@ namespace MinLib
 		//		continue;
 		//	}
 		//	
-		//	INT64 clientID = (_this->_clientSeed++ << 2 * 8) | index;
+		//	int64_t clientID = (_this->_clientSeed++ << 2 * 8) | index;
 		//	_this->_sessionArray[index].Init(sock, clientID);
 		//	Session * session = &_this->_sessionArray[index];
-		//	int size = session->recvQueue.GetUseSize();
+		//	int size = session->recvQueue_.GetUseSize();
 		//
 		//	CreateIoCompletionPort((HANDLE)sock, _this->_iocp, (ULONG_PTR)session, 0);
-		//	// °¡»ó ÇÔ¼ö
-		//	_this->OnClientJoin(session->clientID, session);
+		//	// ê°€ìƒ í•¨ìˆ˜
+		//	_this->OnClientJoin(session->clientID_, session);
 		//	_this->RecvPost(session);
-		//	int ioCount = InterlockedDecrement((LONG *)&session->ioCountUseFlag.ioCount);
+		//	int ioCount = InterlockedDecrement((LONG *)&session->ioCountUseFlag_.ioCount);
 		//	if (ioCount == 0)
 		//		_this->TryDisConnect(session);
 		//}
@@ -241,7 +241,8 @@ namespace MinLib
 		//_configParser.GetValue_BYTE("PACKET_KEY1", (BYTE&)_XORKey1, "SERVER");
 		//_configParser.GetValue_BYTE("PACKET_KEY2", (BYTE&)_XORKey2, "SERVER");
 
-		LOGGER.SetLogDir(&wstring(L"Server_LOG"));
+		wstring logDirName(L"Server_LOG");
+		LOGGER.SetLogDir(&logDirName);
 
 		char loglevel[10];
 		_configParser.GetValue_Str("LOG_LEVEL", loglevel, "SERVER");
@@ -260,9 +261,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::Start (public)
-	// ¼³¸í : ¼­¹ö ½ÃÀÛÇÏ´Â ÇÔ¼ö
-	// ÀÎÀÚ : (int) ¿öÄ¿½º·¹µå ¼ö<ÃÖ´ë MAXTHREADCOUNT> , (int) Æ÷Æ®¹øÈ£, (bool) nagle¿©ºÎ <¹Ì±¸Çö>
-	// ¸®ÅÏ : (bool) true
+	// ì„¤ëª… : ì„œë²„ ì‹œì‘í•˜ëŠ” í•¨ìˆ˜
+	// ì¸ì : (int) ì›Œì»¤ìŠ¤ë ˆë“œ ìˆ˜<ìµœëŒ€ MAXTHREADCOUNT> , (int) í¬íŠ¸ë²ˆí˜¸, (bool) nagleì—¬ë¶€ <ë¯¸êµ¬í˜„>
+	// ë¦¬í„´ : (bool) true
 	/*----------------*////////////////////////*----------------*/
 	bool LanClient::Start(bool nagle)
 	{
@@ -285,24 +286,24 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::Stop (public)
-	// ¼³¸í : ¼­¹ö Á¾·á ÇÔ¼ö
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ì„œë²„ ì¢…ë£Œ í•¨ìˆ˜
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	void LanClient::Stop()
 	{
-		// accept½º·¹µå Á¾·á´ë±â
+		// acceptìŠ¤ë ˆë“œ ì¢…ë£ŒëŒ€ê¸°
 		closesocket(_listenSocket);
 		WaitForSingleObject(_acceptThread, INFINITE);
 
-		// ¿¬°áµÈ ¼ÒÄÏ Á¾·á
+		// ì—°ê²°ëœ ì†Œì¼“ ì¢…ë£Œ
 		for (auto& session : _sessionArray)
 		{
-			if (session.socket != INVALID_SOCKET)
-				closesocket(session.socket);
+			if (session.socket_ != INVALID_SOCKET)
+				closesocket(session.socket_);
 		}
 
-		// worker½º·¹µå Á¾·á´ë±â
+		// workerìŠ¤ë ˆë“œ ì¢…ë£ŒëŒ€ê¸°
 		for (int i = 0; i < _workerThreadCount; ++i)
 			PostQueuedCompletionStatus(_iocp, 0, 0, 0);
 		WaitForMultipleObjects(_workerThreadCount, _workerThread, TRUE, INFINITE);
@@ -314,9 +315,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::GetClientCount (public)
-	// ¼³¸í : ÇöÀç Á¢¼ÓÁßÀÎ Å¬¶óÀÌ¾ğÆ® ¼ö
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (int) Å¬¶óÀÌ¾ğÆ® ¼ö
+	// ì„¤ëª… : í˜„ì¬ ì ‘ì†ì¤‘ì¸ í´ë¼ì´ì–¸íŠ¸ ìˆ˜
+	// ì¸ì : 
+	// ë¦¬í„´ : (int) í´ë¼ì´ì–¸íŠ¸ ìˆ˜
 	/*----------------*////////////////////////*----------------*/
 	int LanClient::GetClientCount()
 	{
@@ -325,95 +326,95 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::TryDisConnect (protected)
-	// ¼³¸í : ³»ºÎ¿¡¼­ »ç¿ëµÇ´Â ¼¼¼Ç Á¾·á½Ãµµ , ioÄ«¿îÆ® °¨¼Ò½Ã È£ÃâµÈ´Ù
-	// ÀÎÀÚ : (Session *) ¼¼¼ÇÆ÷ÀÎÅÍ
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : ë‚´ë¶€ì—ì„œ ì‚¬ìš©ë˜ëŠ” ì„¸ì…˜ ì¢…ë£Œì‹œë„ , ioì¹´ìš´íŠ¸ ê°ì†Œì‹œ í˜¸ì¶œëœë‹¤
+	// ì¸ì : (Session *) ì„¸ì…˜í¬ì¸í„°
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	void LanClient::TryDisConnect(Session* session)
 	{
 		if (session == nullptr)
 			return;
 
-		if (InterlockedCompareExchange64((LONG64*)&session->ioCountUseFlag, NULL, TRUE) == TRUE)
+		if (InterlockedCompareExchange64((LONG64*)&session->ioCountUseFlag_, NULL, TRUE) == TRUE)
 		{
-			closesocket(session->socket);
-			OnClientLeave(session->clientID);
+			closesocket(session->socket_);
+			OnClientLeave(session->clientID_);
 
 			// boost queue
 			StreamBuffer* packet = nullptr;
 #ifdef BOOST
-			while (session->sendQueue.pop(packet))
+			while (session->sendQueue_.pop(packet))
 			{
 				PacketFree(packet);
 			}
 #else
-			int sized = (int)session->sendQueue.GetUseCount();
+			int sized = (int)session->sendQueue_.GetUseCount();
 			while (sized--)
 			{
-				session->sendQueue.DeQueue(&packet);
+				session->sendQueue_.DeQueue(&packet);
 				PacketFree(packet);
 			}
 #endif
 
-			int size = session->sendCount;
+			int size = session->sendCount_;
 			for (int i = 0; i < size; i++)
 			{
-				PacketFree(session->sendArray[i]);
+				PacketFree(session->sendArray_[i]);
 			}
-			session->sendCount = 0;
+			session->sendCount_ = 0;
 
-			session->socket = INVALID_SOCKET;
-			int sessionIndex = FindIndex(session->clientID);
-			session->clientID = -1;
-			session->ioCountUseFlag.useFlag = false;
+			session->socket_ = INVALID_SOCKET;
+			int sessionIndex = FindIndex(session->clientID_);
+			session->clientID_ = -1;
+			session->ioCountUseFlag_.useFlag = false;
 			_indexStack.Push(sessionIndex);
 		}
 	}
 
 	/*----------------------------------------------------------*/
 	// LanClient::Disconnect (public)
-	// ¼³¸í : ¿ÜºÎ¿¡¼­ »ç¿ëµÇ´Â Å¬¶óÀÌ¾ğÆ® Á¢¼Ó Á¾·á ¿äÃ»
-	// ÀÎÀÚ : (INT64) Å¬¶óÀÌ¾ğÆ®ID
-	// ¸®ÅÏ : ¼º°ø¿©ºÎ
+	// ì„¤ëª… : ì™¸ë¶€ì—ì„œ ì‚¬ìš©ë˜ëŠ” í´ë¼ì´ì–¸íŠ¸ ì ‘ì† ì¢…ë£Œ ìš”ì²­
+	// ì¸ì : (int64_t) í´ë¼ì´ì–¸íŠ¸ID
+	// ë¦¬í„´ : ì„±ê³µì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
-	bool LanClient::Disconnect(INT64 clientID)
+	bool LanClient::Disconnect(int64_t clientID)
 	{
 		int index = FindIndex(clientID);
 		Session* session = &_sessionArray[index];
-		if (session->clientID != clientID)
+		if (session->clientID_ != clientID)
 			return false;
-		shutdown(session->socket, SD_SEND);
+		shutdown(session->socket_, SD_SEND);
 		TryDisConnect(session);
 		return true;
 	}
 
 	/*----------------------------------------------------------*/
 	// LanClient::SendPacket (public)
-	// ¼³¸í : ¿ÜºÎ¿¡¼­ »ç¿ëµÇ´Â ÆĞÅ¶Àü¼Û¿äÃ»
-	// ÀÎÀÚ : (INT64) Å¬¶óÀÌ¾ğÆ®ID, (StreamBuffer *) ÆĞÅ¶Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (bool) ¼º°ø¿©ºÎ
+	// ì„¤ëª… : ì™¸ë¶€ì—ì„œ ì‚¬ìš©ë˜ëŠ” íŒ¨í‚·ì „ì†¡ìš”ì²­
+	// ì¸ì : (int64_t) í´ë¼ì´ì–¸íŠ¸ID, (StreamBuffer *) íŒ¨í‚·í¬ì¸í„°
+	// ë¦¬í„´ : (bool) ì„±ê³µì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
-	bool LanClient::SendPacket(INT64 clientID, StreamBuffer* packet)
+	bool LanClient::SendPacket(int64_t clientID, StreamBuffer* packet)
 	{
 		//int index = FindIndex(clientID);
 		Session* session = &_sessionArray[0];
 		bool ret = false;
-		int ioCount = InterlockedIncrement((LONG*)&session->ioCountUseFlag.ioCount);
+		int ioCount = InterlockedIncrement((LONG*)&session->ioCountUseFlag_.ioCount);
 		if (ioCount != 1)
 		{
-			if (session->clientID == clientID)
+			if (session->clientID_ == clientID)
 			{
-				if (session->ioCountUseFlag.useFlag == TRUE)
+				if (session->ioCountUseFlag_.useFlag == TRUE)
 				{
-					if (session->socket != INVALID_SOCKET)
+					if (session->socket_ != INVALID_SOCKET)
 					{
 						packet->AddRef();
 						if (!packet->headerFillFlag_)
 							PutHeader(packet);
 #ifdef BOOST
-						session->sendQueue.push(packet);
+						session->sendQueue_.push(packet);
 #else
-						session->sendQueue.EnQueue(packet);
+						session->sendQueue_.EnQueue(packet);
 #endif
 						ret = SendPost(session);
 						//if (!ret)
@@ -424,7 +425,7 @@ namespace MinLib
 				}
 			}
 		}
-		ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag.ioCount);
+		ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag_.ioCount);
 		if (ioCount == 0)
 			TryDisConnect(session);
 		return ret;
@@ -438,29 +439,29 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::SendPost (protected)
-	// ¼³¸í : ½ÇÁ¦·Î packetÀ» send½ÃµµÇÏ´Â ÇÔ¼ö
-	// ÀÎÀÚ : (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (bool) Àü¼Û ¼º°ø ¿©ºÎ
+	// ì„¤ëª… : ì‹¤ì œë¡œ packetì„ sendì‹œë„í•˜ëŠ” í•¨ìˆ˜
+	// ì¸ì : (Session *) ì„¸ì…˜ í¬ì¸í„°
+	// ë¦¬í„´ : (bool) ì „ì†¡ ì„±ê³µ ì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
 	bool LanClient::SendPost(Session* session)
 	{
 	SENDPOST:
-		//if (session->sendOverLapped.Internal == STATUS_PENDING)
+		//if (session->sendOverLapped_.Internal == STATUS_PENDING)
 		//	return false;
-		// ÇÑ ¾²·¹µå¸¸ if¾ÈÀ¸·Î °¡¾ßÇÑ´Ù.
-		// send´Â ÇÑ¹ø¸¸ ÇÑ´Ù
-		// send´Â Ä¿³Î¸Ş¸ğ¸® »ç¿ëµÇ±â¶§¹®¿¡, ÆäÀÌÁö¶ôµµ °É¸²
-		if (!InterlockedCompareExchange((LONG*)&session->sendFlag, TRUE, FALSE))
+		// í•œ ì“°ë ˆë“œë§Œ ifì•ˆìœ¼ë¡œ ê°€ì•¼í•œë‹¤.
+		// sendëŠ” í•œë²ˆë§Œ í•œë‹¤
+		// sendëŠ” ì»¤ë„ë©”ëª¨ë¦¬ ì‚¬ìš©ë˜ê¸°ë•Œë¬¸ì—, í˜ì´ì§€ë½ë„ ê±¸ë¦¼
+		if (!InterlockedCompareExchange((LONG*)&session->sendFlag_, TRUE, FALSE))
 		{
-			//sendÅ¥ ºñ¾îÀÖÀ»¼ö ÀÖ´Ù.
-			//send¿Ï·áÅëÁö¹Ş°í ÀÌÈÄ¿¡ µé¾î¿Â´Ù¸é..È¤Àº ±×°Å¶§¹®¿¡ send°¡ ÀÌ¹Ì ‰ç°Å³ª
+			//sendí ë¹„ì–´ìˆì„ìˆ˜ ìˆë‹¤.
+			//sendì™„ë£Œí†µì§€ë°›ê³  ì´í›„ì— ë“¤ì–´ì˜¨ë‹¤ë©´..í˜¹ì€ ê·¸ê±°ë•Œë¬¸ì— sendê°€ ì´ë¯¸ ë¬ê±°ë‚˜
 
 #ifdef BOOST
-			if (session->sendQueue.empty())
+			if (session->sendQueue_.empty())
 			{
-				session->sendFlag = FALSE;
+				session->sendFlag_ = FALSE;
 				bool ret = true;
-				if (!session->sendQueue.empty())
+				if (!session->sendQueue_.empty())
 					ret = SendPost(session);
 				return ret;
 			}
@@ -470,24 +471,24 @@ namespace MinLib
 			while (bufCount < sendArraySize)
 			{
 				StreamBuffer* packet = nullptr;
-				if (!session->sendQueue.pop(packet))
+				if (!session->sendQueue_.pop(packet))
 					break;
 				char* buffer = packet->GetBuffer();
 				int len = packet->GetUseSize();
 				wsaBuf[bufCount].buf = buffer;
 				wsaBuf[bufCount].len = len;
-				session->sendArray[bufCount] = packet;
+				session->sendArray_[bufCount] = packet;
 				bufCount++;
 			}
-			session->sendCount = bufCount;
+			session->sendCount_ = bufCount;
 #else
-			int useSize = (int)session->sendQueue.GetUseCount();
+			int useSize = (int)session->sendQueue_.GetUseCount();
 			if (useSize == 0)
 			{
-				// ÀÌ¼ø°£ 0ÀÓÀ» º¸ÀåÇØ¾ßÇÔ
-				session->sendFlag = FALSE;
+				// ì´ìˆœê°„ 0ì„ì„ ë³´ì¥í•´ì•¼í•¨
+				session->sendFlag_ = FALSE;
 				bool ret = true;
-				if (session->sendQueue.GetUseCount() != 0)
+				if (session->sendQueue_.GetUseCount() != 0)
 					goto SENDPOST;
 				return ret;
 			}
@@ -498,41 +499,41 @@ namespace MinLib
 			for (int i = 0; i < bufCount; i++)
 			{
 				StreamBuffer* packet = nullptr;
-				session->sendQueue.DeQueue(&packet);
+				session->sendQueue_.DeQueue(&packet);
 				char* buffer = packet->GetBuffer();
 				int len = packet->GetUseSize();
 				wsaBuf[i].buf = buffer;
 				wsaBuf[i].len = len;
-				session->sendArray[i] = packet;
+				session->sendArray_[i] = packet;
 			}
-			session->sendCount = bufCount;
+			session->sendCount_ = bufCount;
 #endif
 
-			ZeroMemory(&session->sendOverLapped, sizeof(OVERLAPPED));
+			ZeroMemory(&session->sendOverLapped_, sizeof(OVERLAPPED));
 
 			DWORD transBytes = 0;
 			DWORD flags = 0;
-			InterlockedIncrement((LONG*)&session->ioCountUseFlag.ioCount);
-			int retval = WSASend(session->socket, wsaBuf, bufCount, &transBytes, flags, &session->sendOverLapped, NULL);
+			InterlockedIncrement((LONG*)&session->ioCountUseFlag_.ioCount);
+			int retval = WSASend(session->socket_, wsaBuf, bufCount, &transBytes, flags, &session->sendOverLapped_, NULL);
 			if (retval == SOCKET_ERROR)
 			{
 				int errorCode = GetLastError();
 				if (errorCode != ERROR_IO_PENDING)
 				{
 					if (errorCode == WSAENOBUFS)
-						LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->clientID);
+						LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->clientID_);
 					else if (errorCode == WSAECONNRESET)
 						;
 					else if (errorCode == WSAESHUTDOWN)
-						LOG(L"Server", LOG_WARNING, L"SessionID : %d , WSAESHUTDOWN", session->clientID);
+						LOG(L"Server", LOG_WARNING, L"SessionID : %d , WSAESHUTDOWN", session->clientID_);
 					else
 					{
 						printf("sendpost %d\n", errorCode);
-						//session->sendFlag = FALSE;
+						//session->sendFlag_ = FALSE;
 						//return SendPost(session);
 					}
-					int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag.ioCount);
-					//shutdown(session->socket, SD_SEND);
+					int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag_.ioCount);
+					//shutdown(session->socket_, SD_SEND);
 					if (ioCount == 0)
 						TryDisConnect(session);
 					return false;
@@ -545,9 +546,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::GetBlankIndex (protected)
-	// ¼³¸í : ½ºÅÃ¿¡¼­ ÀÎµ¦½º ¹øÈ£ °¡Á®¿À±â
-	// ÀÎÀÚ : (int *) ÀÎµ¦½º°¡ ÀúÀåµÉ º¯¼ö
-	// ¸®ÅÏ : (bool) ½ºÅÃ pop ¼º°ø¿©ºÎ
+	// ì„¤ëª… : ìŠ¤íƒì—ì„œ ì¸ë±ìŠ¤ ë²ˆí˜¸ ê°€ì ¸ì˜¤ê¸°
+	// ì¸ì : (int *) ì¸ë±ìŠ¤ê°€ ì €ì¥ë  ë³€ìˆ˜
+	// ë¦¬í„´ : (bool) ìŠ¤íƒ pop ì„±ê³µì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
 	bool LanClient::GetBlankIndex(int* index)
 	{
@@ -558,21 +559,21 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::FindIndex (protected)
-	// ¼³¸í : clientID¸¦ ¼¼¼Ç ¹è¿­ÀÇ ÀÎµ¦½º·Î º¯È¯ÇØÁÖ´Â ÇÔ¼ö
-	// ÀÎÀÚ : (INT64) Å¬¶óÀÌ¾ğÆ®ID
-	// ¸®ÅÏ : (int) º¯È¯µÈ ÀÎµ¦½º
+	// ì„¤ëª… : clientIDë¥¼ ì„¸ì…˜ ë°°ì—´ì˜ ì¸ë±ìŠ¤ë¡œ ë³€í™˜í•´ì£¼ëŠ” í•¨ìˆ˜
+	// ì¸ì : (int64_t) í´ë¼ì´ì–¸íŠ¸ID
+	// ë¦¬í„´ : (int) ë³€í™˜ëœ ì¸ë±ìŠ¤
 	/*----------------*////////////////////////*----------------*/
-	int LanClient::FindIndex(INT64 clientID)
+	int LanClient::FindIndex(int64_t clientID)
 	{
-		INT64 mask = 0xffff;
+		int64_t mask = 0xffff;
 		return (int)(clientID & mask);
 	}
 
 	/*----------------------------------------------------------*/
 	// LanClient::FindIndex (protected)
-	// ¼³¸í : º¸³¾ ÆĞÅ¶¿¡ Çì´õ¸¦ ºÙÀÎ´Ù.
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : ë³´ë‚¼ íŒ¨í‚·ì— í—¤ë”ë¥¼ ë¶™ì¸ë‹¤.
+	// ì¸ì : 
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	void LanClient::PutHeader(StreamBuffer* packet)
 	{
@@ -642,9 +643,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// LanClient::RecvProc (protected)
-	// ¼³¸í : recv°¡ ¿Ï·áµÇ¾úÀ»¶§ È£ÃâµÉ ÇÔ¼ö
-	// ÀÎÀÚ : (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ
-	// ¸®ÅÏ :
+	// ì„¤ëª… : recvê°€ ì™„ë£Œë˜ì—ˆì„ë•Œ í˜¸ì¶œë  í•¨ìˆ˜
+	// ì¸ì : (Session *) ì„¸ì…˜ í¬ì¸í„°
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	void LanClient::RecvProc(Session* session)
 	{
@@ -652,94 +653,94 @@ namespace MinLib
 		{
 			PACKET_HEADER header;
 			int headerSize = sizeof(header);
-			int useSize = session->recvQueue.GetUseSize();
+			int useSize = session->recvQueue_.GetUseSize();
 			if (useSize < headerSize)
 				break;
-			int ret = session->recvQueue.Peek((char*)&header, headerSize);
+			int ret = session->recvQueue_.Peek((char*)&header, headerSize);
 
 			//if (header.code != _packetCode)
 			//{
 			//	LOG(L"Server", LOG_ERROR, L"Packet Code is Wrong");
-			//	shutdown(session->socket, SD_SEND);
+			//	shutdown(session->socket_, SD_SEND);
 			//	break;
 			//}
 
 			if (PacketSIZE < header.len)
 			{
 				LOG(L"Server", LOG_ERROR, L"Packet Len is Over 1500");
-				shutdown(session->socket, SD_SEND);
+				shutdown(session->socket_, SD_SEND);
 				break;
 			}
 
 			if (useSize < header.len + headerSize)
 				break;
 
-			session->recvQueue.RemoveData(headerSize);
-			// ÆĞÅ¶À» ÇÏ³ª¾¿ ²¨³½´Ù
+			session->recvQueue_.RemoveData(headerSize);
+			// íŒ¨í‚·ì„ í•˜ë‚˜ì”© êº¼ë‚¸ë‹¤
 			StreamBuffer* packet = PacketAlloc(LanClient);
-			ret = session->recvQueue.Dequeue(packet->GetBuffer(), header.len);
+			ret = session->recvQueue_.Dequeue(packet->GetBuffer(), header.len);
 			packet->MoveEndIndex(header.len);
 			//if(Decode(&header, packet))
-			OnRecv(session->clientID, packet);
+			OnRecv(session->clientID_, packet);
 			PacketFree(packet);
 		}
 	}
 
 	/*----------------------------------------------------------*/
 	// LanClient::RecvPost (protected)
-	// ¼³¸í : recv¸¦ iocp¿¡ µî·Ï
-	// ÀÎÀÚ : (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ
-	// ¸®ÅÏ :
+	// ì„¤ëª… : recvë¥¼ iocpì— ë“±ë¡
+	// ì¸ì : (Session *) ì„¸ì…˜ í¬ì¸í„°
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	void LanClient::RecvPost(Session* session)
 	{
-		//¸®½Ãºê Å¥°¡ ²Ë Ã¡´ÂÁö Ã¼Å©
-		int fullSize = session->recvQueue.GetBufferSize();
-		int freeSize = session->recvQueue.GetFreeSize();
-		// ¸®½ÃºêÅ¥ 5% ¹Ì¸¸ ³²À½
+		//ë¦¬ì‹œë¸Œ íê°€ ê½‰ ì°¼ëŠ”ì§€ ì²´í¬
+		int fullSize = session->recvQueue_.GetBufferSize();
+		int freeSize = session->recvQueue_.GetFreeSize();
+		// ë¦¬ì‹œë¸Œí 5% ë¯¸ë§Œ ë‚¨ìŒ
 		if (fullSize / 100 * 95 > freeSize)
 		{
-			// Á¾·á
-			LOG(L"Server", LOG_ERROR, L"SessionID : %d , RecvQueue Full", session->clientID);
-			shutdown(session->socket, SD_SEND);
+			// ì¢…ë£Œ
+			LOG(L"Server", LOG_ERROR, L"SessionID : %d , RecvQueue Full", session->clientID_);
+			shutdown(session->socket_, SD_SEND);
 			return;
 		}
-		// wsabuf ¼¼ÆÃ
+		// wsabuf ì„¸íŒ…
 		WSABUF wsaBuf[2];
-		wsaBuf[0].buf = session->recvQueue.GetWriteBufferPtr();
-		wsaBuf[0].len = session->recvQueue.GetNotBrokenPutSize();
-		wsaBuf[1].buf = session->recvQueue.GetBufferPtr();
+		wsaBuf[0].buf = session->recvQueue_.GetWriteBufferPtr();
+		wsaBuf[0].len = session->recvQueue_.GetNotBrokenPutSize();
+		wsaBuf[1].buf = session->recvQueue_.GetBufferPtr();
 		wsaBuf[1].len = freeSize - wsaBuf[0].len;
-		//overlapped ÃÊ±âÈ­
-		ZeroMemory(&session->recvOverLapped, sizeof(OVERLAPPED));
+		//overlapped ì´ˆê¸°í™”
+		ZeroMemory(&session->recvOverLapped_, sizeof(OVERLAPPED));
 		//iocount++
-		InterlockedIncrement((LONG*)&session->ioCountUseFlag.ioCount);
+		InterlockedIncrement((LONG*)&session->ioCountUseFlag_.ioCount);
 		//wsaRecv()
 		DWORD transBytes = 0;
 		DWORD flags = 0;
 		int check = 0;
 		(freeSize == wsaBuf[0].len) ? (check = 1) : (check = 2);
-		int retval = WSARecv(session->socket, wsaBuf, 2, &transBytes, &flags, &session->recvOverLapped, NULL);
-		//¿¡·¯Ã³¸®
+		int retval = WSARecv(session->socket_, wsaBuf, 2, &transBytes, &flags, &session->recvOverLapped_, NULL);
+		//ì—ëŸ¬ì²˜ë¦¬
 		if (retval == SOCKET_ERROR)
 		{
 			int errorCode = GetLastError();
 			if (errorCode != ERROR_IO_PENDING)
 			{
 				if (errorCode == WSAENOBUFS)
-					LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->clientID);
+					LOG(L"Server", LOG_ERROR, L"SessionID : %d , WSAENOBUFS", session->clientID_);
 				else if (errorCode == WSAECONNRESET)
 					;
 				else
 				{
-					printf("recvpost %d socket : %d\n", errorCode, (int)session->socket);
-					if (session->socket == INVALID_SOCKET)
+					printf("recvpost %d socket : %d\n", errorCode, (int)session->socket_);
+					if (session->socket_ == INVALID_SOCKET)
 						cd.Crash();
 				}
-				// ¼ö½Å µî·Ï ½ÇÆĞ, Á¾·áÄÚµå
+				// ìˆ˜ì‹  ë“±ë¡ ì‹¤íŒ¨, ì¢…ë£Œì½”ë“œ
 				// LOG
-				int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag.ioCount);
-				//shutdown(session->socket, SD_SEND);
+				int ioCount = InterlockedDecrement((LONG*)&session->ioCountUseFlag_.ioCount);
+				//shutdown(session->socket_, SD_SEND);
 				if (ioCount == 0)
 					TryDisConnect(session);
 			}

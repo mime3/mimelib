@@ -1,4 +1,4 @@
-#ifndef __MINLIB_SIGLETON_PROFILE__
+ï»¿#ifndef __MINLIB_SIGLETON_PROFILE__
 #define __MINLIB_SIGLETON_PROFILE__
 #pragma once
 #include "SingleTon.h"
@@ -52,15 +52,15 @@ namespace MinLib
 		};
 
 
-		FILE*			file_;							// Ãâ·Â¿ë ÆÄÀÏÆ÷ÀÎÅÍ
-		LARGE_INTEGER	frequency_;						// CPU 1ÃÊ´ç Å¬·°
-		TLS_BLOCK*		blockPointerArray_[MAXTHREAD];	// ÇÁ·ÎÆÄÀÏ ºí·°Æ÷ÀÎÅÍ¸¦ ÀúÀåÇÒ ¹è¿­
-		int				index_;							// ºó ¹è¿­ ÀÎµ¦½º
-		DWORD			tlsIndex_;						// TLSÀÎµ¦½º
+		FILE*			file_;							// ì¶œë ¥ìš© íŒŒì¼í¬ì¸í„°
+		LARGE_INTEGER	frequency_;						// CPU 1ì´ˆë‹¹ í´ëŸ­
+		TLS_BLOCK*		blockPointerArray_[MAXTHREAD];	// í”„ë¡œíŒŒì¼ ë¸”ëŸ­í¬ì¸í„°ë¥¼ ì €ì¥í•  ë°°ì—´
+		int				index_;							// ë¹ˆ ë°°ì—´ ì¸ë±ìŠ¤
+		DWORD			tlsIndex_;						// TLSì¸ë±ìŠ¤
 
-		// name ÀÌ¸§ÀÇ ÇÁ·ÎÆÄÀÏºí·Ï »ı¼ºÈÄ Æ÷ÀÎÅÍ¸¦ À§Ä¡½ÃÅ²´Ù.
+		// name ì´ë¦„ì˜ í”„ë¡œíŒŒì¼ë¸”ë¡ ìƒì„±í›„ í¬ì¸í„°ë¥¼ ìœ„ì¹˜ì‹œí‚¨ë‹¤.
 		bool MakeProFile(const char* name, ProFileBlock** proFilePointer, TLS_BLOCK* blockPointer);
-		// name°ú °°Àº ÇÁ·ÎÆÄÀÏÀÌ ÀÌ¹Ì ÀÖ´ÂÁö Ã£¾Æ¼­ Æ÷ÀÎÅÍ¸¦ À§Ä¡½ÃÅ°°í ¾øÀ¸¸é MakeProFileÀ» È£ÃâÇÑ´Ù.
+		// nameê³¼ ê°™ì€ í”„ë¡œíŒŒì¼ì´ ì´ë¯¸ ìˆëŠ”ì§€ ì°¾ì•„ì„œ í¬ì¸í„°ë¥¼ ìœ„ì¹˜ì‹œí‚¤ê³  ì—†ìœ¼ë©´ MakeProFileì„ í˜¸ì¶œí•œë‹¤.
 		bool SearchProFile(const char* name, ProFileBlock** proFilePointer, TLS_BLOCK* blockPointer);
 
 	public:

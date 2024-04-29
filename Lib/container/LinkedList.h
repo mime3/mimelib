@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 template <typename T>
 class CList
@@ -17,14 +17,14 @@ public:
 	protected:
 	public:
 		Node * _node;
-		//ÀÎÀÚ·Î µé¾î¿Â Node Æ÷ÀÎÅÍ¸¦ ÀúÀå
+		//ì¸ìë¡œ ë“¤ì–´ì˜¨ Node í¬ì¸í„°ë¥¼ ì €ì¥
 		iterator(Node *node = nullptr);
 		iterator(const iterator& copy);
-		//ÇöÀç ³ëµå¸¦ ´ÙÀ½ ³ëµå·Î ÀÌµ¿
+		//í˜„ì¬ ë…¸ë“œë¥¼ ë‹¤ìŒ ë…¸ë“œë¡œ ì´ë™
 		iterator operator++(int);
 		bool operator==(iterator iter);
 		bool operator!=(iterator iter);
-		//ÇöÀç ³ëµåÀÇ µ¥ÀÌÅÍ¸¦ »ÌÀ½
+		//í˜„ì¬ ë…¸ë“œì˜ ë°ì´í„°ë¥¼ ë½‘ìŒ
 		T& operator *();
 		friend class CList;
 	};
@@ -32,10 +32,10 @@ public:
 	CList();
 	~CList();
 
-	//Ã¹¹øÂ° ³ëµå¸¦ °¡¸®Å°´Â ÀÌÅÍ·¹ÀÌÅÍ ¸®ÅÏ
+	//ì²«ë²ˆì§¸ ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ëŠ” ì´í„°ë ˆì´í„° ë¦¬í„´
 	iterator begin();
-	//Tail ³ëµå¸¦ °¡¸®Å°´Â(µ¥ÀÌÅÍ°¡ ¾ø´Â ÁøÂ¥ ³¡ ³ëµå) ÀÌÅÍ·¹ÀÌÅÍ¸¦ ¸®ÅÏ
-	//	¶Ç´Â ³¡À¸·Î ÀÎÁöÇÒ ¼ö ÀÖ´Â ÀÌÅÍ·¹ÀÌÅÍ¸¦ ¸®ÅÏ
+	//Tail ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ëŠ”(ë°ì´í„°ê°€ ì—†ëŠ” ì§„ì§œ ë ë…¸ë“œ) ì´í„°ë ˆì´í„°ë¥¼ ë¦¬í„´
+	//	ë˜ëŠ” ëìœ¼ë¡œ ì¸ì§€í•  ìˆ˜ ìˆëŠ” ì´í„°ë ˆì´í„°ë¥¼ ë¦¬í„´
 	iterator end();
 	void push_front(T data);
 	void push_back(T data);
@@ -43,8 +43,8 @@ public:
 	int size() { return _size; };
 	bool is_empty();
 
-	//- ÀÌÅÍ·¹ÀÌÅÍÀÇ ±× ³ëµå¸¦ Áö¿ò.
-	//- ±×¸®°í Áö¿î ³ëµåÀÇ ´ÙÀ½ ³ëµå¸¦ Ä«¸®Å°´Â ÀÌÅÍ·¹ÀÌÅÍ ¸®ÅÏ
+	//- ì´í„°ë ˆì´í„°ì˜ ê·¸ ë…¸ë“œë¥¼ ì§€ì›€.
+	//- ê·¸ë¦¬ê³  ì§€ìš´ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¥¼ ì¹´ë¦¬í‚¤ëŠ” ì´í„°ë ˆì´í„° ë¦¬í„´
 	iterator erase(iterator itor);
 private:
 	int _size = 0;

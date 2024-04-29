@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "MonitorLanClient.h"
 #include "CommonProtocol.h"
 
@@ -31,7 +31,7 @@ MonitorLanClient::MonitorLanClient(const char * config, TCHAR * processName, int
 
 MonitorLanClient::~MonitorLanClient()
 {
-	// apcÅ¥
+	// apcí
 	QueueUserAPC(NotifyExit, _monitorThread, NULL);
 	WaitForSingleObject(_monitorThread, INFINITE);
 	CloseHandle(_connectEvent);
@@ -68,7 +68,7 @@ unsigned int __stdcall MonitorLanClient::MonitorThreadMain(LPVOID lpParam)
 	MonitorLanClient * _this = (MonitorLanClient *)lpParam;
 	while (1)
 	{
-		// Á¾·á´Â APC·Î È®ÀÎ
+		// ì¢…ë£ŒëŠ” APCë¡œ í™•ì¸
 		DWORD ret = WaitForMultipleObjectsEx(2, _this->_connectEvent, TRUE, INFINITE, TRUE);
 		if (ret == WAIT_IO_COMPLETION)
 		{
@@ -76,10 +76,10 @@ unsigned int __stdcall MonitorLanClient::MonitorThreadMain(LPVOID lpParam)
 		}
 
 		time_t curTime = time(NULL);
-		// pdh¼öÁý
+		// pdhìˆ˜ì§‘
 		_this->_pdh.Update();
-		// ¼­¹ö·Î µ¥ÀÌÅÍ Àü¼Û
-		// °¡»óÇÔ¼ö¸¦ ½ÇÇà½ÃÅ°°í »ó¼Ó¹Þ¾Æ¼­ Ä¿½ºÅÒÇÏ´Â°Ô ÁÁÀ½
+		// ì„œë²„ë¡œ ë°ì´í„° ì „ì†¡
+		// ê°€ìƒí•¨ìˆ˜ë¥¼ ì‹¤í–‰ì‹œí‚¤ê³  ìƒì†ë°›ì•„ì„œ ì»¤ìŠ¤í…€í•˜ëŠ”ê²Œ ì¢‹ìŒ
 		if (_this->_masterMode)
 		{
 			StreamBuffer * recvBytePacket = PacketAlloc(LanClient);

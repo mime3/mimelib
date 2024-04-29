@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "MMOServer.h"
 
 namespace MinLib
@@ -63,7 +63,7 @@ namespace MinLib
 
 	void MMOServer::RecvProc(MMOSession* session)
 	{
-		// ¿Ï¼ºÆĞÅ¶ ÀúÀå
+		// ì™„ì„±íŒ¨í‚· ì €ì¥
 		BYTE packetCode = _packetCode;
 		while (1)
 		{
@@ -91,7 +91,7 @@ namespace MinLib
 			if (useSize < header.len + headerSize)
 				break;
 			session->recvQueue_.RemoveData(headerSize);
-			// ÆĞÅ¶À» ÇÏ³ª¾¿ ²¨³½´Ù
+			// íŒ¨í‚·ì„ í•˜ë‚˜ì”© êº¼ë‚¸ë‹¤
 			StreamBuffer* packet = PacketAlloc(MMOServer);
 			ret = session->recvQueue_.Dequeue(packet->GetBuffer(), header.len);
 			packet->MoveEndIndex(header.len);
@@ -162,24 +162,24 @@ namespace MinLib
 
 	bool MMOServer::RecvPost(MMOSession* session)
 	{
-		//¸®½Ãºê Å¥°¡ ²Ë Ã¡´ÂÁö Ã¼Å©
+		//ë¦¬ì‹œë¸Œ íê°€ ê½‰ ì°¼ëŠ”ì§€ ì²´í¬
 		int fullSize = session->recvQueue_.GetBufferSize();
 		int freeSize = session->recvQueue_.GetFreeSize();
-		// ¸®½ÃºêÅ¥ 5% ¹Ì¸¸ ³²À½
+		// ë¦¬ì‹œë¸Œí 5% ë¯¸ë§Œ ë‚¨ìŒ
 		if (fullSize / 100 * 95 > freeSize)
 		{
-			// Á¾·á
+			// ì¢…ë£Œ
 			LOG(L"Server", LOG_ERROR, L"SessionID : %d , RecvQueue Full", session->sessionID_);
 			shutdown(session->socket_, SD_SEND);
 			return false;
 		}
-		// wsabuf ¼¼ÆÃ
+		// wsabuf ì„¸íŒ…
 		WSABUF wsaBuf[2];
 		wsaBuf[0].buf = session->recvQueue_.GetWriteBufferPtr();
 		wsaBuf[0].len = session->recvQueue_.GetNotBrokenPutSize();
 		wsaBuf[1].buf = session->recvQueue_.GetBufferPtr();
 		wsaBuf[1].len = freeSize - wsaBuf[0].len;
-		//overlapped ÃÊ±âÈ­
+		//overlapped ì´ˆê¸°í™”
 		ZeroMemory(&session->recvOverLapped_, sizeof(OVERLAPPED));
 		//iocount++
 		InterlockedIncrement((LONG*)&session->ioCount_);
@@ -189,7 +189,7 @@ namespace MinLib
 		int check = 0;
 		(freeSize == wsaBuf[0].len) ? (check = 1) : (check = 2);
 		int retval = WSARecv(session->socket_, wsaBuf, 2, &transBytes, &flags, &session->recvOverLapped_, NULL);
-		//¿¡·¯Ã³¸®
+		//ì—ëŸ¬ì²˜ë¦¬
 		if (retval == SOCKET_ERROR)
 		{
 			int errorCode = GetLastError();
@@ -203,7 +203,7 @@ namespace MinLib
 				{
 					LOG(L"Server", LOG_ERROR, L"RecvPost Fail %d, Socket : %d", errorCode, session->socket_);
 				}
-				// ¼ö½Å µî·Ï ½ÇÆĞ, Á¾·áÄÚµå
+				// ìˆ˜ì‹  ë“±ë¡ ì‹¤íŒ¨, ì¢…ë£Œì½”ë“œ
 				// LOG
 				int ioCount = InterlockedDecrement((LONG*)&session->ioCount_);
 				shutdown(session->socket_, SD_SEND);
@@ -243,12 +243,12 @@ namespace MinLib
 					Sleep(1000);
 					continue;
 				}
-				// acceptÁß ¸®½¼¼ÒÄÏÀ» ´İ¾Æ¼­ ÀÌÂÊÀ¸·Î À¯µµ
+				// acceptì¤‘ ë¦¬ìŠ¨ì†Œì¼“ì„ ë‹«ì•„ì„œ ì´ìª½ìœ¼ë¡œ ìœ ë„
 				else if (errorCode == WSAEINTR)
 					break;
 				else if (errorCode == WSAENOTSOCK)
 					break;
-				// ¹º°¡ ¿¡·¯ÀÎºÎºĞ
+				// ë­”ê°€ ì—ëŸ¬ì¸ë¶€ë¶„
 				LOG(L"Server", LOG_ERROR, L"Accept Invaild Socket");
 				continue;
 			}
@@ -272,25 +272,25 @@ namespace MinLib
 			BOOL ret = GetQueuedCompletionStatus(_this->_iocp, &transBtyes, (PULONG_PTR)&session, &overlapped, INFINITE);
 			if (ret && session == NULL)
 			{
-				//¾²·¹µå Á¾·á
+				//ì“°ë ˆë“œ ì¢…ë£Œ
 				break;
 			}
 			if (overlapped == nullptr)
 			{
-				// ºñÁ¤»ó ¿¬°áÁ¾·á½ÃÀÛ
+				// ë¹„ì •ìƒ ì—°ê²°ì¢…ë£Œì‹œì‘
 				int errorCode = GetLastError();
 				shutdown(session->socket_, SD_SEND);
 				//_this->DisConnect(session);
 			}
 			else
 			{
-				// ¼ö½Å¿Ï·á
+				// ìˆ˜ì‹ ì™„ë£Œ
 				if (&session->recvOverLapped_ == overlapped)
 				{
-					// Á¤»óÀû Á¾·á »óÈ²
+					// ì •ìƒì  ì¢…ë£Œ ìƒí™©
 					if (transBtyes == 0)
 					{
-						//printf("Á¤»óÁ¾·á ¸Ş½ÃÁö ¼ö½Å\n");
+						//printf("ì •ìƒì¢…ë£Œ ë©”ì‹œì§€ ìˆ˜ì‹ \n");
 						if (!ret)
 						{
 							int error = GetLastError();
@@ -299,7 +299,7 @@ namespace MinLib
 						}
 						shutdown(session->socket_, SD_SEND);
 					}
-					// Á¤»ó ¼ö½Å¿Ï·á
+					// ì •ìƒ ìˆ˜ì‹ ì™„ë£Œ
 					else
 					{
 						session->recvQueue_.MoveWritePos(transBtyes);
@@ -307,12 +307,12 @@ namespace MinLib
 						_this->RecvPost(session);
 					}
 				}
-				// ¼Û½Å¿Ï·á
+				// ì†¡ì‹ ì™„ë£Œ
 				else if (&session->sendOverLapped_ == overlapped)
 				{
 					if (transBtyes == 0)
 					{
-						//printf("Á¤»óÁ¾·á ¸Ş½ÃÁö ¼ö½Å\n");
+						//printf("ì •ìƒì¢…ë£Œ ë©”ì‹œì§€ ìˆ˜ì‹ \n");
 						if (!ret)
 						{
 							int error = GetLastError();
@@ -335,12 +335,12 @@ namespace MinLib
 						ZeroMemory(session->sendArray_, sizeof(session->sendArray_));
 					}
 				}
-				// ¾Ë¼ö¾ø´Â »óÈ²
+				// ì•Œìˆ˜ì—†ëŠ” ìƒí™©
 				else
 					;
-				// ¿©±â¼­ io Ä«¿îÆ® °¨¼Ò
+				// ì—¬ê¸°ì„œ io ì¹´ìš´íŠ¸ ê°ì†Œ
 				int ioCount = InterlockedDecrement((LONG*)&session->ioCount_);
-				// ¿¬°áÁ¾·á Ã¼Å© ±¸°£
+				// ì—°ê²°ì¢…ë£Œ ì²´í¬ êµ¬ê°„
 				if (ioCount == 0)
 					session->logOutFlag_ = true;
 			}
@@ -357,7 +357,7 @@ namespace MinLib
 		{
 			InterlockedIncrement(&_this->_authFPS);
 			int acceptLimit = _this->MAX_AUTH_COUNT;
-			// AccpetÃ³¸®
+			// Accpetì²˜ë¦¬
 			while (acceptLimit--)
 			{
 				ACCEPT_INFO* acceptInfo = nullptr;
@@ -378,7 +378,7 @@ namespace MinLib
 					break;
 				}
 
-				INT64 sessionID = (_this->_clientSeed++ << 2 * 8) | index;
+				int64_t sessionID = (_this->_clientSeed++ << 2 * 8) | index;
 				_this->_sessionArray[index]->Init(acceptInfo, sessionID);
 				_this->_acceptInfoPool.Free(acceptInfo);
 				CreateIoCompletionPort((HANDLE)acceptInfo->socket, _this->_iocp, (ULONG_PTR)_this->_sessionArray[index], 0);
@@ -390,14 +390,14 @@ namespace MinLib
 				InterlockedIncrement(&_this->_TotalSession);
 			}
 
-			// ÆĞÅ¶Ã³¸®
+			// íŒ¨í‚·ì²˜ë¦¬
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
 				if (session->mode_ != MODE::AUTH)
 					continue;
 
-				// Á¾·á 1´Ü°è
+				// ì¢…ë£Œ 1ë‹¨ê³„
 				if (session->logOutFlag_ == true)
 				{
 					if (session->sendFlag_ == TRUE)
@@ -408,7 +408,7 @@ namespace MinLib
 						InterlockedDecrement(&_this->_AuthSession);
 					}
 				}
-				// ÆĞÅ¶Ã³¸®
+				// íŒ¨í‚·ì²˜ë¦¬
 				else
 				{
 					//int size = (int)session->_completeRecvQueue.size();
@@ -431,10 +431,10 @@ namespace MinLib
 				}
 			}
 
-			// updateÃ³¸® 
+			// updateì²˜ë¦¬ 
 			_this->OnAuth_Update();
 
-			//// Á¾·á 1´Ü°è, ÆĞÅ¶Ã³¸®Áß °¡´É
+			//// ì¢…ë£Œ 1ë‹¨ê³„, íŒ¨í‚·ì²˜ë¦¬ì¤‘ ê°€ëŠ¥
 			//for (int i = 0; i < _this->_maxClient; i++)
 			//{
 			//	if (_this->_sessionArray[i]->_mode != AUTH)
@@ -446,11 +446,11 @@ namespace MinLib
 			//	}
 			//}
 
-			// Á¾·á 2´Ü°è
+			// ì¢…ë£Œ 2ë‹¨ê³„
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
-				// ÄÁÅÙÃ÷¸ğµå ÀüÈ¯
+				// ì»¨í…ì¸ ëª¨ë“œ ì „í™˜
 				if (session->mode_ == MODE::AUTH)
 				{
 					if (session->authToContentsFlag_ == false)
@@ -461,7 +461,7 @@ namespace MinLib
 				}
 			}
 
-			////ÄÁÅÙÃ÷¸ğµå ÀüÈ¯, Á¾·á2´Ü°èÁß °¡´É
+			////ì»¨í…ì¸ ëª¨ë“œ ì „í™˜, ì¢…ë£Œ2ë‹¨ê³„ì¤‘ ê°€ëŠ¥
 			//for (int i = 0; i < _this->_maxClient; i++)
 			//{
 			//	if (_this->_sessionArray[i]->_mode != AUTH)
@@ -585,14 +585,14 @@ namespace MinLib
 			}
 
 
-			// ÆĞÅ¶ Ã³¸®
+			// íŒ¨í‚· ì²˜ë¦¬
 			BEGIN("PART1");
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
 				if (session->mode_ != MODE::CONTENTS)
 					continue;
-				// ·Î±×¾Æ¿ô Ã³¸® 1´Ü°è
+				// ë¡œê·¸ì•„ì›ƒ ì²˜ë¦¬ 1ë‹¨ê³„
 				if (session->logOutFlag_ == true)
 				{
 					if (session->sendFlag_ == TRUE)
@@ -626,7 +626,7 @@ namespace MinLib
 			// update
 			_this->OnContents_Update();
 
-			//// ·Î±×¾Æ¿ô 1´Ü°è
+			//// ë¡œê·¸ì•„ì›ƒ 1ë‹¨ê³„
 			//for (int i = 0; i < _this->_maxClient; i++)
 			//{
 			//	if (_this->_sessionArray[i]->_mode != CONTENTS)
@@ -639,7 +639,7 @@ namespace MinLib
 			//}
 
 
-			// ¸±¸®Áî
+			// ë¦´ë¦¬ì¦ˆ
 			//BEGIN("PART3");
 			//for (int i = 0; i < _this->_maxClient; i++)
 			//{
@@ -680,7 +680,7 @@ namespace MinLib
 					InterlockedDecrement(&_this->_AuthSession);
 				}
 			}
-			// ·Î±×¾Æ¿ô 2´Ü°è
+			// ë¡œê·¸ì•„ì›ƒ 2ë‹¨ê³„
 			for (int i = 0; i < _this->_maxClient; i++)
 			{
 				session = sessionArray[i];
@@ -728,7 +728,8 @@ namespace MinLib
 	void MMOServer::Start(const char* fileName)
 	{
 		LoadConfig(fileName);
-		LOGGER.SetLogDir(&wstring(L"Server_LOG"));
+		wstring logDirName(L"Server_LOG");
+		LOGGER.SetLogDir(&logDirName);
 		LOGGER.SetLogLevel(LOG_DEBUG);
 		MMOSession::packetCode_ = _packetCode;
 		MMOSession::XORKey1_ = _XORKey1;

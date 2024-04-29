@@ -1,4 +1,4 @@
-#ifndef __MINLIB_NET_SERVER__
+ï»¿#ifndef __MINLIB_NET_SERVER__
 #define	__MINLIB_NET_SERVER__
 #pragma once
 #pragma comment(lib,"ws2_32.lib")
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <process.h>
 #include "Parser.h"
-#include "struct.h"
+#include "Session.h"
 #include "LockFreeStack.h"
 #include "LockFreeQueue.h"
 #include "StreamBuffer.h"
@@ -22,7 +22,7 @@
 
 //////////////////////////////////////////////////////////////
 // NetServer :
-// ¼³¸í : ¼­¹ö Å¬·¡½º
+// ì„¤ëª… : ì„œë²„ í´ë˜ìŠ¤
 //////////////////////////////////////////////////////////////
 namespace MinLib
 {
@@ -44,21 +44,21 @@ namespace MinLib
 			SERVER_ON
 		};
 	private:
-		Parser			_configParser;						// ÄÁÇÇ±× ÆÄÀÏ ÆÄ¼­
-		Session			_sessionArray[MAXSESSION];			// ¼¼¼ÇÀ» ´ãÀ» ¹è¿­
-		LF_Stack<int>	_indexStack;						// ÇöÀç »ç¿ëÁßÀÌÁö ¾ÊÀº ¹è¿­ ÀÎµ¦½º¸¦ ´ãÀº ½ºÅÃ
-		HANDLE			_iocp;								// iocp ÇÚµé
-		HANDLE			_acceptThread;						// accept½º·¹µå ÇÚµé
-		HANDLE			_workerThread[MAXTHREADCOUNT];		// worker½º·¹µå ÇÚµé ¹è¿­
-		SOCKET			_listenSocket;						// listen ¼ÒÄÏ
-		SERVER_STATUS	_status;							// ¼­¹ö on off »óÅÂ ¸â¹ö
+		Parser			_configParser;						// ì»¨í”¼ê·¸ íŒŒì¼ íŒŒì„œ
+		Session			_sessionArray[MAXSESSION];			// ì„¸ì…˜ì„ ë‹´ì„ ë°°ì—´
+		LF_Stack<int>	_indexStack;						// í˜„ì¬ ì‚¬ìš©ì¤‘ì´ì§€ ì•Šì€ ë°°ì—´ ì¸ë±ìŠ¤ë¥¼ ë‹´ì€ ìŠ¤íƒ
+		HANDLE			_iocp;								// iocp í•¸ë“¤
+		HANDLE			_acceptThread;						// acceptìŠ¤ë ˆë“œ í•¸ë“¤
+		HANDLE			_workerThread[MAXTHREADCOUNT];		// workerìŠ¤ë ˆë“œ í•¸ë“¤ ë°°ì—´
+		SOCKET			_listenSocket;						// listen ì†Œì¼“
+		SERVER_STATUS	_status;							// ì„œë²„ on off ìƒíƒœ ë©¤ë²„
 		int				_clientMAX;
 		int				_monitorNo;
-		int				_workerThreadCount;					// ½ÇÇàµÈ worker½º·¹µå ¼ö
-		int				_activeWorkerThreadCount;			// µ¿½Ã¿¡ ½ÇÇàµÉ iocp½º·¹µå ¼ö
-		INT64			_clientSeed;						// Á¢¼ÓÇÏ´Â client¿¡°Ô ÁÙ seed °ª
+		int				_workerThreadCount;					// ì‹¤í–‰ëœ workerìŠ¤ë ˆë“œ ìˆ˜
+		int				_activeWorkerThreadCount;			// ë™ì‹œì— ì‹¤í–‰ë  iocpìŠ¤ë ˆë“œ ìˆ˜
+		int64_t			_clientSeed;						// ì ‘ì†í•˜ëŠ” clientì—ê²Œ ì¤„ seed ê°’
 		char			_bindIP[20];
-		int				_serverPort;						// ¼­¹ö Æ÷Æ®¹øÈ£
+		int				_serverPort;						// ì„œë²„ í¬íŠ¸ë²ˆí˜¸
 		BYTE			_packetCode;
 		char			_XORKey1;
 		char			_XORKey2;
@@ -66,26 +66,26 @@ namespace MinLib
 
 
 
-		void RecvProc(Session* session);			// recv ÇÁ·Î½ÃÀú
-		void RecvPost(Session* session);			// recv µî·Ï
-		bool SendPost(Session* session);			// send µî·Ï
+		void RecvProc(Session* session);			// recv í”„ë¡œì‹œì €
+		void RecvPost(Session* session);			// recv ë“±ë¡
+		bool SendPost(Session* session);			// send ë“±ë¡
 
-		void TryDisConnect(Session* session);		// ³»ºÎÀÇ session Á¾·á½Ãµµ
-		bool GetBlankIndex(int* index);			// ½ºÅÃ¿¡¼­ ÀÎµ¦½º °¡Á®¿È
-		int FindIndex(INT64 clientID);				// clientID¸¦ ÀÎµ¦½º·Î º¯È¯
-		void PutHeader(StreamBuffer* packet);		// Çì´õ ºÙÀÌ±â
+		void TryDisConnect(Session* session);		// ë‚´ë¶€ì˜ session ì¢…ë£Œì‹œë„
+		bool GetBlankIndex(int* index);			// ìŠ¤íƒì—ì„œ ì¸ë±ìŠ¤ ê°€ì ¸ì˜´
+		int FindIndex(int64_t clientID);				// clientIDë¥¼ ì¸ë±ìŠ¤ë¡œ ë³€í™˜
+		void PutHeader(StreamBuffer* packet);		// í—¤ë” ë¶™ì´ê¸°
 		BYTE GetCheckSum(char* buffer, int size);
 		void XOR(char* buffer, int size, char key);// XOR
-		void Encode(StreamBuffer* packet);			// ¾ÏÈ£È­
-		bool Decode(PACKET_HEADER* header, StreamBuffer* packet);			// º¹È£È­
+		void Encode(StreamBuffer* packet);			// ì•”í˜¸í™”
+		bool Decode(PACKET_HEADER* header, StreamBuffer* packet);			// ë³µí˜¸í™”
 
-		static unsigned int WINAPI WorkerThreadMain(LPVOID lpParam); // worker½º·¹µå ¸ŞÀÎ
-		static unsigned int WINAPI AcceptThreadMain(LPVOID lpParam); // accept½º·¹µå ¸ŞÀÎ
+		static unsigned int WINAPI WorkerThreadMain(LPVOID lpParam); // workerìŠ¤ë ˆë“œ ë©”ì¸
+		static unsigned int WINAPI AcceptThreadMain(LPVOID lpParam); // acceptìŠ¤ë ˆë“œ ë©”ì¸
 
 	protected:
 	public:
-		//µğ¹ö±× Àü¿ë
-		INT64			_acceptCount;
+		//ë””ë²„ê·¸ ì „ìš©
+		int64_t			_acceptCount;
 		int				_acceptTPS;
 		ULONGLONG		_acceptTPSTime;
 
@@ -93,24 +93,24 @@ namespace MinLib
 		virtual ~NetServer();
 
 		bool LoadConfig();
-		bool Start(bool nagle = true); //¿ÀÇÂ IP / Æ÷Æ® / ¿öÄ¿½º·¹µå ¼ö / ³ª±Û¿É¼Ç / ÃÖ´ëÁ¢¼ÓÀÚ ¼ö
-		void Stop();											// ¼­¹ö Á¾·á
-		void GetIP(INT64 clientID, WCHAR* ipBuffer, int size = 16); // IP°¡Á®¿À±â
-		int GetClientCount();									// client ¼ö ¸®ÅÏ
+		bool Start(bool nagle = true); //ì˜¤í”ˆ IP / í¬íŠ¸ / ì›Œì»¤ìŠ¤ë ˆë“œ ìˆ˜ / ë‚˜ê¸€ì˜µì…˜ / ìµœëŒ€ì ‘ì†ì ìˆ˜
+		void Stop();											// ì„œë²„ ì¢…ë£Œ
+		void GetIP(int64_t clientID, WCHAR* ipBuffer, int size = 16); // IPê°€ì ¸ì˜¤ê¸°
+		int GetClientCount();									// client ìˆ˜ ë¦¬í„´
 
-		bool Disconnect(INT64 clientID); // SESSION_ID		// ¿ÜºÎ¿¡¼­ DisConnect¿äÃ»
-		bool SendPacket(INT64 clientID, StreamBuffer* packet, bool isWorker = false); // SESSION_ID
-		bool SendDisConnect(INT64 clientID, StreamBuffer* packet);
+		bool Disconnect(int64_t clientID); // SESSION_ID		// ì™¸ë¶€ì—ì„œ DisConnectìš”ì²­
+		bool SendPacket(int64_t clientID, StreamBuffer* packet, bool isWorker = false); // SESSION_ID
+		bool SendDisConnect(int64_t clientID, StreamBuffer* packet);
 
-		virtual void OnClientJoin(INT64 ClientID, Session* session) = 0;  // < Accept ÈÄ Á¢¼ÓÃ³¸® ¿Ï·á ÈÄ È£Ãâ.
-		virtual void OnClientLeave(INT64 ClientID) = 0;   	           // < Disconnect ÈÄ È£Ãâ
-		virtual bool OnConnectionRequest(WCHAR* ClientIP, int Port) = 0;        //< accept Á÷ÈÄ
+		virtual void OnClientJoin(int64_t ClientID, Session* session) = 0;  // < Accept í›„ ì ‘ì†ì²˜ë¦¬ ì™„ë£Œ í›„ í˜¸ì¶œ.
+		virtual void OnClientLeave(int64_t ClientID) = 0;   	           // < Disconnect í›„ í˜¸ì¶œ
+		virtual bool OnConnectionRequest(WCHAR* ClientIP, int Port) = 0;        //< accept ì§í›„
 
-		virtual void OnRecv(INT64 clientID, StreamBuffer* packet) = 0;             // < ÆĞÅ¶ ¼ö½Å ¿Ï·á ÈÄ
-		virtual void OnSend(INT64 clientID, int sendSize) = 0;          // < ÆĞÅ¶ ¼Û½Å ¿Ï·á ÈÄ
+		virtual void OnRecv(int64_t clientID, StreamBuffer* packet) = 0;             // < íŒ¨í‚· ìˆ˜ì‹  ì™„ë£Œ í›„
+		virtual void OnSend(int64_t clientID, int sendSize) = 0;          // < íŒ¨í‚· ì†¡ì‹  ì™„ë£Œ í›„
 
-		//virtual void OnWorkerThreadBegin() = 0;                   // < ¿öÄ¿½º·¹µå GQCS ¹Ù·Î ÇÏ´Ü¿¡¼­ È£Ãâ
-		//virtual void OnWorkerThreadEnd() = 0;                     // < ¿öÄ¿½º·¹µå 1·çÇÁ Á¾·á ÈÄ
+		//virtual void OnWorkerThreadBegin() = 0;                   // < ì›Œì»¤ìŠ¤ë ˆë“œ GQCS ë°”ë¡œ í•˜ë‹¨ì—ì„œ í˜¸ì¶œ
+		//virtual void OnWorkerThreadEnd() = 0;                     // < ì›Œì»¤ìŠ¤ë ˆë“œ 1ë£¨í”„ ì¢…ë£Œ í›„
 
 		virtual void OnError(int errorCode, const WCHAR* errorMessage) = 0;
 

@@ -1,4 +1,4 @@
-#ifndef __MINLIB_CPU_USAGE__
+﻿#ifndef __MINLIB_CPU_USAGE__
 #define __MINLIB_CPU_USAGE__
 #pragma once
 #include <Windows.h>

@@ -1,4 +1,4 @@
-#ifndef __MINLIB_LOCKFREE_STACK__
+﻿#ifndef __MINLIB_LOCKFREE_STACK__
 #define __MINLIB_LOCKFREE_STACK__
 
 
@@ -19,12 +19,12 @@ namespace MinLib
 		struct LF_Stack_UNIQUE
 		{
 			LF_Stack_NODE*	topBlock	= { nullptr };
-			INT64			unique		= { 0 };
+			int64_t			unique		= { 0 };
 		};
 
 		alignas(16) LF_Stack_UNIQUE		topBlock_	= {};
 		LF_Stack_NODE*					nullBlock_	= { nullptr };
-		INT64							useCount_	= { 0 };
+		int64_t							useCount_	= { 0 };
 		MemoryPool<LF_Stack_NODE>		memoryPool_ = {};
 
 	public:
@@ -41,7 +41,7 @@ namespace MinLib
 
 		void Push(T data);
 		bool Pop(T* outData);
-		INT64 GetUseCount();
+		int64_t GetUseCount();
 	};
 
 	template<typename T>
@@ -80,7 +80,7 @@ namespace MinLib
 	}
 
 	template<typename T>
-	inline INT64 LF_Stack<T>::GetUseCount()
+	inline int64_t LF_Stack<T>::GetUseCount()
 	{
 		return useCount_;
 	}

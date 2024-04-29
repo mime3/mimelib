@@ -1,16 +1,16 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "CpuUsage.h"
 namespace MinLib
 {
 	CpuUsage::CpuUsage(HANDLE process)
 	{
-		// ÇÚµéÀÌ ¾ø´Ù¸é ÀÚ±âÀÚ½ÅÀ» ´ë»ó
+		// í•¸ë“¤ì´ ì—†ë‹¤ë©´ ìê¸°ìì‹ ì„ ëŒ€ìƒ
 		if (process == INVALID_HANDLE_VALUE)
 		{
 			_process = GetCurrentProcess();
 		}
 
-		// ÇÁ·Î¼¼¼­ °³¼ö È®ÀÎ
+		// í”„ë¡œì„¸ì„œ ê°œìˆ˜ í™•ì¸
 		SYSTEM_INFO systemInfo;
 
 		GetSystemInfo(&systemInfo);
@@ -37,7 +37,7 @@ namespace MinLib
 
 	void CpuUsage::UpdateCpuTime()
 	{
-		// CPU»ç¿ë·ü °»½Å
+		// CPUì‚¬ìš©ë¥  ê°±ì‹ 
 		ULARGE_INTEGER kernel;
 		ULARGE_INTEGER user;
 		ULARGE_INTEGER idle;
@@ -45,7 +45,7 @@ namespace MinLib
 		if (GetSystemTimes((PFILETIME)&idle, (PFILETIME)&kernel, (PFILETIME)&user) == false)
 			return;
 
-		// Ä¿³ÎÅ¸ÀÓ¿¡´Â ¾ÆÀÌµé Å¸ÀÓ Æ÷ÇÔ, Ã³À½°è»ê ÀÌ»óÇÔ
+		// ì»¤ë„íƒ€ì„ì—ëŠ” ì•„ì´ë“¤ íƒ€ì„ í¬í•¨, ì²˜ìŒê³„ì‚° ì´ìƒí•¨
 		ULONGLONG kernelDiff = kernel.QuadPart - _processor_LastKernel.QuadPart;
 		ULONGLONG userDiff = user.QuadPart - _processor_LastUser.QuadPart;
 		ULONGLONG idleDiff = idle.QuadPart - _processor_LastIdle.QuadPart;
@@ -60,7 +60,7 @@ namespace MinLib
 		}
 		else
 		{
-			// Ä¿³Î¿¡¼­ ¾ÆÀÌµé»©¼­ °è»ê
+			// ì»¤ë„ì—ì„œ ì•„ì´ë“¤ë¹¼ì„œ ê³„ì‚°
 			_processorTotal = (float)((double)(Total - idleDiff) / Total * 100.0f);
 			_processorUser = (float)((double)userDiff / Total * 100.0f);
 			_processorKernel = (float)((double)(kernelDiff - idleDiff) / Total * 100.0f);
@@ -70,14 +70,14 @@ namespace MinLib
 			_processor_LastIdle = idle;
 		}
 
-		// ÁöÁ¤µÈ ÇÁ·Î¼¼½º »ç¿ë·üÀ» °»½ÅÇÑ´Ù
+		// ì§€ì •ëœ í”„ë¡œì„¸ìŠ¤ ì‚¬ìš©ë¥ ì„ ê°±ì‹ í•œë‹¤
 		ULARGE_INTEGER none;
 		ULARGE_INTEGER nowTime;
 
 		GetSystemTimeAsFileTime((LPFILETIME)&nowTime);
 		GetProcessTimes(_process, (LPFILETIME)&none, (LPFILETIME)&none, (LPFILETIME)&kernel, (LPFILETIME)&user);
 
-		// ÀÌÀüÀÇ ½Ã°£°ú ºñ±³ÇØ¼­ Áö³­½Ã°£ È®ÀÎ
+		// ì´ì „ì˜ ì‹œê°„ê³¼ ë¹„êµí•´ì„œ ì§€ë‚œì‹œê°„ í™•ì¸
 		ULONGLONG TimeDiff = nowTime.QuadPart - _process_LastTime.QuadPart;
 		userDiff = user.QuadPart - _process_LastUser.QuadPart;
 		kernelDiff = kernel.QuadPart - _process_LastKernel.QuadPart;

@@ -1,4 +1,4 @@
-#ifndef __MINLIB_SPRITE_DIB__
+ï»¿#ifndef __MINLIB_SPRITE_DIB__
 #define __MINLIB_SPRITE_DIB__
 #pragma once
 #include <windows.h>
@@ -34,11 +34,11 @@ namespace MinLib
 
 		bool LoadDIBSprite(int spriteIndex, const char* fileName, int centerPointX, int centerPointY);
 		void ReleaseDIB(int spriteIndex);
-		// ÄÃ·¯Å° Ã³¸®
+		// ì»¬ëŸ¬í‚¤ ì²˜ë¦¬
 		void DrawSprite(int spriteIndex, int drawX, int drawY, BYTE* dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 		void DrawSpriteRed(int spriteIndex, int drawX, int drawY, BYTE* dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 		void DrawSpriteHalfAlpha(int spriteIndex, int drawX, int drawY, BYTE* dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
-		// ÄÃ·¯Å° ¹ÌÃ³¸®
+		// ì»¬ëŸ¬í‚¤ ë¯¸ì²˜ë¦¬
 		void DrawImage(int spriteIndex, int drawX, int drawY, BYTE* dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 	};
 }

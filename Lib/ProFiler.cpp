@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "ProFiler.h"
 //#include "stdafx.h"
 
@@ -40,7 +40,7 @@ namespace MinLib
 				continue;
 
 			blockPointer->proFileBlock[i].useFlag = true;
-			strcpy_s(blockPointer->proFileBlock[i].name, name); //strcpy´Â destÀÇ ¹öÆÛ°¡ ÀÛÀ»°æ¿ì¿¡ ÁÖÀÇÇÑ´Ù.
+			strcpy_s(blockPointer->proFileBlock[i].name, name); //strcpyëŠ” destì˜ ë²„í¼ê°€ ì‘ì„ê²½ìš°ì— ì£¼ì˜í•œë‹¤.
 			for (auto& minTime : blockPointer->proFileBlock[i].minTime)
 			{
 				minTime = 0x7FFFFFFFFFFFFFFF;
@@ -56,7 +56,7 @@ namespace MinLib
 		//		continue;
 
 		//	proFile.useFlag = true;
-		//	strcpy_s(proFile._name, name); //strcpy´Â destÀÇ ¹öÆÛ°¡ ÀÛÀ»°æ¿ì¿¡ ÁÖÀÇÇÑ´Ù.
+		//	strcpy_s(proFile._name, name); //strcpyëŠ” destì˜ ë²„í¼ê°€ ì‘ì„ê²½ìš°ì— ì£¼ì˜í•œë‹¤.
 		//	for (auto & minTime : proFile.minTime)
 		//	{
 		//		minTime = 0x7FFFFFFFFFFFFFFF;
@@ -107,7 +107,7 @@ namespace MinLib
 		proFilePointer->totalTime += time;
 		proFilePointer->startTime.QuadPart = 0;
 
-		// ÀÛÀº°Å ¹Ğ¾î³»¸é¼­ ÀúÀå
+		// ì‘ì€ê±° ë°€ì–´ë‚´ë©´ì„œ ì €ì¥
 		for (int i = 0; i < sizeof(proFilePointer->minTime) / sizeof(LONGLONG); ++i)
 		{
 			if (time < proFilePointer->minTime[i])
@@ -120,7 +120,7 @@ namespace MinLib
 				break;
 			}
 		}
-		// Å«°Å ¹Ğ¾î³»¸é¼­ ÀúÀå
+		// í°ê±° ë°€ì–´ë‚´ë©´ì„œ ì €ì¥
 		for (int i = 0; i < sizeof(proFilePointer->maxTime) / sizeof(LONGLONG); ++i)
 		{
 			if (proFilePointer->maxTime[i] < time)
@@ -179,11 +179,11 @@ namespace MinLib
 					}
 					minusForAverage += ProFileBlock.maxTime[i];
 				}
-				// ÃÑ½Ã°£ / Ä«¿îÆ® / Áøµ¿¼ö
+				// ì´ì‹œê°„ / ì¹´ìš´íŠ¸ / ì§„ë™ìˆ˜
 				long double average;
 				long double minTime;
 				long double maxTime;
-				// ÃæºĞÇÑ È£ÃâÀÌ ÀÌ·ç¾îÁöÁö ¾Ê¾Ò´Ù. (¹ö¸®´Â¾çÀÌ ´õ ¸¹´Ù)
+				// ì¶©ë¶„í•œ í˜¸ì¶œì´ ì´ë£¨ì–´ì§€ì§€ ì•Šì•˜ë‹¤. (ë²„ë¦¬ëŠ”ì–‘ì´ ë” ë§ë‹¤)
 				if (ProFileBlock.totalTime < minusForAverage)
 				{
 					average =
@@ -215,7 +215,7 @@ namespace MinLib
 				maxTime *= 1000000;
 
 
-				fprintf_s(file_, "%10d | %15s | %13.4lf§Á | %13.4lf§Á | %13.4lf§Á | %15ld\n",
+				fprintf_s(file_, "%10d | %15s | %13.4lfã² | %13.4lfã² | %13.4lfã² | %15ld\n",
 					blockPointerArray_[block]->threadID, ProFileBlock.name, average, minTime, maxTime, ProFileBlock.callCount);
 			}
 			fprintf_s(file_, "----------------------------------------------------------------------------------------------------\n");

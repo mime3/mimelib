@@ -1,4 +1,4 @@
-#ifndef __MINLIB_LOGGER__
+ï»¿#ifndef __MINLIB_LOGGER__
 #define __MINLIB_LOGGER__
 
 #pragma once
@@ -20,7 +20,7 @@ namespace MinLib
 #define LOG(filename, logLevel, fmt, ...)		LOGGER.Log(filename, logLevel, fmt, __VA_ARGS__)
 #define LOGHEX(filename, logLevel, log, size)	LOGGER.LogHex(filename, logLevel, log, size)
 
-	// ·Î±× Å¬·¡½º
+	// ë¡œê·¸ í´ë˜ìŠ¤
 	class Logger : public SingleTon<Logger>
 	{
 	public:
@@ -40,16 +40,16 @@ namespace MinLib
 		Logger();
 		~Logger();
 
-		// ·Î±×
+		// ë¡œê·¸
 		void Log(const WCHAR* filename, LogLevel logLevel, const WCHAR* fmt, ...);
 		void Log(const WCHAR* filename, const WCHAR* fmt, va_list args);
-		// 16Áø¼ö·Î ·Î±×ÀÛ¼º
+		// 16ì§„ìˆ˜ë¡œ ë¡œê·¸ì‘ì„±
 		void LogHex(const WCHAR* filename, LogLevel logLevel, const CHAR* loghex, int hexSize);
-		// ·Î±×·¹º§ ¼¼ÆÃ
+		// ë¡œê·¸ë ˆë²¨ ì„¸íŒ…
 		void SetLogLevel(LogLevel level);
-		// ·Î±×µğ·ºÅä¸®
+		// ë¡œê·¸ë””ë ‰í† ë¦¬
 		void SetLogDir(wstring* fileName);
-		// ¿Â¿ÀÇÁ
+		// ì˜¨ì˜¤í”„
 		void OnOff(bool onoff);
 		//
 		bool isFinalize();
@@ -59,17 +59,17 @@ namespace MinLib
 		static unsigned int __stdcall logThreadMain(LPVOID logger);
 
 	private:
-		LogLevel		logLevel_		= { LogLevel::LOG_LEVEL_DEBUG };	// ·Î±× ·¹º§
-		std::wstring	logDir_			= {};								// ·Î±×ÀúÀå °æ·Î
-		bool			fileSaveFlag_	= { false };						// ÆÄÀÏÀúÀå ÇÃ·¡±×s
-		unsigned int	logCount_		= { 0 };							// ·Î±× Ä«¿îÆ®
+		LogLevel		logLevel_		= { LogLevel::LOG_LEVEL_DEBUG };	// ë¡œê·¸ ë ˆë²¨
+		std::wstring	logDir_			= {};								// ë¡œê·¸ì €ì¥ ê²½ë¡œ
+		bool			fileSaveFlag_	= { false };						// íŒŒì¼ì €ì¥ í”Œë˜ê·¸s
+		unsigned int	logCount_		= { 0 };							// ë¡œê·¸ ì¹´ìš´íŠ¸
 		bool			isFinalize_		= { false };
 
 
-		HANDLE			logThread_			= { nullptr };	// ·Î±× ½º·¹µå
-		HANDLE			messageQueueEvent_	= { nullptr };	// ·Î±×¸Ş½ÃÁö Å¥ ÀÌº¥Æ®
-		LF_Queue<LogMessage*>		messageQueue_	= {};	// ·Î±×¸Ş½ÃÁö Å¥
-		MemoryPoolTLS<LogMessage>	messagePool_	= {};	// ·Î±×¸Ş½ÃÁö ºí·Ï ¸Ş¸ğ¸®Ç®
+		HANDLE			logThread_			= { nullptr };	// ë¡œê·¸ ìŠ¤ë ˆë“œ
+		HANDLE			messageQueueEvent_	= { nullptr };	// ë¡œê·¸ë©”ì‹œì§€ í ì´ë²¤íŠ¸
+		LF_Queue<LogMessage*>		messageQueue_	= {};	// ë¡œê·¸ë©”ì‹œì§€ í
+		MemoryPoolTLS<LogMessage>	messagePool_	= {};	// ë¡œê·¸ë©”ì‹œì§€ ë¸”ë¡ ë©”ëª¨ë¦¬í’€
 	};
 
 }

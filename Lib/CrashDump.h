@@ -1,4 +1,4 @@
-#ifndef __MINLIB_CRASH_DUMP__
+ï»¿#ifndef __MINLIB_CRASH_DUMP__
 #define __MINLIB_CRASH_DUMP__
 #pragma once
 #pragma comment(lib, "Dbghelp.lib")
@@ -11,15 +11,15 @@
 #pragma warning( disable : 6011 )
 //////////////////////////////////////////////////////////////
 // CrashDump 
-// ¼³¸í : ¿¹¿Ü¸¦ ÇÚµé¸µÇÏ¿© ´ıÇÁÆÄÀÏ ¸¸µéµµ·Ï À¯µµÇÏ´Â Å¬·¡½º
+// ì„¤ëª… : ì˜ˆì™¸ë¥¼ í•¸ë“¤ë§í•˜ì—¬ ë¤í”„íŒŒì¼ ë§Œë“¤ë„ë¡ ìœ ë„í•˜ëŠ” í´ë˜ìŠ¤
 //////////////////////////////////////////////////////////////
 namespace MinLib
 {
 	class CrashDump
 	{
 	public:
-		// »ı¼ºÀÚ
-		// ¿¹¿Ü ÇÚµé¸µ
+		// ìƒì„±ì
+		// ì˜ˆì™¸ í•¸ë“¤ë§
 		CrashDump()
 		{
 			_dumpCount = 0;

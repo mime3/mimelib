@@ -1,4 +1,4 @@
-//#include "pch.h"
+﻿//#include "pch.h"
 #include "PDHClass.h"
 
 namespace MinLib

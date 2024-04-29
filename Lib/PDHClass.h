@@ -1,4 +1,4 @@
-#ifndef __MINLIB_PDH_CLASS__
+﻿#ifndef __MINLIB_PDH_CLASS__
 #define __MINLIB_PDH_CLASS__
 #pragma once
 #include <Windows.h>

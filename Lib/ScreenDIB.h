@@ -1,4 +1,4 @@
-#ifndef __MINLIB_SCREEN_DIB__
+﻿#ifndef __MINLIB_SCREEN_DIB__
 #define __MINLIB_SCREEN_DIB__
 #pragma once
 #include <windows.h>

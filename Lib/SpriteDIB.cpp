@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+ï»¿//#include "stdafx.h"
 //#include "pch.h"
 #include "SpriteDIB.h"
 
@@ -61,7 +61,7 @@ namespace MinLib
 		}
 		delete[] buffer;
 
-		//// Use fseek Ver;	// ³¡¿¡ ÀÌ»óÇÑ °ªÀÌ ´õÇØÁ®ÀÖ´Â°æ¿ì°¡ ÀÖ¾î¼­ À§Çè
+		//// Use fseek Ver;	// ëì— ì´ìƒí•œ ê°’ì´ ë”í•´ì ¸ìˆëŠ”ê²½ìš°ê°€ ìˆì–´ì„œ ìœ„í—˜
 		//fseek(file, 0, SEEK_END);
 		//for (int y = 0; y < _spritePointer[spriteIndex].height; ++y)
 		//{

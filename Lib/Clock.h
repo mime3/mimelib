@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __MINLIB_CLOCK__
 #define __MINLIB_CLOCK__
 #include <Windows.h>

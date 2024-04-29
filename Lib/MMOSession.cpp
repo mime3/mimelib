@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "MMOSession.h"
 
 namespace MinLib
@@ -65,7 +65,7 @@ namespace MinLib
 	{
 	}
 
-	void MMOSession::Init(ACCEPT_INFO* acceptInfo, INT64 sessionID)
+	void MMOSession::Init(ACCEPT_INFO* acceptInfo, int64_t sessionID)
 	{
 		socket_ = acceptInfo->socket;
 		wcscpy_s(IP_, acceptInfo->IP);
@@ -84,7 +84,7 @@ namespace MinLib
 	void MMOSession::Clean()
 	{
 		//ZeroMemory(this, sizeof(MMOSession));
-		// º¸³»±âÀü Å¥¿¡ ³²Àº°Å Á¤¸®
+		// ë³´ë‚´ê¸°ì „ íì— ë‚¨ì€ê±° ì •ë¦¬
 		int count = (int)sendQueue_.GetUseCount();
 		while (count--)
 		{
@@ -93,13 +93,13 @@ namespace MinLib
 			PacketFree(packet);
 		}
 
-		// º¸³»±âÈÄ Å¥¿¡ ³²Àº°Å ´Ù Á¤¸®
+		// ë³´ë‚´ê¸°í›„ íì— ë‚¨ì€ê±° ë‹¤ ì •ë¦¬
 		for (int i = 0; i < sendCount_; i++)
 		{
 			PacketFree(sendArray_[i]);
 		}
 
-		// ¼ö½ÅµÈ ¿Ï¼ºÆĞÅ¶ Å¥ Á¤¸®
+		// ìˆ˜ì‹ ëœ ì™„ì„±íŒ¨í‚· í ì •ë¦¬
 		//count = (int)_completeRecvQueue.size();
 		//while (count--)
 		//{

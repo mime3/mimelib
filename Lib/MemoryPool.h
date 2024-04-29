@@ -1,4 +1,4 @@
-#ifndef __MINLIB_MEMORY_POOL__
+ï»¿#ifndef __MINLIB_MEMORY_POOL__
 #define __MINLIB_MEMORY_POOL__
 
 
@@ -8,15 +8,15 @@
 /*---------------------------------------------------------------
 procademy MemoryPool.
 
-¸Ş¸ğ¸® Ç® Å¬·¡½º (¿ÀºêÁ§Æ® Ç®)
-Æ¯Á¤ µ¥ÀÌÅ¸(±¸Á¶Ã¼,Å¬·¡½º,º¯¼ö)¸¦ ÀÏÁ¤·® ÇÒ´ç ÈÄ ³ª´²¾´´Ù.
+ë©”ëª¨ë¦¬ í’€ í´ë˜ìŠ¤ (ì˜¤ë¸Œì íŠ¸ í’€)
+íŠ¹ì • ë°ì´íƒ€(êµ¬ì¡°ì²´,í´ë˜ìŠ¤,ë³€ìˆ˜)ë¥¼ ì¼ì •ëŸ‰ í• ë‹¹ í›„ ë‚˜ëˆ ì“´ë‹¤.
 
-- »ç¿ë¹ı.
+- ì‚¬ìš©ë²•.
 
 procademy::CMemoryPool<DATA> MemPool(0, FALSE);
 DATA *pData = MemPool.Alloc();
 
-pData »ç¿ë
+pData ì‚¬ìš©
 
 MemPool.Free(pData);
 ----------------------------------------------------------------*/
@@ -26,7 +26,7 @@ namespace MinLib
 	class MemoryPool
 	{
 	private:
-		// °¢ ºí·° ¾Õ¿¡ »ç¿ëµÉ ³ëµå ±¸Á¶Ã¼.
+		// ê° ë¸”ëŸ­ ì•ì— ì‚¬ìš©ë  ë…¸ë“œ êµ¬ì¡°ì²´.
 		struct BLOCK_NODE
 		{
 			DATA		data		= {};
@@ -34,41 +34,41 @@ namespace MinLib
 			char		endCode		= { 0x77 };
 		};
 
-		// ABA ¹®Á¦¸¦ ÇØ°áÇÏ±â À§ÇØ unique°ªÀ» Æ÷ÇÔÇÑ 16¹ÙÀÌÆ® Á¤·Ä ±¸Á¶Ã¼
+		// ABA ë¬¸ì œë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´ uniqueê°’ì„ í¬í•¨í•œ 16ë°”ì´íŠ¸ ì •ë ¬ êµ¬ì¡°ì²´
 		struct ALIGNAS16_BLOCK
 		{
 			BLOCK_NODE*	topNode = { nullptr };
-			INT64		unique	= { 0 };
+			int64_t		unique	= { 0 };
 		};
 
-		alignas(16) ALIGNAS16_BLOCK topNodeBlock_	= {};				// 16¹ÙÀÌÆ® Á¤·ÄµÈ Top Node
+		alignas(16) ALIGNAS16_BLOCK topNodeBlock_	= {};				// 16ë°”ì´íŠ¸ ì •ë ¬ëœ Top Node
 		BLOCK_NODE* nullNode_						= { nullptr };		// Null Node
 		int		top_								= { 0 };			// Top Index
-		int		totalBlockCount_					= { 0 };			// ºí·° ÀüÃ¼ ¼ö
-		int		useBlockCount_						= { 0 };			// »ç¿ëÁßÀÎ ºí·° ¼ö
-		bool	placementNewFlag_					= { false };		// placementNew »ç¿ë ¿©ºÎ
+		int		totalBlockCount_					= { 0 };			// ë¸”ëŸ­ ì „ì²´ ìˆ˜
+		int		useBlockCount_						= { 0 };			// ì‚¬ìš©ì¤‘ì¸ ë¸”ëŸ­ ìˆ˜
+		bool	placementNewFlag_					= { false };		// placementNew ì‚¬ìš© ì—¬ë¶€
 	public:
-		// »ı¼ºÀÚ
+		// ìƒì„±ì
 		MemoryPool(int blockNum = 0, bool placementNew = false);
-		// ¼Ò¸êÀÚ
+		// ì†Œë©¸ì
 		~MemoryPool();
 
-		// Data ÇÒ´ç
+		// Data í• ë‹¹
 		DATA* Alloc();
-		// Data ÇØÁ¦
+		// Data í•´ì œ
 		bool Free(DATA* pData);
-		// Data ºí·° ÀüÃ¼ ¼ö
+		// Data ë¸”ëŸ­ ì „ì²´ ìˆ˜
 		int	GetTotalBlockCount();
-		// »ç¿ëÁßÀÎ Data ºí·° ¼ö
+		// ì‚¬ìš©ì¤‘ì¸ Data ë¸”ëŸ­ ìˆ˜
 		int	GetUseBlockCount();
-		// Free µÈ Data ºí·° Á¤¸®
+		// Free ëœ Data ë¸”ëŸ­ ì •ë¦¬
 		bool Clearance(int blockNum = 0);
 	};
 	/*----------------------------------------------------------*/
 	// MemoryPool::MemoryPool (public)
-	// ¼³¸í : »ı¼ºÀÚ
-	// ÀÎÀÚ : (int) ÃÊ±â ºí·° °³¼ö, (bool) DATA»ı¼ºÀÚ È£Ãâ ¿©ºÎ.
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ìƒì„±ì
+	// ì¸ì : (int) ì´ˆê¸° ë¸”ëŸ­ ê°œìˆ˜, (bool) DATAìƒì„±ì í˜¸ì¶œ ì—¬ë¶€.
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline MemoryPool<DATA>::MemoryPool(int blockNum, bool placementNew)
@@ -80,7 +80,7 @@ namespace MinLib
 		placementNewFlag_ = placementNew;
 		nullNode_ = new BLOCK_NODE;
 		/*---------------*/
-		// ÇÏ³ªÇÏ³ª »õ·Î ¸¸µé±â
+		// í•˜ë‚˜í•˜ë‚˜ ìƒˆë¡œ ë§Œë“¤ê¸°
 		topNodeBlock_.topNode = nullNode_;
 		for (int i = 0; i < blockNum; ++i)
 		{
@@ -98,8 +98,8 @@ namespace MinLib
 		/*---------------*/
 
 		/*---------------*/
-		// ÇÑ¹ø¿¡ Âß ÇÒ´çÇÏ°í ³ª´²¾²±â
-		// ÇöÀç ¼Ò¸êÀÚ¿¡¼­ delete½Ã ¿¹¿Ü¹ß»ı
+		// í•œë²ˆì— ì­‰ í• ë‹¹í•˜ê³  ë‚˜ëˆ ì“°ê¸°
+		// í˜„ì¬ ì†Œë©¸ìì—ì„œ deleteì‹œ ì˜ˆì™¸ë°œìƒ
 		//_topNode = new BLOCK_NODE[blockNum];
 		//for (int i = 0; i < blockNum; ++i)
 		//{
@@ -121,14 +121,14 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::~MemoryPool (public)
-	// ¼³¸í : ÆÄ±«ÀÚ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : íŒŒê´´ì
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline MemoryPool<DATA>::~MemoryPool()
 	{
-		// »ç¿ëÀÚ°¡ ¹İÈ¯ÇÏÁö ¾Ê´Â ºí·°Àº ÇØÁ¦ÇÏÁö ¾Ê´Â´Ù.
+		// ì‚¬ìš©ìê°€ ë°˜í™˜í•˜ì§€ ì•ŠëŠ” ë¸”ëŸ­ì€ í•´ì œí•˜ì§€ ì•ŠëŠ”ë‹¤.
 		BLOCK_NODE* tempNode;
 		while (1)
 		{
@@ -137,7 +137,7 @@ namespace MinLib
 			{
 				//((DATA *)&(_topNodeBlock._topNode->data))->~DATA();
 			}
-			// ¿©±â¼­ DATAÀÇ ¼Ò¸êÀÚ¸¦ È£ÃâÇÏ°í ÀÖ´Ù ¿ÖÀÌ·²±î
+			// ì—¬ê¸°ì„œ DATAì˜ ì†Œë©¸ìë¥¼ í˜¸ì¶œí•˜ê³  ìˆë‹¤ ì™œì´ëŸ´ê¹Œ
 			delete topNodeBlock_.topNode;
 			if (tempNode == nullptr)
 				break;
@@ -147,14 +147,14 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::Alloc (public)
-	// ¼³¸í : DATA ºí·° ÇÏ³ª¸¦ ÇÒ´ç¹Ş´Â´Ù.
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (DATA *) µ¥ÀÌÅ¸ ºí·° Æ÷ÀÎÅÍ
+	// ì„¤ëª… : DATA ë¸”ëŸ­ í•˜ë‚˜ë¥¼ í• ë‹¹ë°›ëŠ”ë‹¤.
+	// ì¸ì : 
+	// ë¦¬í„´ : (DATA *) ë°ì´íƒ€ ë¸”ëŸ­ í¬ì¸í„°
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline DATA* MemoryPool<DATA>::Alloc()
 	{
-		// »õ·Î¸¸µé¾î¼­ ¹İÈ¯
+		// ìƒˆë¡œë§Œë“¤ì–´ì„œ ë°˜í™˜
 	AllocStart:
 		if (topNodeBlock_.topNode == nullNode_)
 		{
@@ -167,7 +167,7 @@ namespace MinLib
 			InterlockedIncrement64((LONG64*)& topNodeBlock_.unique);
 			return allocData;
 		}
-		// topNode¿¡¼­ µ¥ÀÌÅÍ Æ÷ÀÎÅÍ ¹İÈ¯
+		// topNodeì—ì„œ ë°ì´í„° í¬ì¸í„° ë°˜í™˜
 		else
 		{
 			alignas(16) ALIGNAS16_BLOCK popNode;
@@ -193,14 +193,14 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::Free (virtual) (private) (protected) (public)
-	// ¼³¸í : »ç¿ëÁßÀÌ´ø ºí·°À» ÇØÁ¦ÇÑ´Ù
-	// ÀÎÀÚ : (DATA *) ºí·° Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (bool) ÇØÁ¦ ¼º°ø ¿©ºÎ
+	// ì„¤ëª… : ì‚¬ìš©ì¤‘ì´ë˜ ë¸”ëŸ­ì„ í•´ì œí•œë‹¤
+	// ì¸ì : (DATA *) ë¸”ëŸ­ í¬ì¸í„°
+	// ë¦¬í„´ : (bool) í•´ì œ ì„±ê³µ ì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline bool MemoryPool<DATA>::Free(DATA* data)
 	{
-		// ½ºÅÃ¿¡ »ğÀÔ , endCodeÈ®ÀÎ
+		// ìŠ¤íƒì— ì‚½ì… , endCodeí™•ì¸
 		//BLOCK_NODE * node = (BLOCK_NODE *)(((char *)data) - sizeof(void *));
 		BLOCK_NODE* node = (BLOCK_NODE*)data;
 		if (node->endCode != 0x77)
@@ -221,9 +221,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::GetTotalBlockCount (public)
-	// ¼³¸í : ÇöÀç È®º¸ µÈ ºí·° °³¼ö¸¦ ¾ò´Â´Ù. (¸Ş¸ğ¸®Ç® ³»ºÎÀÇ ÀüÃ¼ °³¼ö)
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (int) ¸Ş¸ğ¸® Ç® ³»ºÎ ÀüÃ¼ °³¼ö
+	// ì„¤ëª… : í˜„ì¬ í™•ë³´ ëœ ë¸”ëŸ­ ê°œìˆ˜ë¥¼ ì–»ëŠ”ë‹¤. (ë©”ëª¨ë¦¬í’€ ë‚´ë¶€ì˜ ì „ì²´ ê°œìˆ˜)
+	// ì¸ì : 
+	// ë¦¬í„´ : (int) ë©”ëª¨ë¦¬ í’€ ë‚´ë¶€ ì „ì²´ ê°œìˆ˜
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetTotalBlockCount()
@@ -233,9 +233,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::GetUseBlockCount (public)
-	// ¼³¸í : ÇöÀç »ç¿ëÁßÀÎ ºí·° °³¼ö¸¦ ¾ò´Â´Ù
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (int) »ç¿ëÁßÀÎ ºí·° °³¼ö
+	// ì„¤ëª… : í˜„ì¬ ì‚¬ìš©ì¤‘ì¸ ë¸”ëŸ­ ê°œìˆ˜ë¥¼ ì–»ëŠ”ë‹¤
+	// ì¸ì : 
+	// ë¦¬í„´ : (int) ì‚¬ìš©ì¤‘ì¸ ë¸”ëŸ­ ê°œìˆ˜
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline int MemoryPool<DATA>::GetUseBlockCount()
@@ -245,9 +245,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::Clearance (public)
-	// ¼³¸í : ¹Ì»ç¿ëÁßÀÎ ºí·°À» ÇØÁ¦ÇÑ´Ù
-	// ÀÎÀÚ : (int) °¹¼ö, 0ÀÌ¸é ÇöÀçÀÇ Àı¹İ.
-	// ¸®ÅÏ : (bool) ¼º°ø¿©ºÎ.
+	// ì„¤ëª… : ë¯¸ì‚¬ìš©ì¤‘ì¸ ë¸”ëŸ­ì„ í•´ì œí•œë‹¤
+	// ì¸ì : (int) ê°¯ìˆ˜, 0ì´ë©´ í˜„ì¬ì˜ ì ˆë°˜.
+	// ë¦¬í„´ : (bool) ì„±ê³µì—¬ë¶€.
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline bool MemoryPool<DATA>::Clearance(int blockNum)
@@ -273,11 +273,11 @@ namespace MinLib
 
 	//////////////////////////////////////////////////////////////
 	// MemoryPoolTLS :
-	// ¼³¸í : MemoryPool TLS ¹öÀü
+	// ì„¤ëª… : MemoryPool TLS ë²„ì „
 	//////////////////////////////////////////////////////////////
 
-	constexpr int CHUNK_SIZE = 500;							// Chunk ´ç DATA ºí·° ¼ö
-	constexpr LONG64 CHUNK_ENDCODE = 0x7777777777777777;	// Chunk °ËÁõ¿ë EndCode
+	constexpr int CHUNK_SIZE = 500;							// Chunk ë‹¹ DATA ë¸”ëŸ­ ìˆ˜
+	constexpr LONG64 CHUNK_ENDCODE = 0x7777777777777777;	// Chunk ê²€ì¦ìš© EndCode
 
 	template <class DATA>
 	class MemoryPoolTLS
@@ -286,18 +286,18 @@ namespace MinLib
 		class Chunk;
 		//////////////////////////////////////////////////
 		// DATA_BLOCK :
-		// ¼³¸í : DATA¸¦ Æ÷ÇÔÇÏ´Â ºí·°
+		// ì„¤ëª… : DATAë¥¼ í¬í•¨í•˜ëŠ” ë¸”ëŸ­
 		//////////////////////////////////////////////////
 		struct DATA_BLOCK
 		{
-			DATA	data	= {};						// Data ¿µ¿ª
-			Chunk*	chunk	= { nullptr };				// ÀÚ½ÅÀ» Æ÷ÇÔÇÑ Chunk Pointer
-			LONG64	endCode	= { CHUNK_ENDCODE };		// °ËÁõ¿ë Chunk EndCode
+			DATA	data	= {};						// Data ì˜ì—­
+			Chunk*	chunk	= { nullptr };				// ìì‹ ì„ í¬í•¨í•œ Chunk Pointer
+			LONG64	endCode	= { CHUNK_ENDCODE };		// ê²€ì¦ìš© Chunk EndCode
 		};
 
 		//////////////////////////////////////////////////
 		// Chunk :
-		// ¼³¸í : MemoryPoolTLS ¿¡¼­ »ç¿ëÇÏ´Â DATA µ¢¾î¸®
+		// ì„¤ëª… : MemoryPoolTLS ì—ì„œ ì‚¬ìš©í•˜ëŠ” DATA ë©ì–´ë¦¬
 		//////////////////////////////////////////////////
 		class Chunk
 		{
@@ -305,9 +305,9 @@ namespace MinLib
 			friend class MemoryPoolTLS<DATA>;
 
 		public:
-			// »ı¼ºÀÚ
+			// ìƒì„±ì
 			Chunk();
-			// DATA ºí·Ï ÇÒ´ç
+			// DATA ë¸”ë¡ í• ë‹¹
 			DATA* Alloc();
 			// DATA Free
 			bool Free(DATA_BLOCK* block);
@@ -318,46 +318,46 @@ namespace MinLib
 			void Initialize();
 
 		private:
-			DATA_BLOCK		dataBlock_[CHUNK_SIZE]		= {};			// DataBlock ¿µ¿ª
-			short			useSize_					= { 0 };		// »ç¿ëÁßÀÎ °³¼ö (Thread SafeÇØ¾ßÇÔ)
-			short			freeSize_					= { 0 };		// ¹Ì»ç¿ëÁßÀÎ °³¼ö (Thread SafeÇØ¾ßÇÔ)
+			DATA_BLOCK		dataBlock_[CHUNK_SIZE]		= {};			// DataBlock ì˜ì—­
+			short			useSize_					= { 0 };		// ì‚¬ìš©ì¤‘ì¸ ê°œìˆ˜ (Thread Safeí•´ì•¼í•¨)
+			short			freeSize_					= { 0 };		// ë¯¸ì‚¬ìš©ì¤‘ì¸ ê°œìˆ˜ (Thread Safeí•´ì•¼í•¨)
 			MemoryPoolTLS*	memoryPoolTLSPointer_		= { nullptr };	// MemoryPoolTLS Pointer
 		};
 
 		friend class Chunk;
 
 	public:
-		// »ı¼ºÀÚ
+		// ìƒì„±ì
 		MemoryPoolTLS(bool placementNewFlag = false);
-		// ¼Ò¸êÀÚ
+		// ì†Œë©¸ì
 		~MemoryPoolTLS();
 
-		// Data ºí·° ÇÒ´ç
+		// Data ë¸”ëŸ­ í• ë‹¹
 		DATA* Alloc();
-		// Data ºí·° ÇØÁ¦
+		// Data ë¸”ëŸ­ í•´ì œ
 		bool Free(DATA* block);
-		// ÀüÃ¼ Chunk ¼ö
+		// ì „ì²´ Chunk ìˆ˜
 		int GetTotalBlockCount();
-		// »ç¿ëÁßÀÎ Chunk ¼ö
+		// ì‚¬ìš©ì¤‘ì¸ Chunk ìˆ˜
 		int GetUseBlockCount();
 
 	protected:
-		// »õ Chunk »ı¼º
+		// ìƒˆ Chunk ìƒì„±
 		void NewChunk(Chunk** chunk);
 
 	private:
-		INT					allocCount_				= { 0 };		// ÇÒ´ç ¹ŞÀº ¼ö
+		INT					allocCount_				= { 0 };		// í• ë‹¹ ë°›ì€ ìˆ˜
 		DWORD				tlsIndex_				= { 0 };		// TLS Index
-		bool				placementNewFlag_		= { false };	// placementNew »ç¿ë ¿©ºÎ
-		MemoryPool<Chunk>	memoryPool_				= {};			// Chunk¸¦ °ü¸®ÇÏ´Â MemoryPool
+		bool				placementNewFlag_		= { false };	// placementNew ì‚¬ìš© ì—¬ë¶€
+		MemoryPool<Chunk>	memoryPool_				= {};			// Chunkë¥¼ ê´€ë¦¬í•˜ëŠ” MemoryPool
 
 	};
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS::NewChunk (protected)
-	// ¼³¸í : »õ·Î¿î Chunk »ı¼º, MemoryPool<Chunk>·ÎºÎÅÍ ÇÒ´ç ¹Ş´Â´Ù
-	// ÀÎÀÚ : (Chunk**) ÇÒ´ç¹ŞÀ» »õ Chunk Æ÷ÀÎÅÍÀÇ Æ÷ÀÎÅÍ
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ìƒˆë¡œìš´ Chunk ìƒì„±, MemoryPool<Chunk>ë¡œë¶€í„° í• ë‹¹ ë°›ëŠ”ë‹¤
+	// ì¸ì : (Chunk**) í• ë‹¹ë°›ì„ ìƒˆ Chunk í¬ì¸í„°ì˜ í¬ì¸í„°
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template<class DATA>
 	inline void MemoryPoolTLS<DATA>::NewChunk(Chunk** chunk)
@@ -371,9 +371,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS::MemoryPoolTLS (public)
-	// ¼³¸í : »ı¼ºÀÚ
-	// ÀÎÀÚ : (bool) placementNew »ç¿ë ¿©ºÎ
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ìƒì„±ì
+	// ì¸ì : (bool) placementNew ì‚¬ìš© ì—¬ë¶€
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::MemoryPoolTLS(bool placementNewFlag)
@@ -384,40 +384,40 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS::~MemoryPoolTLS (public)
-	// ¼³¸í : ¼Ò¸êÀÚ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : ì†Œë©¸ì
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::~MemoryPoolTLS()
 	{
-		// ÀÚ¿ø Á¤¸®?
+		// ìì› ì •ë¦¬?
 	}
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS::Alloc (public)
-	// ¼³¸í : Data ºí·° 1°³ ÇÒ´ç, ChunkÀÇ AllocÀ» È£ÃâÇÔ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : Data ºí·° Æ÷ÀÎÅÍ
+	// ì„¤ëª… : Data ë¸”ëŸ­ 1ê°œ í• ë‹¹, Chunkì˜ Allocì„ í˜¸ì¶œí•¨
+	// ì¸ì : 
+	// ë¦¬í„´ : Data ë¸”ëŸ­ í¬ì¸í„°
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline DATA* MemoryPoolTLS<DATA>::Alloc()
 	{
 		Chunk* chunk = (Chunk*)TlsGetValue(tlsIndex_);
-		// ¾øÀ¸¸é TLS ¼¼ÆÃ
+		// ì—†ìœ¼ë©´ TLS ì„¸íŒ…
 		if (chunk == nullptr)
 			NewChunk(&chunk);
 
-		// ¼ÒÁøµÈ Ã»Å©ÀÏ¶§ , ½ÇÁ¦·Î´Â ±×·²ÀÏÀÌ ¾øÀ½
+		// ì†Œì§„ëœ ì²­í¬ì¼ë•Œ , ì‹¤ì œë¡œëŠ” ê·¸ëŸ´ì¼ì´ ì—†ìŒ
 		//if (chunk->_useSize == CHUNK_SIZE)
 		//	NewChunk(&chunk);
 
-		// ½ÇÁ¦ ¸Ş¸ğ¸® Alloc
+		// ì‹¤ì œ ë©”ëª¨ë¦¬ Alloc
 		DATA* block = chunk->Alloc();
 		if (placementNewFlag_)
 			new (block) DATA;
 
-		// ¸¶Áö¸·À¸·Î ½èÀ¸¸é »õ Ã»Å©·Î ±³Ã¼
+		// ë§ˆì§€ë§‰ìœ¼ë¡œ ì¼ìœ¼ë©´ ìƒˆ ì²­í¬ë¡œ êµì²´
 		if (chunk->useSize_ == CHUNK_SIZE)
 			NewChunk(&chunk);
 
@@ -428,9 +428,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS::Free (public)
-	// ¼³¸í : Data ºí·°À» Chunk¿¡ ¹İ³³, ChunkÀÇ Free¸¦ È£ÃâÇÔ
-	// ÀÎÀÚ : (Data*) Data ºí·° Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : Data ë¸”ëŸ­ì„ Chunkì— ë°˜ë‚©, Chunkì˜ Freeë¥¼ í˜¸ì¶œí•¨
+	// ì¸ì : (Data*) Data ë¸”ëŸ­ í¬ì¸í„°
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline bool MemoryPoolTLS<DATA>::Free(DATA* block)
@@ -444,9 +444,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::GetUseBlockCount (public)
-	// ¼³¸í : »ç¿ëÁßÀÎ Chunk ¼ö
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (int) Chunk ¼ö
+	// ì„¤ëª… : ì‚¬ìš©ì¤‘ì¸ Chunk ìˆ˜
+	// ì¸ì : 
+	// ë¦¬í„´ : (int) Chunk ìˆ˜
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline int MemoryPoolTLS<DATA>::GetUseBlockCount()
@@ -456,9 +456,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPool::GetTotalBlockCount (public)
-	// ¼³¸í : ÀüÃ¼ Chunk ¼ö
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (int) Chunk ¼ö
+	// ì„¤ëª… : ì „ì²´ Chunk ìˆ˜
+	// ì¸ì : 
+	// ë¦¬í„´ : (int) Chunk ìˆ˜
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline int MemoryPoolTLS<DATA>::GetTotalBlockCount()
@@ -471,9 +471,9 @@ namespace MinLib
 	//////////////////////////////////////////////////////////////
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS<DATA>::Chunk::Chunk (public)
-	// ¼³¸í : Chunk »ı¼ºÀÚ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : Chunk ìƒì„±ì
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline MemoryPoolTLS<DATA>::Chunk::Chunk()
@@ -486,9 +486,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS<DATA>::Chunk::Alloc (public)
-	// ¼³¸í : Data ºí·° 1°³ ÇÒ´ç
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (DATA*) Data ºí·° Æ÷ÀÎÅÍ
+	// ì„¤ëª… : Data ë¸”ëŸ­ 1ê°œ í• ë‹¹
+	// ì¸ì : 
+	// ë¦¬í„´ : (DATA*) Data ë¸”ëŸ­ í¬ì¸í„°
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline DATA* MemoryPoolTLS<DATA>::Chunk::Alloc()
@@ -498,14 +498,14 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS<DATA>::Chunk::Free (public)
-	// ¼³¸í : Dataºí·°À» Free ÇÔ
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ : (bool) Free ¼º°ø ¿©ºÎ
+	// ì„¤ëª… : Dataë¸”ëŸ­ì„ Free í•¨
+	// ì¸ì : 
+	// ë¦¬í„´ : (bool) Free ì„±ê³µ ì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline bool MemoryPoolTLS<DATA>::Chunk::Free(DATA_BLOCK* block)
 	{
-		// endÄÚµå¸¦ Ã¼Å©ÇÑ ºí·°ÀÓ
+		// endì½”ë“œë¥¼ ì²´í¬í•œ ë¸”ëŸ­ì„
 		int freeSize = InterlockedIncrement16(&freeSize_);
 		if (memoryPoolTLSPointer_->placementNewFlag_)
 		{
@@ -518,9 +518,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// MemoryPoolTLS<DATA>::Chunk::Free (public)
-	// ¼³¸í : Dataºí·°À» Free ÇÔ, ÇöÀç »ç¿ëÇÏÁö´Â ¾ÊÀ½
-	// ÀÎÀÚ : (DATA* data) Data ºí·° Æ÷ÀÎÅÍ
-	// ¸®ÅÏ : (bool) Free ¼º°ø ¿©ºÎ
+	// ì„¤ëª… : Dataë¸”ëŸ­ì„ Free í•¨, í˜„ì¬ ì‚¬ìš©í•˜ì§€ëŠ” ì•ŠìŒ
+	// ì¸ì : (DATA* data) Data ë¸”ëŸ­ í¬ì¸í„°
+	// ë¦¬í„´ : (bool) Free ì„±ê³µ ì—¬ë¶€
 	/*----------------*////////////////////////*----------------*/
 	template <class DATA>
 	inline bool MemoryPoolTLS<DATA>::Chunk::Free(DATA* data)

@@ -1,4 +1,4 @@
-#ifndef __MINLIB_MONITOR_LAN_CLIENT__
+ï»¿#ifndef __MINLIB_MONITOR_LAN_CLIENT__
 #define __MINLIB_MONITOR_LAN_CLIENT__
 #pragma once
 #include "LanClient.h"
@@ -37,7 +37,7 @@ namespace MinLib
 
 	public:
 		MonitorLanClient(const char* config, TCHAR* processName, int ID = 0);
-		//Á¾·á´Â APCÅ¥·Î Á¾·á
+		//ì¢…ë£ŒëŠ” APCíë¡œ ì¢…ë£Œ
 		~MonitorLanClient();
 
 		void SetMyID(int id);
@@ -47,10 +47,10 @@ namespace MinLib
 		void MakePacket_Monitor_Data_Update(StreamBuffer* packet, BYTE dataType, int dataValue, int timeStamp);
 
 		static void CALLBACK NotifyExit(ULONG_PTR param);
-		// ¸ğ´ÏÅÍ ½º·¹µå·Î ¸Å ¼­¹ö¿¡ ¾÷µ¥ÀÌÆ® ¼Û½Å
+		// ëª¨ë‹ˆí„° ìŠ¤ë ˆë“œë¡œ ë§¤ ì„œë²„ì— ì—…ë°ì´íŠ¸ ì†¡ì‹ 
 		static unsigned int WINAPI MonitorThreadMain(LPVOID lpParam);
 
-		// LanClientÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+		// LanClientì„(ë¥¼) í†µí•´ ìƒì†ë¨
 		virtual void OnClientJoin(INT64 ClientID, Session* session) override;
 		virtual void OnClientLeave(INT64 ClientID) override;
 		virtual bool OnConnectionRequest(char* ClientIP, int Port) override;

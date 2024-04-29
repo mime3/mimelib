@@ -1,4 +1,4 @@
-#ifndef __MINLIB_HTTP_REQUEST__
+﻿#ifndef __MINLIB_HTTP_REQUEST__
 #define __MINLIB_HTTP_REQUEST__
 #pragma once
 #include <WinSock2.h>

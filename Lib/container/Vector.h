@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef MINLIB_VECTOR
 #define MINLIB_VECTOR
 

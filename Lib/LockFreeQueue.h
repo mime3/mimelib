@@ -1,4 +1,4 @@
-#ifndef __MINLIB_LOCKFREE_QUEUE__
+ï»¿#ifndef __MINLIB_LOCKFREE_QUEUE__
 #define __MINLIB_LOCKFREE_QUEUE__
 #pragma once
 #include <Windows.h>
@@ -19,19 +19,19 @@ namespace MinLib
 		struct LF_Queue_UNIQUE
 		{
 			LF_Queue_NODE*	node;
-			INT64			unique;
+			int64_t			unique;
 		};
 
-		// 16¹ÙÀÌÆ® Á¤·Ä
+		// 16ë°”ì´íŠ¸ ì •ë ¬
 		alignas(16) volatile LF_Queue_UNIQUE head_;
 		alignas(16) volatile LF_Queue_UNIQUE tail_;
 		MemoryPool<LF_Queue_NODE> memoryPool_;
-		INT64 useSize_ = { 0 };
+		int64_t useSize_ = { 0 };
 
 	public:
-		LF_Queue()	// »ı¼ºÀÚ
+		LF_Queue()	// ìƒì„±ì
 		{
-			// ´õ¹Ì ³ëµå »ı¼º
+			// ë”ë¯¸ ë…¸ë“œ ìƒì„±
 			head_.node = memoryPool_.Alloc();
 			head_.node->next = nullptr;
 			tail_.node = head_.node;
@@ -57,23 +57,23 @@ namespace MinLib
 
 				if (localTail.unique == tail_.unique)
 				{
-					// ·ÎÄÃ tailÀÌ ³¡ÁöÁ¡ÀÎ°Å °°´Ù
+					// ë¡œì»¬ tailì´ ëì§€ì ì¸ê±° ê°™ë‹¤
 					if (next == nullptr)
 					{
-						// ½ÇÁ¦·Î enqueueÇÑ´Ù
+						// ì‹¤ì œë¡œ enqueueí•œë‹¤
 						if (InterlockedCompareExchange64((LONG64*)& tail_.node->next, (LONG64)node, (LONG64)nullptr) == (LONG64)nullptr)
 						{
-							// tailÀ» ¿Å±â·Á ÇØº»´Ù
+							// tailì„ ì˜®ê¸°ë ¤ í•´ë³¸ë‹¤
 							InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
 							break;
 						}
-						// ±×»çÀÌ ·ÎÄÃtailÀÌ tailÀÌ¶û ´Ş¶óÁ³´Ù
+						// ê·¸ì‚¬ì´ ë¡œì»¬tailì´ tailì´ë‘ ë‹¬ë¼ì¡Œë‹¤
 						else
 						{
 							continue;
 						}
 					}
-					// ·ÎÄÃ tailÀÌ ³¡ÁöÁ¡ÀÌ¾Æ´Ï¾ú´Ù
+					// ë¡œì»¬ tailì´ ëì§€ì ì´ì•„ë‹ˆì—ˆë‹¤
 					else
 					{
 						InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)next, (LONG64*)& localTail);
@@ -97,23 +97,23 @@ namespace MinLib
 			//while (loopCount++)
 			while (1)
 			{
-				// HeadÀúÀå
+				// Headì €ì¥
 				localHead.unique = head_.unique;
 				localHead.node = head_.node;
-				// TailÀúÀå
+				// Tailì €ì¥
 				localTail.unique = tail_.unique;
 				localTail.node = tail_.node;
-				// headÀÇ nextÀúÀå
+				// headì˜ nextì €ì¥
 				next = localHead.node->next;
 
-				//// »õ·Î¿î ¹öÀü
+				//// ìƒˆë¡œìš´ ë²„ì „
 				//if (_useSize == 0)
 				//{
 				//	if(_head.node == _tail.node)
 				//		return false;
 				//}
 
-				//// tail µÚ¿¡ node°¡ ÀÖÀ¸¸é ¹Ğ±â
+				//// tail ë’¤ì— nodeê°€ ìˆìœ¼ë©´ ë°€ê¸°
 				//if (localTail.node->next != nullptr)
 				//{
 				//	InterlockedCompareExchange128((LONG64 *)&_tail, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64 *)&localTail);
@@ -132,55 +132,55 @@ namespace MinLib
 				//	}
 				//}
 
-				// head°¡ ¾ÆÁ÷ ¹Ù²îÁö ¾Ê¾Ò´Ù
+				// headê°€ ì•„ì§ ë°”ë€Œì§€ ì•Šì•˜ë‹¤
 				if (localHead.unique == head_.unique)
 				{
-					// head¿Í tailÀÌ ºÙ¾îÀÖ´Ù. ºñ¾ú°Å³ª ¾ÆÁ÷ tailÀÌ ¾È°¬°Å³ª
+					// headì™€ tailì´ ë¶™ì–´ìˆë‹¤. ë¹„ì—ˆê±°ë‚˜ ì•„ì§ tailì´ ì•ˆê°”ê±°ë‚˜
 					if (localHead.node == localTail.node)
 					{
-						// ·ÎÄÃhead¿¡ next°¡ ¾ø´Ù
-						// Áï ºó Å¥
+						// ë¡œì»¬headì— nextê°€ ì—†ë‹¤
+						// ì¦‰ ë¹ˆ í
 						if (next == nullptr)
 						{
 							return false;
-							//// ÀÌ¸¸Å­ ½ÃµµÇß´Âµ¥ ¾ÈµÇ¸é ¶§·ÁÄ¡ÀÚ
+							//// ì´ë§Œí¼ ì‹œë„í–ˆëŠ”ë° ì•ˆë˜ë©´ ë•Œë ¤ì¹˜ì
 							//if (MAXLOOPCOUNT < loopCount++)
 							//{
 							//	return false;
 							//}
-							//// Àá±ñ ´Ù¸¥½º·¹µå ¸ÕÀú ÇØºÁ¶ó
+							//// ì ê¹ ë‹¤ë¥¸ìŠ¤ë ˆë“œ ë¨¼ì € í•´ë´ë¼
 							//Sleep(0);
-							//// ¸®ÅÏÇÏÁö¸»°í ´Ù½ÃÁ» ÇØº¸ÀÚ
+							//// ë¦¬í„´í•˜ì§€ë§ê³  ë‹¤ì‹œì¢€ í•´ë³´ì
 							//continue;
 						}
-						// next´Â ÀÖÀ¸³ª tailÀÌ ¾ÆÁ÷ ¾È¿òÁ÷¿´´Ù 
-						// dequeue½Ã tailÀÌ Å¥ ¹ÛÀ¸·Î³ª°£´Ù
-						// tailÀÇ next°¡ ÀÖÀ»¶§¸¸ ¹ĞÀÚ
+						// nextëŠ” ìˆìœ¼ë‚˜ tailì´ ì•„ì§ ì•ˆì›€ì§ì˜€ë‹¤ 
+						// dequeueì‹œ tailì´ í ë°–ìœ¼ë¡œë‚˜ê°„ë‹¤
+						// tailì˜ nextê°€ ìˆì„ë•Œë§Œ ë°€ì
 						//if (localTail.node->next != nullptr)
 						else
 						{
 							InterlockedCompareExchange128((LONG64*)& tail_, localTail.unique + 1, (LONG64)localTail.node->next, (LONG64*)& localTail);
 						}
 					}
-					// ÀÏ´Ü head¿Í tailÀº ¶³¾îÁ®ÀÖ´Ù
+					// ì¼ë‹¨ headì™€ tailì€ ë–¨ì–´ì ¸ìˆë‹¤
 					else
 					{
-						// È¤½Ã¸ğ¸£´Ï±î
+						// í˜¹ì‹œëª¨ë¥´ë‹ˆê¹Œ
 						if (next == nullptr)
 							continue;
 						if (localHead.unique != head_.unique)
 							continue;
-						// ½ÇÁ¦·Î dequeueÇØº»´Ù
+						// ì‹¤ì œë¡œ dequeueí•´ë³¸ë‹¤
 						*outData = next->data;
 						if (InterlockedCompareExchange128((LONG64*)& head_, localHead.unique + 1, (LONG64)next, (LONG64*)& localHead))
 						{
 							memoryPool_.Free(localHead.node);
 							break;
 						}
-						// ±×»çÀÌ head°¡ ¹Ù²î¾ú´Ù 
+						// ê·¸ì‚¬ì´ headê°€ ë°”ë€Œì—ˆë‹¤ 
 						else
 						{
-							// Ã³À½ºÎÅÍ Àç½ÃµµÇÒ »Ó µû·Î ÇÒ°Å¾ø´Ù
+							// ì²˜ìŒë¶€í„° ì¬ì‹œë„í•  ë¿ ë”°ë¡œ í• ê±°ì—†ë‹¤
 						}
 					}
 				}
@@ -235,7 +235,7 @@ namespace MinLib
 			return true;
 		}
 
-		INT64 GetUseCount()
+		int64_t GetUseCount()
 		{
 			return useSize_;
 		}

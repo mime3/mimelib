@@ -1,4 +1,4 @@
-#ifndef __MINLIB_MMO_SESSION__
+ï»¿#ifndef __MINLIB_MMO_SESSION__
 #define __MINLIB_MMO_SESSION__
 #pragma once
 #include <WinSock2.h>
@@ -51,17 +51,17 @@ namespace MinLib
 		SOCKET	socket_			= {};
 		WCHAR	IP_[16]			= { 0, };
 		int		port_			= { 0 };
-		INT64	sessionID_		= { 0 };
+		int64_t	sessionID_		= { 0 };
 		int		ioCount_		= { 0 };
 		MODE	mode_			= { MODE::NONE };
 
 		OVERLAPPED				sendOverLapped_ = {};			// sendoverlapped
 		OVERLAPPED				recvOverLapped_ = {};			// recvoverlapped
-		BOOL					sendFlag_ = { FALSE };			// Àü¼ÛÁß ¿©ºÎ ÇÃ·¡±×
-		int						sendCount_ = { 0 };				// Àü¼ÛÇÑ ÆÐÅ¶ ¼ö
+		BOOL					sendFlag_ = { FALSE };			// ì „ì†¡ì¤‘ ì—¬ë¶€ í”Œëž˜ê·¸
+		int						sendCount_ = { 0 };				// ì „ì†¡í•œ íŒ¨í‚· ìˆ˜
 		LF_Queue<StreamBuffer*> sendQueue_;
 		StreamQueue				recvQueue_;
-		StreamBuffer*			sendArray_[mmoSendArraySize];	// Àü¼ÛÇÑ ÆÐÅ¶ ÀúÀå¹è¿­
+		StreamBuffer*			sendArray_[mmoSendArraySize];	// ì „ì†¡í•œ íŒ¨í‚· ì €ìž¥ë°°ì—´
 		//std::queue<StreamBuffer *> _completeRecvQueue;
 		LF_Queue<StreamBuffer*> completeRecvQueue_;
 
@@ -84,7 +84,7 @@ namespace MinLib
 	public:
 		MMOSession();
 		~MMOSession();
-		void Init(ACCEPT_INFO* acceptInfo, INT64 sessionID);
+		void Init(ACCEPT_INFO* acceptInfo, int64_t sessionID);
 		void Clean();
 		bool SendPacket(StreamBuffer* packet);
 	};

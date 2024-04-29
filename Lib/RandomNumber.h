@@ -1,4 +1,4 @@
-#ifndef __MINLIB_RANDOM_NUMBER__
+﻿#ifndef __MINLIB_RANDOM_NUMBER__
 #define __MINLIB_RANDOM_NUMBER__
 #pragma once
 #include <random>

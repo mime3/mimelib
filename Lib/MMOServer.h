@@ -1,4 +1,4 @@
-#ifndef __MINLIB_MMO_SERVER__
+﻿#ifndef __MINLIB_MMO_SERVER__
 #define __MINLIB_MMO_SERVER__
 #pragma once
 #pragma comment(lib,"ws2_32.lib")
@@ -67,12 +67,12 @@ namespace MinLib
 		int		_sendThreadCount			= { 0 };
 		int		_maxClient					= { 0 };
 		int		_monitorNo					= { 0 };
-		INT64	_clientSeed					= { 0 };
+		int64_t	_clientSeed					= { 0 };
 
 		// seed
 		int		_sendThreadSeed				= { 0 };
 
-		// config�κ�
+		// config부분
 		int ACCEPT_SLEEP = 10;
 		int SEND_SLEEP = 10;
 		int AUTH_SLEEP = 50;

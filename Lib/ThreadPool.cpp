@@ -1,4 +1,4 @@
-#include "ThreadPool.h"
+ï»¿#include "ThreadPool.h"
 #include <process.h>
 
 namespace MinLib
@@ -45,11 +45,11 @@ namespace MinLib
 
 	DWORD ThreadPool::CreateThreads()
 	{
-		//  Worker thread »ı¼º
+		//  Worker thread ìƒì„±
 		unsigned int threadID;
 		int i;
 
-		//  I/O Completion Port »ı¼º
+		//  I/O Completion Port ìƒì„±
 		completionPort_ = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 		if (completionPort_ == INVALID_HANDLE_VALUE)
 			return ERROR_CAN_NOT_COMPLETE;
@@ -89,7 +89,7 @@ namespace MinLib
 			// used PQCS
 			if (overlapped == nullptr)
 			{
-				// key ÀÇ Function½ÇÇà
+				// key ì˜ Functionì‹¤í–‰
 			}
 		}
 

@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+ï»¿//#include "stdafx.h"
 //#include "pch.h"
 #include "BMPLoader.h"
 namespace MinLib
@@ -85,7 +85,7 @@ namespace MinLib
 		_width = _infoHeader.biWidth;
 		_height = _infoHeader.biHeight;
 
-		// 4¹ÙÀÌÆ®·Î Á¤·ÄµÈ »óÅÂ¸¦ °í·ÁÇÑ size°è»ê
+		// 4ë°”ì´íŠ¸ë¡œ ì •ë ¬ëœ ìƒíƒœë¥¼ ê³ ë ¤í•œ sizeê³„ì‚°
 		_size = ((_infoHeader.biWidth * (_infoHeader.biBitCount / 8) + 3) & ~3) * _infoHeader.biHeight;
 		_bitmapPointer = (BYTE*)malloc(_size);
 		//_bitmapPointer = new BYTE[_size];

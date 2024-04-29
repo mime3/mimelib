@@ -1,4 +1,4 @@
-//#include "stdafx.h"
+ï»¿//#include "stdafx.h"
 //#include "pch.h"
 #include "DoubleBuffer.h"
 namespace MinLib
@@ -39,7 +39,7 @@ namespace MinLib
 
 	void DoubleBuffer::ReSizeBitMap()
 	{
-		// »èÁ¦ÇÏ±âÀü¿¡ DC¿¡ ¿¬°áµÈ ºñÆ®¸ÊÀ» ¿¬°á ÇØÁ¦ÇØ¾ß ÇÒ¼öµµ ÀÖÀ½
+		// ì‚­ì œí•˜ê¸°ì „ì— DCì— ì—°ê²°ëœ ë¹„íŠ¸ë§µì„ ì—°ê²° í•´ì œí•´ì•¼ í• ìˆ˜ë„ ìˆìŒ
 		DeleteObject(_bitMap);
 		GetClientRect(_hWnd, &_rect);
 		_bitMap = CreateCompatibleBitmap(GetDC(_hWnd), _rect.right, _rect.bottom);

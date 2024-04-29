@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef __MINLIB_BMP_LOADER__
 #define __MINLIB_BMP_LOADER__
 #include <Windows.h>

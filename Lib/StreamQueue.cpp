@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //#include "pch.h"
 //#include "stdafx.h"
 #include <Windows.h>
@@ -7,9 +7,9 @@ namespace MinLib
 {
 	/*----------------------------------------------------------*/
 	// StreamQueue::StreamQueue (public)
-	// ¼³¸í : »ı¼ºÀÚ
-	// ÀÎÀÚ : (int) ¹öÆÛ ¹ÙÀÌÆ® Å©±â
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : ìƒì„±ì
+	// ì¸ì : (int) ë²„í¼ ë°”ì´íŠ¸ í¬ê¸°
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	StreamQueue::StreamQueue(int iBufferSize)
 	{
@@ -18,9 +18,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamQueue::~StreamQueue (public)
-	// ¼³¸í : ¼Ò¸êÀÚ
-	// ÀÎÀÚ :
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : ì†Œë©¸ì
+	// ì¸ì :
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	StreamQueue::~StreamQueue()
 	{
@@ -29,14 +29,14 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamQueue::Initial (protected)
-	// ¼³¸í : ÃÊ±âÈ­
-	// ÀÎÀÚ : (int) ¹öÆÛ ¹ÙÀÌÆ® Å©±â
-	// ¸®ÅÏ : 
+	// ì„¤ëª… : ì´ˆê¸°í™”
+	// ì¸ì : (int) ë²„í¼ ë°”ì´íŠ¸ í¬ê¸°
+	// ë¦¬í„´ : 
 	/*----------------*////////////////////////*----------------*/
 	void StreamQueue::Initial(int iBufferSize)
 	{
 		_bufferPointer = new char[iBufferSize];
-		// front´Â Ç×»ó ºó°÷À» °¡¸®Å²´Ù.
+		// frontëŠ” í•­ìƒ ë¹ˆê³³ì„ ê°€ë¦¬í‚¨ë‹¤.
 		_front = 0;
 		_rear = 0;
 		_size = iBufferSize;
@@ -45,9 +45,9 @@ namespace MinLib
 	}
 	/*----------------------------------------------------------*/
 	// StreamQueue::Enqueue (public)
-	// ¼³¸í : WritePos ¿¡ µ¥ÀÌÅÍ Enqueue
-	// ÀÎÀÚ : (char *) µ¥ÀÌÅÍ Æ÷ÀÎÅÍ, (int) Å©±â
-	// ¸®ÅÏ : (int) Enqueue µÈ Å©±â.
+	// ì„¤ëª… : WritePos ì— ë°ì´í„° Enqueue
+	// ì¸ì : (char *) ë°ì´í„° í¬ì¸í„°, (int) í¬ê¸°
+	// ë¦¬í„´ : (int) Enqueue ëœ í¬ê¸°.
 	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Enqueue(char* chpData, int iSize)
 	{
@@ -81,9 +81,9 @@ namespace MinLib
 	}
 	/*----------------------------------------------------------*/
 	// StreamQueue::Dequeue (public)
-	// ¼³¸í : ReadPos ¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿È. ReadPos ÀÌµ¿
-	// ÀÎÀÚ : (char *) µ¥ÀÌÅÍ Æ÷ÀÎÅÍ, (int)Å©±â
-	// ¸®ÅÏ : (int) Dequeue µÈ Å©±â.
+	// ì„¤ëª… : ReadPos ì—ì„œ ë°ì´í„° ê°€ì ¸ì˜´. ReadPos ì´ë™
+	// ì¸ì : (char *) ë°ì´í„° í¬ì¸í„°, (int)í¬ê¸°
+	// ë¦¬í„´ : (int) Dequeue ëœ í¬ê¸°.
 	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Dequeue(char* chpDest, int iSize)
 	{
@@ -115,9 +115,9 @@ namespace MinLib
 	}
 	/*----------------------------------------------------------*/
 	// StreamQueue::Peek (public)
-	// ¼³¸í : ReadPos ¿¡¼­ µ¥ÀÌÅ¸ ÀĞ¾î¿È. ReadPos °íÁ¤
-	// ÀÎÀÚ : (char *) µ¥ÀÌÅÍ Æ÷ÀÎÅÍ, (int) Å©±â
-	// ¸®ÅÏ : (int) °¡Á®¿Â Å©±â
+	// ì„¤ëª… : ReadPos ì—ì„œ ë°ì´íƒ€ ì½ì–´ì˜´. ReadPos ê³ ì •
+	// ì¸ì : (char *) ë°ì´í„° í¬ì¸í„°, (int) í¬ê¸°
+	// ë¦¬í„´ : (int) ê°€ì ¸ì˜¨ í¬ê¸°
 	/*----------------*////////////////////////*----------------*/
 	int StreamQueue::Peek(char* chpDest, int iSize, int jumpSize)
 	{

@@ -1,4 +1,4 @@
-#ifndef __MINLIB_STREAM_BUFFER__
+ï»¿#ifndef __MINLIB_STREAM_BUFFER__
 #define __MINLIB_STREAM_BUFFER__
 #pragma once
 //#include <Windows.h>
@@ -10,52 +10,52 @@
 
 //////////////////////////////////////////////////////////////
 // StreamBuffer :
-// ¼³¸í : Á÷·ÄÈ­ ¹öÆÛ Å¬·¡½º
+// ì„¤ëª… : ì§ë ¬í™” ë²„í¼ í´ë˜ìŠ¤
 //////////////////////////////////////////////////////////////
 namespace MinLib
 {
 	class StreamBuffer
 	{
-		char*	buffer_;				// ÀüÃ¼ ¹öÆÛ Æ÷ÀÎÅÍ
-		int		front_;					// front Æ÷ÀÎÅÍ
-		int		rear_;					// rear Æ÷ÀÎÅÍ
-		int		size_;					// ÀüÃ¼ Å©±â
-		int		refCount_;				// ·¹ÆÛ·±½º Ä«¿îÆ®
-		bool	headerFillFlag_;		// Çì´õ Ã¤¿ò ÇÃ·¡±×
-		bool	headerEnterFlag_;		// Çì´õ Fill ½ÃÀÛ ÇÃ·¡±×
-		bool	encodeFlag_;			// ÀÎÄÚµù ÇÃ·¡±×
+		char*	buffer_;				// ì „ì²´ ë²„í¼ í¬ì¸í„°
+		int		front_;					// front í¬ì¸í„°
+		int		rear_;					// rear í¬ì¸í„°
+		int		size_;					// ì „ì²´ í¬ê¸°
+		int		refCount_;				// ë ˆí¼ëŸ°ìŠ¤ ì¹´ìš´íŠ¸
+		bool	headerFillFlag_;		// í—¤ë” ì±„ì›€ í”Œë˜ê·¸
+		bool	headerEnterFlag_;		// í—¤ë” Fill ì‹œì‘ í”Œë˜ê·¸
+		bool	encodeFlag_;			// ì¸ì½”ë”© í”Œë˜ê·¸
 
-		static MemoryPoolTLS<StreamBuffer> memoryPool_ ; // ¸Ş¸ğ¸® °ü¸® Pool
+		static MemoryPoolTLS<StreamBuffer> memoryPool_ ; // ë©”ëª¨ë¦¬ ê´€ë¦¬ Pool
 
 	public:
 		static int allocCount_;
 		StreamBuffer(int size = PacketSIZE);
 		~StreamBuffer();
-		// _ref Áõ°¡
+		// _ref ì¦ê°€
 		inline void AddRef();
-		// _rearÀ» ³¡À¸·Î ÀÌµ¿
+		// _rearì„ ëìœ¼ë¡œ ì´ë™
 		inline void MoveEndIndex(int size = PacketSIZE);
-		// ¹öÆÛ ÁÖ¼Ò Æ÷ÀÎÅÍ ¸®ÅÏ
+		// ë²„í¼ ì£¼ì†Œ í¬ì¸í„° ë¦¬í„´
 		inline char* GetBuffer();
-		// ¾²±â½ÃÀÛ ÁÖ¼Ò ¸®ÅÏ
+		// ì“°ê¸°ì‹œì‘ ì£¼ì†Œ ë¦¬í„´
 		inline char* GetWritePtr();
-		// ¹öÆÛ Å©±â ¸®ÅÏ
+		// ë²„í¼ í¬ê¸° ë¦¬í„´
 		inline int GetSize();
-		// ¹öÆÛ »ç¿ëÁßÀÎ Å©±â ¸®ÅÏ
+		// ë²„í¼ ì‚¬ìš©ì¤‘ì¸ í¬ê¸° ë¦¬í„´
 		inline int GetUseSize();
-		// ¹öÆÛ ÇØÁ¦ÈÄ ÀçÇÒ´ç
+		// ë²„í¼ í•´ì œí›„ ì¬í• ë‹¹
 		inline void ReSize(int size);
-		// front¸¦ headerSize¸¸Å­ ÀÌµ¿
+		// frontë¥¼ headerSizeë§Œí¼ ì´ë™
 		inline void BlankHeader(int headerSize);
-		// ¹öÆÛ ½ÃÀÛÁÖ¼ÒºÎÅÍ size¸¸Å­ º¹»ç
+		// ë²„í¼ ì‹œì‘ì£¼ì†Œë¶€í„° sizeë§Œí¼ ë³µì‚¬
 		inline void FillHeader(char* buffer, int size);
-		// front rear 0À¸·Î Á¤¸®
+		// front rear 0ìœ¼ë¡œ ì •ë¦¬
 		inline void Clear();
 
 		virtual inline void Encode(char* buffer, int size);
 		virtual inline void Decode(char* buffer, int size);
 
-		// ¹öÆÛ¿¡ µ¥ÀÌÅÍ ÀúÀå
+		// ë²„í¼ì— ë°ì´í„° ì €ì¥
 		inline int In(char* buffer, int size);
 		inline int In(WCHAR* buffer, int size);
 
@@ -73,10 +73,10 @@ namespace MinLib
 		//template<> inline bool In(BYTE buffer);
 		//template<> inline bool In(WORD buffer);
 		//template<> inline bool In(DWORD buffer);
-		//template<> inline bool In(INT64 buffer);
-		//template<> inline bool In(UINT64 buffer);
+		//template<> inline bool In(int64_t buffer);
+		//template<> inline bool In(Uint64_t buffer);
 
-		// ¹öÆÛ¿¡¼­ µ¥ÀÌÅÍ ²¨³»±â
+		// ë²„í¼ì—ì„œ ë°ì´í„° êº¼ë‚´ê¸°
 		inline int Out(char* buffer, int size);
 		inline int Out(WCHAR* buffer, int size);
 
@@ -94,16 +94,16 @@ namespace MinLib
 		//template<> inline void Out(BYTE * buffer);
 		//template<> inline void Out(WORD * buffer);
 		//template<> inline void Out(DWORD * buffer);
-		//template<> inline void Out(INT64 * buffer);
-		//template<> inline void Out(UINT64 *buffer);
+		//template<> inline void Out(int64_t * buffer);
+		//template<> inline void Out(Uint64_t *buffer);
 
 
-		// ÀúÀå, ²¨³»±â ¿¬»êÀÚ ¿À¹ö·Îµù
+		// ì €ì¥, êº¼ë‚´ê¸° ì—°ì‚°ì ì˜¤ë²„ë¡œë”©
 		template<typename T> inline StreamBuffer& operator <<(const T& inData);
 		template<typename T> inline StreamBuffer& operator >>(const T& outData);
-		// ÇÒ´ç
+		// í• ë‹¹
 		static StreamBuffer* Alloc(int size);
-		// ÇØÁ¦
+		// í•´ì œ
 		static void Free(StreamBuffer* buffer);
 
 		friend class LanServer;
@@ -249,9 +249,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::In (public)
-	// ¼³¸í : in
-	// ÀÎÀÚ : (BYTE)
-	// ¸®ÅÏ :
+	// ì„¤ëª… : in
+	// ì¸ì : (BYTE)
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline bool StreamBuffer::In(BYTE buffer)
@@ -265,9 +265,9 @@ namespace MinLib
 	//
 	///*----------------------------------------------------------*/
 	//// StreamBuffer::In (public)
-	//// ¼³¸í : 
-	//// ÀÎÀÚ : (WORD)
-	//// ¸®ÅÏ :
+	//// ì„¤ëª… : 
+	//// ì¸ì : (WORD)
+	//// ë¦¬í„´ :
 	///*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline bool StreamBuffer::In(WORD buffer)
@@ -281,9 +281,9 @@ namespace MinLib
 	//
 	///*----------------------------------------------------------*/
 	//// StreamBuffer::In (public)
-	//// ¼³¸í : 
-	//// ÀÎÀÚ : (DWORD)
-	//// ¸®ÅÏ :
+	//// ì„¤ëª… : 
+	//// ì¸ì : (DWORD)
+	//// ë¦¬í„´ :
 	///*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline bool StreamBuffer::In(DWORD buffer)
@@ -296,7 +296,7 @@ namespace MinLib
 	//}
 	//
 	//template<>
-	//inline bool StreamBuffer::In(INT64 buffer)
+	//inline bool StreamBuffer::In(int64_t buffer)
 	//{
 	//	if (_size < _rear + 8)
 	//		return false;
@@ -306,7 +306,7 @@ namespace MinLib
 	//}
 	//
 	//template<>
-	//inline bool StreamBuffer::In(UINT64 buffer)
+	//inline bool StreamBuffer::In(Uint64_t buffer)
 	//{
 	//	if (_size < _rear + 8)
 	//		return false;
@@ -387,9 +387,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Out (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : (BYTE)
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : (BYTE)
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline void StreamBuffer::Out(BYTE * buffer)
@@ -400,9 +400,9 @@ namespace MinLib
 	//
 	///*----------------------------------------------------------*/
 	//// StreamBuffer::Out (public)
-	//// ¼³¸í : 
-	//// ÀÎÀÚ : (WORD)
-	//// ¸®ÅÏ :
+	//// ì„¤ëª… : 
+	//// ì¸ì : (WORD)
+	//// ë¦¬í„´ :
 	///*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline void StreamBuffer::Out(WORD * buffer)
@@ -413,9 +413,9 @@ namespace MinLib
 	//
 	///*----------------------------------------------------------*/
 	//// StreamBuffer::Out (public)
-	//// ¼³¸í : 
-	//// ÀÎÀÚ : (DWORD)
-	//// ¸®ÅÏ :
+	//// ì„¤ëª… : 
+	//// ì¸ì : (DWORD)
+	//// ë¦¬í„´ :
 	///*----------------*////////////////////////*----------------*/
 	//template<>
 	//inline void StreamBuffer::Out(DWORD * buffer)
@@ -425,23 +425,23 @@ namespace MinLib
 	//}
 	//
 	//template<>
-	//inline void StreamBuffer::Out(INT64 * buffer)
+	//inline void StreamBuffer::Out(int64_t * buffer)
 	//{
-	//	*buffer = *(INT64*)(_buffer + _front);
+	//	*buffer = *(int64_t*)(_buffer + _front);
 	//	_front += 8;
 	//}
 	//
 	//template<>
-	//inline void StreamBuffer::Out(UINT64 * buffer)
+	//inline void StreamBuffer::Out(Uint64_t * buffer)
 	//{
-	//	*buffer = *(UINT64*)(_buffer + _front);
+	//	*buffer = *(Uint64_t*)(_buffer + _front);
 	//	_front += 8;
 	//}
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template<typename T>
 	inline StreamBuffer& StreamBuffer::operator<<(const T& inData)
@@ -455,9 +455,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	template<typename T>
 	inline StreamBuffer& StreamBuffer::operator>>(const T& outData)
@@ -471,9 +471,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::AddRef()
 	{
@@ -482,9 +482,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::MoveEndIndex(int size)
 	{
@@ -496,9 +496,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline char* StreamBuffer::GetBuffer()
 	{
@@ -512,9 +512,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::GetSize()
 	{
@@ -523,9 +523,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::GetUseSize()
 	{
@@ -534,9 +534,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::ReSize(int size)
 	{
@@ -546,9 +546,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::BlankHeader(int headerSize)
 	{
@@ -559,9 +559,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::FillHeader (public)
-	// ¼³¸í : Çì´õ¸¦ Ã¤¿ì±â À§ÇØ ¹öÆÛ Æ÷ÀÎÅÍºÎÅÍ Ã¤¿ò
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : í—¤ë”ë¥¼ ì±„ìš°ê¸° ìœ„í•´ ë²„í¼ í¬ì¸í„°ë¶€í„° ì±„ì›€
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::FillHeader(char* buffer, int size)
 	{
@@ -575,9 +575,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Method (public)
-	// ¼³¸í : 
-	// ÀÎÀÚ : 
-	// ¸®ÅÏ :
+	// ì„¤ëª… : 
+	// ì¸ì : 
+	// ë¦¬í„´ :
 	/*----------------*////////////////////////*----------------*/
 	inline void StreamBuffer::Clear()
 	{
@@ -600,9 +600,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::In (public)
-	// ¼³¸í : Á÷·ÄÈ­ ¹öÆÛ·Î bufferÀÇ ³»¿ëÀ» size¸¸Å­ º¹»ç
-	// ÀÎÀÚ : (char *) º¹»çÇÒ ¹öÆÛ Æ÷ÀÎÅÍ, (int) º¹»çÇÒ Å©±â
-	// ¸®ÅÏ : (int) º¹»çµÈ Å©±â
+	// ì„¤ëª… : ì§ë ¬í™” ë²„í¼ë¡œ bufferì˜ ë‚´ìš©ì„ sizeë§Œí¼ ë³µì‚¬
+	// ì¸ì : (char *) ë³µì‚¬í•  ë²„í¼ í¬ì¸í„°, (int) ë³µì‚¬í•  í¬ê¸°
+	// ë¦¬í„´ : (int) ë³µì‚¬ëœ í¬ê¸°
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::In(char* buffer, int size)
 	{
@@ -624,9 +624,9 @@ namespace MinLib
 
 	/*----------------------------------------------------------*/
 	// StreamBuffer::Out (public)
-	// ¼³¸í : Á÷·ÄÈ­ ¹öÆÛ¿¡¼­ buffer·Î size¸¸Å­ º¹»ç
-	// ÀÎÀÚ : (char *) º¹»çÇÒ ¹öÆÛ Æ÷ÀÎÅÍ, (int) º¹»çÇÒ Å©±â
-	// ¸®ÅÏ : (int) º¹»çµÈ Å©±â
+	// ì„¤ëª… : ì§ë ¬í™” ë²„í¼ì—ì„œ bufferë¡œ sizeë§Œí¼ ë³µì‚¬
+	// ì¸ì : (char *) ë³µì‚¬í•  ë²„í¼ í¬ì¸í„°, (int) ë³µì‚¬í•  í¬ê¸°
+	// ë¦¬í„´ : (int) ë³µì‚¬ëœ í¬ê¸°
 	/*----------------*////////////////////////*----------------*/
 	inline int StreamBuffer::Out(char* buffer, int size)
 	{

@@ -1,4 +1,4 @@
-//#include "pch.h"
+ï»¿//#include "pch.h"
 #include "HTTP_Request.h"
 namespace MinLib
 {
@@ -36,7 +36,7 @@ namespace MinLib
 
 	void HTTP_Request::DeleteChunk(string* origin, string* result)
 	{
-		// ±×³É ºÎ½ºÆ® ¶óÀÌºê·¯¸® ¾²ÀÚ
+		// ê·¸ëƒ¥ ë¶€ìŠ¤íŠ¸ ë¼ì´ë¸ŒëŸ¬ë¦¬ ì“°ì
 		string::size_type idx, idx2;
 		char* end;
 		while (1)
@@ -124,16 +124,16 @@ namespace MinLib
 		//nonBlock = 0;
 		//ioctlsocket(_socket, FIONBIO, &nonBlock);
 
-		int len = strlen(sendData->c_str());
+		int len = static_cast<int>(strlen(sendData->c_str()));
 		char buffer[512];
 		sprintf_s(buffer,
 			"%s http://%s%s HTTP/1.1\r\nUser-Agent: C Client\r\nHost: %s\r\nConnection: Close\r\nContent-Length: %d\r\n\r\n",
 			(_method == GET) ? "GET" : "POST", _domain.c_str(), sendPage, _domain.c_str(), len);
 
-		int sended = send(_socket, buffer, strlen(buffer), 0);
+		size_t sended = send(_socket, buffer, strlen(buffer), 0);
 		sended += send(_socket, sendData->c_str(), len, 0);
 
-		// Çì´õ ¸ÕÀú ´Ù¹ŞÀ½
+		// í—¤ë” ë¨¼ì € ë‹¤ë°›ìŒ
 		string recvString;
 		char recvBuffer[1024];
 		while (1)
@@ -152,14 +152,14 @@ namespace MinLib
 				break;
 		}
 
-		// Çì´õ ÆÄ½Ì
+		// í—¤ë” íŒŒì‹±
 		string::size_type idx, idx2, idx3;
 		idx = recvString.find(0x20);
 		idx2 = recvString.find(0x20, idx + 1);
 		string codePart = recvString.substr(idx + 1, idx2 - idx);
 		*resultCode = atoi(codePart.c_str());
 
-		// ÀÎÄÚµù ¹æ½Ä¿¡ µû¶ó¼­ ³ª´¶´Ù
+		// ì¸ì½”ë”© ë°©ì‹ì— ë”°ë¼ì„œ ë‚˜ë‰œë‹¤
 		idx = recvString.find("Content-Length: ");
 		if (idx == string::npos)
 		{
@@ -167,11 +167,11 @@ namespace MinLib
 			if (idx == string::npos)
 				return false;
 
-			// ¹Ùµğ ½ÃÀÛºÎºĞ Ã£±â
+			// ë°”ë”” ì‹œì‘ë¶€ë¶„ ì°¾ê¸°
 			idx = recvString.find("\r\n\r\n") + 4;
 			while (1)
 			{
-				// ¹Ùµğ ³¡ Ã£±â
+				// ë°”ë”” ë ì°¾ê¸°
 				idx2 = recvString.find("0\r\n\r\n");
 				if (idx2 != string::npos)
 					break;
@@ -179,12 +179,12 @@ namespace MinLib
 				recv(_socket, recvBuffer, 1024, 0);
 				recvString += recvBuffer;
 			}
-			// Çì´õ Á¦°Å
+			// í—¤ë” ì œê±°
 			string temp = recvString.substr(idx, idx2 - idx + 5);
 			DeleteChunk(&temp, recvData);
 			//*recvData = recvString.substr(idx, idx2 - idx + 5);
 
-			// chunk µ¥ÀÌÅÍ ¾ø¾Ö¾ßÇÔ
+			// chunk ë°ì´í„° ì—†ì• ì•¼í•¨
 		}
 		else
 		{
@@ -193,7 +193,7 @@ namespace MinLib
 			string lenPart = recvString.substr(idx2 + 1, idx3 - idx2);
 			int bodyLen = atoi(lenPart.c_str());
 
-			// ¹Ùµğ ¸®½Ãºê È®ÀÎ
+			// ë°”ë”” ë¦¬ì‹œë¸Œ í™•ì¸
 			idx = recvString.find("\r\n\r\n") + 4;
 			while (recvString.size() < bodyLen + idx)
 			{
