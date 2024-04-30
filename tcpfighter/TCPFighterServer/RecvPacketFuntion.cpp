@@ -1,24 +1,24 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 extern list<Player *> g_playerList;
 
 /*----------------------------------------------------------*/
 // ::Function
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void RecvPacket_CS_Move_Start(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Move_Start(Session * session, MinLib::StreamBuffer * payload)
 {
 	BYTE direction;
 	Pos pos;
 	*payload >> direction >> pos.x >> pos.y;
 
-	// À§Ä¡ º¸Á¤
+	// ìœ„ì¹˜ ë³´ì •
 	if (CheckDeadReckoning(session->character, pos))
 	{
 		session->character->_pos = DeadReckoning(session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"Sync Move_Start [%d, %d] -> [%d, %d]", pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
-		StreamBuffer * syncPacket;
+		MinLib::StreamBuffer * syncPacket;
 		MakePacket_Sync(&syncPacket, session->character->_ID, session->character->_pos);
 		UniCast(syncPacket, session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"UniCast Sync CS_Move_Start %d", session->character->_ID);
@@ -28,7 +28,7 @@ void RecvPacket_CS_Move_Start(Session * session, StreamBuffer * payload)
 	session->character->_moveStartPos = session->character->_pos;
 	session->character->_lastActionTime = GetTickCount64();
 
-	StreamBuffer * packet;
+	MinLib::StreamBuffer * packet;
 	MakePacket_Move_Start(&packet, session->character->_ID, direction, session->character->_pos);
 	BroadCast_Sector(packet, session);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Move Start %d to %d - [%d, %d] -> [%d, %d]", session->character->_ID, direction, pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
@@ -36,22 +36,22 @@ void RecvPacket_CS_Move_Start(Session * session, StreamBuffer * payload)
 
 /*----------------------------------------------------------*/
 // ::Function
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void RecvPacket_CS_Move_Stop(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Move_Stop(Session * session, MinLib::StreamBuffer * payload)
 {
 	BYTE direction;
 	Pos pos;
 	*payload >> direction >> pos.x >> pos.y;
 
-	// À§Ä¡ º¸Á¤
+	// ìœ„ì¹˜ ë³´ì •
 	if (CheckDeadReckoning(session->character, pos))
 	{
 		session->character->_pos = DeadReckoning(session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"Sync Move_Stop [%d, %d] -> [%d, %d]", pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
-		StreamBuffer * syncPacket;
+		MinLib::StreamBuffer * syncPacket;
 		MakePacket_Sync(&syncPacket, session->character->_ID, session->character->_pos);
 		UniCast(syncPacket, session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"UniCast Sync CS_Move_Stop %d", session->character->_ID);
@@ -62,7 +62,7 @@ void RecvPacket_CS_Move_Stop(Session * session, StreamBuffer * payload)
 	session->character->_moveStartPos = session->character->_pos;
 	session->character->_lastActionTime = GetTickCount64();
 	
-	StreamBuffer * packet;
+	MinLib::StreamBuffer * packet;
 	MakePacket_Move_Stop(&packet, session->character->_ID, direction, session->character->_pos);
 	BroadCast_Sector(packet, session, false);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Move Stop %d - [%d, %d] -> [%d, %d]", session->character->_ID, pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
@@ -70,11 +70,11 @@ void RecvPacket_CS_Move_Stop(Session * session, StreamBuffer * payload)
 
 /*----------------------------------------------------------*/
 // ::Function
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Attack1(Session * session, MinLib::StreamBuffer * payload)
 {
 	BYTE direction;
 	Pos pos;
@@ -82,18 +82,18 @@ void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
 
 	session->character->_action = STAND;
 
-	// À§Ä¡ º¸Á¤
+	// ìœ„ì¹˜ ë³´ì •
 	if (CheckDeadReckoning(session->character, pos))
 	{
 		session->character->_pos = DeadReckoning(session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"Sync Attack1 [%d, %d] -> [%d, %d]", pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
-		StreamBuffer * syncPacket;
+		MinLib::StreamBuffer * syncPacket;
 		MakePacket_Sync(&syncPacket, session->character->_ID, session->character->_pos);
 		UniCast(syncPacket, session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"UniCast Sync Attack1 %d", session->character->_ID);
 	}
 
-	// ÇÇ°ÝÀÚ Å½»ö
+	// í”¼ê²©ìž íƒìƒ‰
 	int attackID = session->character->_ID;
 	list<Player *>::iterator iter = g_playerList.begin();
 	list<Player *>::iterator iterEnd = g_playerList.end();
@@ -108,7 +108,7 @@ void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK1_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK1_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -119,7 +119,7 @@ void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK1_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK1_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -128,7 +128,7 @@ void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
 	session->character->_moveStartPos = session->character->_pos;
 	session->character->_lastActionTime = GetTickCount64();
 
-	StreamBuffer * packet;
+	MinLib::StreamBuffer * packet;
 	MakePacket_Attack1(&packet, session->character->_ID, direction, session->character->_pos);
 	BroadCast_Sector(packet, session, false);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Attack1 %d - [%d, %d] -> [%d, %d]", session->character->_ID, pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
@@ -136,11 +136,11 @@ void RecvPacket_CS_Attack1(Session * session, StreamBuffer * payload)
 
 /*----------------------------------------------------------*/
 // ::Function
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Attack2(Session * session, MinLib::StreamBuffer * payload)
 {
 	BYTE direction;
 	Pos pos;
@@ -148,18 +148,18 @@ void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
 
 	session->character->_action = STAND;
 
-	// À§Ä¡ º¸Á¤
+	// ìœ„ì¹˜ ë³´ì •
 	if (CheckDeadReckoning(session->character, pos))
 	{
 		session->character->_pos = DeadReckoning(session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"Sync Attack2 [%d, %d] -> [%d, %d]", pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
-		StreamBuffer * syncPacket;
+		MinLib::StreamBuffer * syncPacket;
 		MakePacket_Sync(&syncPacket, session->character->_ID, session->character->_pos);
 		UniCast(syncPacket, session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"UniCast Sync Attack2 %d", session->character->_ID);
 	}
 
-	// ÇÇ°ÝÀÚ Å½»ö
+	// í”¼ê²©ìž íƒìƒ‰
 	int attackID = session->character->_ID;
 	list<Player *>::iterator iter = g_playerList.begin();
 	list<Player *>::iterator iterEnd = g_playerList.end();
@@ -174,7 +174,7 @@ void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK2_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK2_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -185,7 +185,7 @@ void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK2_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK2_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -194,7 +194,7 @@ void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
 	session->character->_moveStartPos = session->character->_pos;
 	session->character->_lastActionTime = GetTickCount64();
 
-	StreamBuffer * packet;
+	MinLib::StreamBuffer * packet;
 	MakePacket_Attack2(&packet, session->character->_ID, direction, session->character->_pos);
 	BroadCast_Sector(packet, session, false);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Attack2 %d - [%d, %d] -> [%d, %d]", session->character->_ID, pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
@@ -202,11 +202,11 @@ void RecvPacket_CS_Attack2(Session * session, StreamBuffer * payload)
 
 /*----------------------------------------------------------*/
 // ::Function
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void RecvPacket_CS_Attack3(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Attack3(Session * session, MinLib::StreamBuffer * payload)
 {
 	BYTE direction;
 	Pos pos;
@@ -214,18 +214,18 @@ void RecvPacket_CS_Attack3(Session * session, StreamBuffer * payload)
 
 	session->character->_action = STAND;
 
-	// À§Ä¡ º¸Á¤
+	// ìœ„ì¹˜ ë³´ì •
 	if (CheckDeadReckoning(session->character, pos))
 	{
 		session->character->_pos = DeadReckoning(session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"Sync Attack3 [%d, %d] -> [%d, %d]", pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
-		StreamBuffer * syncPacket;
+		MinLib::StreamBuffer * syncPacket;
 		MakePacket_Sync(&syncPacket, session->character->_ID, session->character->_pos);
 		UniCast(syncPacket, session);
 		LOG(Logger::LOG_LEVEL_WARNING, L"UniCast Sync Attack3 %d", session->character->_ID);
 	}
 
-	// ÇÇ°ÝÀÚ Å½»ö
+	// í”¼ê²©ìž íƒìƒ‰
 	int attackID = session->character->_ID;
 	list<Player *>::iterator iter = g_playerList.begin();
 	list<Player *>::iterator iterEnd = g_playerList.end();
@@ -240,7 +240,7 @@ void RecvPacket_CS_Attack3(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK3_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK3_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -251,7 +251,7 @@ void RecvPacket_CS_Attack3(Session * session, StreamBuffer * payload)
 			(abs(session->character->_pos.y - damagePos.y) < dfATTACK3_RANGE_Y))
 		{
 			(*iter)->_healthPoint = max((*iter)->_healthPoint - ATTACK3_DAMAGE, 0);
-			StreamBuffer * damagePacket;
+			MinLib::StreamBuffer * damagePacket;
 			MakePacket_Damage(&damagePacket, attackID, (*iter)->_ID, (*iter)->_healthPoint);
 			BroadCast_Sector(damagePacket, session, false);
 			LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Damage %d -> %d", session->character->_ID, (*iter)->_ID);
@@ -260,18 +260,18 @@ void RecvPacket_CS_Attack3(Session * session, StreamBuffer * payload)
 	session->character->_moveStartPos = session->character->_pos;
 	session->character->_lastActionTime = GetTickCount64();
 
-	StreamBuffer * packet;
+	MinLib::StreamBuffer * packet;
 	MakePacket_Attack3(&packet, session->character->_ID, direction, session->character->_pos);
 	BroadCast_Sector(packet, session, false);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"BroadCast Attack3 %d - [%d, %d] -> [%d, %d]", session->character->_ID, pos.x, pos.y, session->character->_pos.x, session->character->_pos.y);
 }
 
-void RecvPacket_CS_Echo(Session * session, StreamBuffer * payload)
+void RecvPacket_CS_Echo(Session * session, MinLib::StreamBuffer * payload)
 {
 	DWORD time;
 	*payload >> time;
 
-	StreamBuffer * echoPacket;
+	MinLib::StreamBuffer * echoPacket;
 	MakePacket_Echo(&echoPacket, time);
 	UniCast(echoPacket, session);
 	LOG(Logger::LOG_LEVEL_DEBUG, L"Echo %d", session->character->_ID);

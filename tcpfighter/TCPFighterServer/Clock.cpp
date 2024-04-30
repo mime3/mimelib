@@ -1,14 +1,14 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
-void Clock::GetTimeString(wstring * timeStr)
+void Clock::GetTimeString(std::wstring * timeStr)
 {
 	tm * now = new tm;
 	time(&_tick);
 	localtime_s(now, &_tick);
 	WCHAR buffer[34];
 	swprintf_s(buffer, 34, L"%04d-%02d-%02d %02d:%02d:%02d :: ",
-		now->tm_year + 1900,   // tm_year´Â 1900À» ´õÇØ¾ß ¼­±â ¿¬µµ°¡ µÊ
-		now->tm_mon + 1, // tm_monÀº 1¿ùÀÌ 0, 2¿ùÀÌ 1... ½ÄÀ¸·Î µÇ¾î ÀÖÀ½ 
+		now->tm_year + 1900,   // tm_yearëŠ” 1900ì„ ë”í•´ì•¼ ì„œê¸° ì—°ë„ê°€ ë¨
+		now->tm_mon + 1, // tm_monì€ 1ì›”ì´ 0, 2ì›”ì´ 1... ì‹ìœ¼ë¡œ ë˜ì–´ ìˆìŒ 
 		now->tm_mday,
 		now->tm_hour,
 		now->tm_min,

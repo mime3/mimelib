@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define	QUEUESIZE 100
 
 template <typename Q>
@@ -11,7 +11,7 @@ class Queue
 public:
 	Queue() 
 	{
-		_front = -1; //Ç×»ó ºó°÷ °¡¸®Å´
+		_front = -1; //í•­ìƒ ë¹ˆê³³ ê°€ë¦¬í‚´
 		_rear = -1;
 		_size = 0;
 	}

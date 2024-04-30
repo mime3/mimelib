@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include "LanClient.h"
 #include "SessionKey.h"
@@ -17,7 +17,7 @@ private:
 	void MakePacket_Loginserver_Login(StreamBuffer * packet);
 	void MakePacket_RES_New_Client_Login(StreamBuffer * packet, INT64 accountNo, INT64 parameter);
 
-	// LanClientÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// LanClientì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	virtual void OnClientJoin(__int64 ClientID, Session * session) override;
 	virtual void OnClientLeave(__int64 ClientID) override;
 	virtual bool OnConnectionRequest(char * ClientIP, int Port) override;

@@ -1,4 +1,6 @@
-#pragma once
+﻿#pragma once
+#include <string>
+
 #define CLOCK Clock::GetInstance()
 
 class Clock
@@ -15,5 +17,5 @@ public:
 			_instance = new Clock();
 		return *_instance;
 	}
-	void GetTimeString(wstring * timeStr);
+	void GetTimeString(std::wstring * timeStr);
 };

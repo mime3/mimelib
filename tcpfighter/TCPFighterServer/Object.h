@@ -1,51 +1,51 @@
-#pragma once
+ï»¿#pragma once
 struct SECTOR_POS;
 struct Session;
 struct Player;
 
-// À§Ä¡ ±¸Á¶Ã¼
+// ìœ„ì¹˜ êµ¬ì¡°ì²´
 struct Pos
 {
 	short x;
 	short y;
 };
 
-// ¼¼¼Ç ±¸Á¶Ã¼
+// ì„¸ì…˜ êµ¬ì¡°ì²´
 struct Session
 {
-	SOCKET socket;				// ¼ÒÄÏ
-	SOCKADDR_IN addr;			// ¼ÒÄÏ ÁÖ¼Ò ±¸Á¶Ã¼
-	StreamQueue sendStream;		// send¸µ¹öÆÛ
-	StreamQueue recvStream;		// recv¸µ¹öÆÛ
-	bool saveHeaderFlag;		// Çì´õ ÀúÀå ÇÃ·¡±×
-	PACKET_HEADER saveHeader;	// ÀúÀåµÈ Çì´õ
-	Player * character;			// Ä³¸¯ÅÍ Æ÷ÀÎÅÍ
-	ULONGLONG lastRecvTime;		// ÆĞÅ¶ ¸¶Áö¸·À¸·Î ¹ŞÀº ½Ã°£
-	// »ı¼ºÀÚ
+	SOCKET socket;					// ì†Œì¼“
+	SOCKADDR_IN addr;				// ì†Œì¼“ ì£¼ì†Œ êµ¬ì¡°ì²´
+	MinLib::StreamQueue sendStream;	// sendë§ë²„í¼
+	MinLib::StreamQueue recvStream;	// recvë§ë²„í¼
+	bool saveHeaderFlag;			// í—¤ë” ì €ì¥ í”Œë˜ê·¸
+	PACKET_HEADER saveHeader;		// ì €ì¥ëœ í—¤ë”
+	Player * character;				// ìºë¦­í„° í¬ì¸í„°
+	ULONGLONG lastRecvTime;			// íŒ¨í‚· ë§ˆì§€ë§‰ìœ¼ë¡œ ë°›ì€ ì‹œê°„
+	// ìƒì„±ì
 	Session(SOCKET socket, SOCKADDR_IN addr);
 };
 
-// Ä³¸¯ÅÍ ±¸Á¶Ã¼
+// ìºë¦­í„° êµ¬ì¡°ì²´
 struct Player
 {
-	Session * _session;			// ¼¼¼Ç Æ÷ÀÎÅÍ	
-	int _ID;					// °íÀ¯¹øÈ£
-	Pos _pos;					// À§Ä¡
-	Pos _moveStartPos;			// ÀÌµ¿ÀÌ ½ÃÀÛµÈ À§Ä¡
-	BYTE _direction;			// Ä³¸¯ÅÍ ¹æÇâ
-	BYTE _healthPoint;			// Ã¼·Â
-	TAG_ACTION _action;			// ÇöÀç Çàµ¿
-	SECTOR_POS _oldSector;		// ÀÌÀü ¼½ÅÍÀ§Ä¡
-	SECTOR_POS _newSector;		// »õ ¼½ÅÍÀ§Ä¡
-	ULONGLONG _lastActionTime;	// ¸¶Áö¸· Çàµ¿ ½Ã°£
+	Session * _session;			// ì„¸ì…˜ í¬ì¸í„°	
+	int _ID;					// ê³ ìœ ë²ˆí˜¸
+	Pos _pos;					// ìœ„ì¹˜
+	Pos _moveStartPos;			// ì´ë™ì´ ì‹œì‘ëœ ìœ„ì¹˜
+	BYTE _direction;			// ìºë¦­í„° ë°©í–¥
+	BYTE _healthPoint;			// ì²´ë ¥
+	TAG_ACTION _action;			// í˜„ì¬ í–‰ë™
+	SECTOR_POS _oldSector;		// ì´ì „ ì„¹í„°ìœ„ì¹˜
+	SECTOR_POS _newSector;		// ìƒˆ ì„¹í„°ìœ„ì¹˜
+	ULONGLONG _lastActionTime;	// ë§ˆì§€ë§‰ í–‰ë™ ì‹œê°„
 
-	// »ı¼ºÀÚ
+	// ìƒì„±ì
 	Player(Session * session, int ID);
-	// ¼Ò¸êÀÚ
+	// ì†Œë©¸ì
 	~Player();
-	// Çàµ¿
+	// í–‰ë™
 	bool Action();
-	// ÀÌµ¿
+	// ì´ë™
 	void Move(short x, short y);
 };
 

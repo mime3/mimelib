@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 //#include "MonitorLanClient.h"
 //#include "CommonProtocol.h"
 #include "LoginMonitorClient.h"

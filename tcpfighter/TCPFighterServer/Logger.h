@@ -1,6 +1,8 @@
-#pragma once
+ï»¿#pragma once
+#include <string>
+
 #define LOG(logLevel, fmt, ...) Logger::GetInstance().Log(logLevel, fmt, __VA_ARGS__)
-// ·Î±× Å¬·¡½º
+// ë¡œê·¸ í´ë˜ìŠ¤
 class Logger
 {
 public:
@@ -11,10 +13,10 @@ public:
 		LOG_LEVEL_ERROR
 	};
 private:
-	int _logLevel;					// ·Î±× ·¹º§
-	bool _fileSaveFlag;				// ÆÄÀÏÀúÀå ÇÃ·¡±×
+	int _logLevel;					// ë¡œê·¸ ë ˆë²¨
+	bool _fileSaveFlag;				// íŒŒì¼ì €ì¥ í”Œë˜ê·¸
 	wstring * _fileName;
-	static Logger * _instance;		// ½Ì±ÛÅæ
+	static Logger * _instance;		// ì‹±ê¸€í†¤
 	Logger();						
 	~Logger() {};
 public:
@@ -24,13 +26,13 @@ public:
 			_instance = new Logger;
 		return *_instance;
 	}
-	// ·Î±×ÀÛ¼º ¸â¹ö ÇÔ¼ö
+	// ë¡œê·¸ì‘ì„± ë©¤ë²„ í•¨ìˆ˜
 	void Log(LOG_LEVEL logLevel, const WCHAR * fmt, ...);
 	void Log(const WCHAR *fmt, va_list args);
-	// ·Î±×·¹º§ ¼¼ÆÃ
+	// ë¡œê·¸ë ˆë²¨ ì„¸íŒ…
 	void SetLogLevel(LOG_LEVEL level);
-	// ÆÄÀÏÀÌ¸§
+	// íŒŒì¼ì´ë¦„
 	void SetFileName(wstring * fileName);
-	// ¿Â¿ÀÇÁ
+	// ì˜¨ì˜¤í”„
 	void OnOff(bool onoff);
 };

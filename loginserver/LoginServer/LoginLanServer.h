@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include "LanServer.h"
 
@@ -7,7 +7,7 @@ struct LOGIN_DATA;
 struct SERVER
 {
 	BYTE	ServerType;		// dfSERVER_TYPE_GAME / dfSERVER_TYPE_CHAT
-	WCHAR	ServerName[32];		// ÇØ´ç ¼­¹öÀÇ ÀÌ¸§.  
+	WCHAR	ServerName[32];		// í•´ë‹¹ ì„œë²„ì˜ ì´ë¦„.  
 };
 
 class LoginLanServer : public LanServer
@@ -30,7 +30,7 @@ class LoginLanServer : public LanServer
 
 public:
 	LoginLanServer();
-	// LanClientÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// LanClientì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	virtual void OnClientJoin(INT64 ClientID, Session * session) override;
 	virtual void OnClientLeave(INT64 ClientID) override;
 	virtual bool OnConnectionRequest(WCHAR * ClientIP, int Port) override;

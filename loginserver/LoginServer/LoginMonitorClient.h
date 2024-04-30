@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "MonitorLanClient.h"
 #include "CommonProtocol.h"
 
@@ -7,7 +7,7 @@ class LoginMonitorClient : public MonitorLanClient
 	LoginNetServer * _netPointer;
 	LoginLanServer * _lanPointer;
 
-	// MonitorLanClientÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// MonitorLanClientì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	virtual void OnUpdate() override;
 
 public:

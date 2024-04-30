@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <map>
 #include <unordered_map>
 #include "Player.h"
 #include "Sector.h"
 #include "process.h"
-#include "CommonProtocol.h"
+//#include "CommonProtocol.h"
 #include "ProFiler.h"
 #include "SessionKey.h"
 #include "DBConnector.h"
@@ -26,19 +26,19 @@
 
 using namespace std;
 
-// ¸Ş½ÃÁö ±¸Á¶Ã¼
+// ë©”ì‹œì§€ êµ¬ì¡°ì²´
 typedef struct MESSAGE
 {
-	// Å¸ÀÔ
+	// íƒ€ì…
 	enum MESSAGE_TYPE
 	{
 		JOIN,
 		LEAVE,
 		PACKET
 	};
-	MESSAGE_TYPE type;		// Å¸ÀÔ
-	__int64 sessionID;		// ¼¼¼Ç ID
-	StreamBuffer * data;	// ÆĞÅ¶ Æ÷ÀÎÅÍ
+	MESSAGE_TYPE type;		// íƒ€ì…
+	__int64 sessionID;		// ì„¸ì…˜ ID
+	StreamBuffer * data;	// íŒ¨í‚· í¬ì¸í„°
 }Message;
 
 constexpr WORD SECTOR_X = 100;
@@ -50,49 +50,49 @@ class ChatNetServer : public NetServer
 	unordered_map<INT64, SESSION_KEY> * _keyMap;
 
 public:
-	MemoryPoolTLS<PLAYER>			_memoryPoolPlayer;		// ÇÃ·¹ÀÌ¾î ¸Ş¸ğ¸®Ç®
-	MemoryPoolTLS<MESSAGE>			_memoryPoolMessage;		// ¸Ş½ÃÁö ¸Ş¸ğ¸®Ç®
-	unordered_map<__int64, PLAYER *>_playerMap;				// ÇÃ·¹ÀÌ¾îµéÀ» ÀúÀåÇÒ MAP
-	LF_Queue<MESSAGE *>				_messageQueue;			// ¸Ş½ÃÁö¸¦ ´ãÀ» ¶ôÇÁ¸® Å¥
+	MemoryPoolTLS<PLAYER>			_memoryPoolPlayer;		// í”Œë ˆì´ì–´ ë©”ëª¨ë¦¬í’€
+	MemoryPoolTLS<MESSAGE>			_memoryPoolMessage;		// ë©”ì‹œì§€ ë©”ëª¨ë¦¬í’€
+	unordered_map<__int64, PLAYER *>_playerMap;				// í”Œë ˆì´ì–´ë“¤ì„ ì €ì¥í•  MAP
+	LF_Queue<MESSAGE *>				_messageQueue;			// ë©”ì‹œì§€ë¥¼ ë‹´ì„ ë½í”„ë¦¬ í
 
-	DBConnector						_dbConnector;			// chatÀúÀå¿ë DBÄ¿³ØÅÍ
+	DBConnector						_dbConnector;			// chatì €ì¥ìš© DBì»¤ë„¥í„°
 
 	int _LOGIN_PLAYER = 0;
 	int _NOT_EXIST_SESSIONKEY = 0;
 	int _WRONG_SESSIONKEY = 0;
-	int _PACKET_TYPE_ERROR = 0;								// µğ¹ö±×Àü¿ë
-	int _NOT_EXIST_PLAYER = 0;								// µğ¹ö±×Àü¿ë
-	int _WRONG_MOVE = 0;									// µğ¹ö±×Àü¿ë
-	int _WRONG_CHATLEN = 0;									// µğ¹ö±×Àü¿ë
-	int _UPDATE_TPS = 0;									// µğ¹ö±×Àü¿ë
-	ULONGLONG _UPDATE_TPS_TIME = GetTickCount64();									// µğ¹ö±×Àü¿ë
+	int _PACKET_TYPE_ERROR = 0;								// ë””ë²„ê·¸ì „ìš©
+	int _NOT_EXIST_PLAYER = 0;								// ë””ë²„ê·¸ì „ìš©
+	int _WRONG_MOVE = 0;									// ë””ë²„ê·¸ì „ìš©
+	int _WRONG_CHATLEN = 0;									// ë””ë²„ê·¸ì „ìš©
+	int _UPDATE_TPS = 0;									// ë””ë²„ê·¸ì „ìš©
+	ULONGLONG _UPDATE_TPS_TIME = GetTickCount64();									// ë””ë²„ê·¸ì „ìš©
 
 private:
-	HANDLE					_wakeUpEvent;					// ½º·¹µå¸¦ ±ú¿ï ÀÌº¥Æ®°´Ã¼
-	HANDLE					_updateThread;					// ÄÁÅÙÃ÷ Ã³¸® ½º·¹µå
-	SECTOR					_sector[SECTOR_Y][SECTOR_X];	// ¼½ÅÍ°ü¸® 2Áß¹è¿­
-	bool					_exitFlag;						// Á¾·á ÇÃ·¡±× (¹Ì±¸Çö)
+	HANDLE					_wakeUpEvent;					// ìŠ¤ë ˆë“œë¥¼ ê¹¨ìš¸ ì´ë²¤íŠ¸ê°ì²´
+	HANDLE					_updateThread;					// ì»¨í…ì¸  ì²˜ë¦¬ ìŠ¤ë ˆë“œ
+	SECTOR					_sector[SECTOR_Y][SECTOR_X];	// ì„¹í„°ê´€ë¦¬ 2ì¤‘ë°°ì—´
+	bool					_exitFlag;						// ì¢…ë£Œ í”Œë˜ê·¸ (ë¯¸êµ¬í˜„)
 	
-	static unsigned int WINAPI UpdateThreadMain(LPVOID lpParam);	// ¾÷µ¥ÀÌÆ® ½º·¹µå ¸ŞÀÎ
-	void PutMessageData(Message * message);							// Å¥¿¡ ¸Ş½ÃÁö ³Ö°í ½º·¹µå ±ú¿ò
-	bool GetMessageData(Message ** message);						// Å¥¿¡¼­ ¸Ş½ÃÁö ²¨³¿
+	static unsigned int WINAPI UpdateThreadMain(LPVOID lpParam);	// ì—…ë°ì´íŠ¸ ìŠ¤ë ˆë“œ ë©”ì¸
+	void PutMessageData(Message * message);							// íì— ë©”ì‹œì§€ ë„£ê³  ìŠ¤ë ˆë“œ ê¹¨ì›€
+	bool GetMessageData(Message ** message);						// íì—ì„œ ë©”ì‹œì§€ êº¼ëƒ„
 
-	void NewPlayer(MESSAGE * message);						// »õ ÇÃ·¹ÀÌ¾î »ı¼º
-	void DeletePlayer(__int64 sessionID);					// ÇÃ·¹ÀÌ¾î »èÁ¦
-	void PacketProc(MESSAGE * message);						// ÆĞÅ¶ ÆÄ½ÌÇÔ¼ö
+	void NewPlayer(MESSAGE * message);						// ìƒˆ í”Œë ˆì´ì–´ ìƒì„±
+	void DeletePlayer(__int64 sessionID);					// í”Œë ˆì´ì–´ ì‚­ì œ
+	void PacketProc(MESSAGE * message);						// íŒ¨í‚· íŒŒì‹±í•¨ìˆ˜
 
-	bool Login(__int64 sessionID, StreamBuffer * data);		// ·Î±×ÀÎ Ã³¸®ÇÔ¼ö
-	bool MoveSector(__int64 sessionID, StreamBuffer * data);// ¼½ÅÍÀÌµ¿ Ã³¸®ÇÔ¼ö
-	bool Chat(__int64 sessionID, StreamBuffer * data);		// Ã¤ÆÃ Ã³¸®ÇÔ¼ö
+	bool Login(__int64 sessionID, StreamBuffer * data);		// ë¡œê·¸ì¸ ì²˜ë¦¬í•¨ìˆ˜
+	bool MoveSector(__int64 sessionID, StreamBuffer * data);// ì„¹í„°ì´ë™ ì²˜ë¦¬í•¨ìˆ˜
+	bool Chat(__int64 sessionID, StreamBuffer * data);		// ì±„íŒ… ì²˜ë¦¬í•¨ìˆ˜
 
 	void MakePacket_Res_Login(StreamBuffer * packet, bool login, __int64 accountNo);
 	void MakePacket_Res_MoveSector(StreamBuffer * packet, __int64 accountNo, WORD sectorX, WORD sectorY);
 	void MakePacket_Res_Chat(StreamBuffer * packet, __int64 accountNo, WCHAR * ID, WCHAR * nickName, WORD chatLen, WCHAR * chat);
 
-	void BroadCastNeighborSector(StreamBuffer * packet, PLAYER * player); // ÇÃ·¹ÀÌ¾î ÁÖº¯ 9¼½ÅÍ¿¡ ºê·ÎµåÄ³½ºÆ®
-	void BroadCastSector(StreamBuffer * packet, WORD sectorX, WORD sectorY); // 1°³ ¼½ÅÍ ³»ºÎÀÇ ¸ğµçÇÃ·¹ÀÌ¾î¿¡°Ô ºê·ÎµåÄ³½ºÆ®
+	void BroadCastNeighborSector(StreamBuffer * packet, PLAYER * player); // í”Œë ˆì´ì–´ ì£¼ë³€ 9ì„¹í„°ì— ë¸Œë¡œë“œìºìŠ¤íŠ¸
+	void BroadCastSector(StreamBuffer * packet, WORD sectorX, WORD sectorY); // 1ê°œ ì„¹í„° ë‚´ë¶€ì˜ ëª¨ë“ í”Œë ˆì´ì–´ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
 public:
-	// NetServerÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// NetServerì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	ChatNetServer();
 	~ChatNetServer();
 

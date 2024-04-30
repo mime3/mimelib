@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "MonitorLanClient.h"
 #include "ChatNetServer.h"
 #include "CommonProtocol.h"
@@ -9,7 +9,7 @@ class ChatMonitorClient : public MonitorLanClient
 
 public:
 	ChatMonitorClient(const char * configFile, WCHAR * processName, int ID);
-	// MonitorLanClientÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// MonitorLanClientì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	virtual void OnUpdate() override;
 
 	friend class ChatServer;

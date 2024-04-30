@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "JPS.h"
 
 using namespace MinLib;
@@ -133,23 +133,23 @@ void JPS::ClearNode()
 
 bool JPS::CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int endY)
 {
-	// ¾Æ¿ôÁÂÇ¥ °Ë»ç
+	// ì•„ì›ƒì¢Œí‘œ ê²€ì‚¬
 	if (x < 0 || _mapWidth - 1 < x)
 		return false;
 	if (y < 0 || _mapDepth - 1 < y)
 		return false;
-	//	º® °Ë»ç
+	//	ë²½ ê²€ì‚¬
 	MAP_STATUS status;
 	FindTile(&status, x, y);
 	if (status == WALL)
 		return false;
-	//	³ëµå Áßº¹°Ë»çopen
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬open
 	std::list<MAP_NODE *>::iterator iter = _openList.begin();
 	for (; iter != _openList.end(); ++iter)
 	{
 		if ((*iter)->x == x && (*iter)->y == y)
 		{
-			//	g°ªÀÌ ³»°¡ ¸¸µé·Á´Â°Íº¸´Ù Å©¸é ºù µ¹¾Æ¿Â°Å´Ï±î g,f¿Í ºÎ¸ğ¸¦ ¹Ù²ãÁà¾ßÇÑ´Ù.
+			//	gê°’ì´ ë‚´ê°€ ë§Œë“¤ë ¤ëŠ”ê²ƒë³´ë‹¤ í¬ë©´ ë¹™ ëŒì•„ì˜¨ê±°ë‹ˆê¹Œ g,fì™€ ë¶€ëª¨ë¥¼ ë°”ê¿”ì¤˜ì•¼í•œë‹¤.
 			if (parent->g + plus < (*iter)->g)
 			{
 				(*iter)->g = parent->g + plus;
@@ -159,7 +159,7 @@ bool JPS::CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int en
 			return false;
 		}
 	}
-	//	³ëµå Áßº¹°Ë»çclose
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬close
 	iter = _closeList.begin();
 	for (; iter != _closeList.end(); ++iter)
 	{
@@ -185,12 +185,12 @@ bool JPS::CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int en
 
 bool JPS::CreateNode(int x, int y, MAP_NODE * parent, Direction direction)
 {
-	// ¾Æ¿ôÁÂÇ¥ °Ë»ç
+	// ì•„ì›ƒì¢Œí‘œ ê²€ì‚¬
 	if (x < 0 || _mapWidth - 1 < x)
 		return false;
 	if (y < 0 || _mapDepth - 1 < y)
 		return false;
-	//	º® °Ë»ç
+	//	ë²½ ê²€ì‚¬
 	MAP_STATUS status;
 	FindTile(&status, x, y);
 	if (status == WALL)
@@ -207,13 +207,13 @@ bool JPS::CreateNode(int x, int y, MAP_NODE * parent, Direction direction)
 		+ (min(abs(px - x), abs(py - y)) * 14);
 	nextG += parent->g;
 
-	//	³ëµå Áßº¹°Ë»çopen
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬open
 	std::list<MAP_NODE *>::iterator iter = _openList.begin();
 	for (; iter != _openList.end(); ++iter)
 	{
 		if ((*iter)->x == x && (*iter)->y == y)
 		{
-			//	g°ªÀÌ ³»°¡ ¸¸µé·Á´Â°Íº¸´Ù Å©¸é ºù µ¹¾Æ¿Â°Å´Ï±î g,f¿Í ºÎ¸ğ¸¦ ¹Ù²ãÁà¾ßÇÑ´Ù.
+			//	gê°’ì´ ë‚´ê°€ ë§Œë“¤ë ¤ëŠ”ê²ƒë³´ë‹¤ í¬ë©´ ë¹™ ëŒì•„ì˜¨ê±°ë‹ˆê¹Œ g,fì™€ ë¶€ëª¨ë¥¼ ë°”ê¿”ì¤˜ì•¼í•œë‹¤.
 			if (nextG < (*iter)->g)
 			{
 				(*iter)->g = nextG;
@@ -223,7 +223,7 @@ bool JPS::CreateNode(int x, int y, MAP_NODE * parent, Direction direction)
 			return false;
 		}
 	}
-	//	³ëµå Áßº¹°Ë»çclose
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬close
 	iter = _closeList.begin();
 	for (; iter != _closeList.end(); ++iter)
 	{
@@ -897,14 +897,14 @@ void JPS::OptimizePath(MAP_NODE * endNode)
 		if (!_bresenLine.GetLine(&point, &num))
 			return;
 
-		// Á÷¼±¾ÈÀÇ º® °Ë»ö
+		// ì§ì„ ì•ˆì˜ ë²½ ê²€ìƒ‰
 		for (int i = 0; i < num; ++i)
 		{
 			MAP_STATUS status;
 			FindTile(&status, point[i].x, point[i].y);
 			if (status == WALL)
 			{
-				// ¼±À» ±×¸°´Ù
+				// ì„ ì„ ê·¸ë¦°ë‹¤
 				MoveToEx(memDC,
 					(start->x * BLOCKSIZE) + (BLOCKSIZE / 2),
 					(start->y * BLOCKSIZE) + (BLOCKSIZE / 2),
@@ -921,7 +921,7 @@ void JPS::OptimizePath(MAP_NODE * endNode)
 		}
 		if (parent->parent == nullptr)
 		{
-			// ¸¶Áö¸· ¼± ±×¸®°í ·çÇÁÁ¾·á
+			// ë§ˆì§€ë§‰ ì„  ê·¸ë¦¬ê³  ë£¨í”„ì¢…ë£Œ
 			MoveToEx(memDC,
 				(start->x * BLOCKSIZE) + (BLOCKSIZE / 2),
 				(start->y * BLOCKSIZE) + (BLOCKSIZE / 2),
@@ -967,22 +967,22 @@ bool JPS::FindPath(MAP_NODE ** endNode, POINT ** resultArray, int * num)
 	CreateNode(_startX, _startY, nullptr, NULL, _endX, _endY);
 	while (true)
 	{
-		// F Å°·Î Á¤·Ä
+		// F í‚¤ë¡œ ì •ë ¬
 		_openList.sort(Less());
-		// ÇÏ³ª »Ì±â -> »ÌÀ»°Å ¾øÀ¸¸é ±æÀÌ ¾ø´Ù
+		// í•˜ë‚˜ ë½‘ê¸° -> ë½‘ì„ê±° ì—†ìœ¼ë©´ ê¸¸ì´ ì—†ë‹¤
 		std::list<MAP_NODE *>::iterator iter = _openList.begin();
 		if (iter == _openList.end())
 			return false;
 		MAP_NODE * output = (*iter);
 		_openList.erase(iter);
-		// ¸ñÀûÁöÀÎÁö Ã¼Å© // ¸®ÅÏÀ» ÀÌ°É·Î ÇÏÀÚ
+		// ëª©ì ì§€ì¸ì§€ ì²´í¬ // ë¦¬í„´ì„ ì´ê±¸ë¡œ í•˜ì
 		if (output->h == 0)
 		{
 			*endNode = output;
 			SaveResult(*endNode, num);
 			return true;
 		}
-		// close¿¡ ³Ö±â
+		// closeì— ë„£ê¸°
 		_closeList.push_back(output);
 #ifdef JPS_DISPLAY
 		COLORREF color = RGB(rand() % 50 + 205, rand() % 50 + 205, rand() % 50 + 205);

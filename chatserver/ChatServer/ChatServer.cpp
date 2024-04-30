@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ChatServer.h"
 
 ChatServer::ChatServer(WCHAR * processName)
@@ -31,7 +31,7 @@ void ChatServer::Stop()
 	_lanClient->Stop();
 	_netServer->Stop();
 	
-	// ³²¾ÆÀÖ´Â key »èÁ¦
+	// ë‚¨ì•„ìˆëŠ” key ì‚­ì œ
 	AcquireSRWLockExclusive(&_keyMapLock);
 	auto iter = _keyMap.begin();
 	auto iterEnd = _keyMap.end();

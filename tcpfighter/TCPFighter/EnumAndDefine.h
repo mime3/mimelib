@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define PORT_NUMBER		20000
 #define UM_NETWORK (WM_USER + 1)

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "pch.h"
 #include "LoginNetServer.h"
 
@@ -12,11 +12,11 @@ void LoginNetServer::Login(INT64 clientID, StreamBuffer * packet)
 	*packet >> accountNo;
 	packet->Out(sessionKey, 64);
 
-	// accountNo °¡ ½ÇÁ¦·Î Á¸ÀçÇÏ´ÂÁö DBÈ®ÀÎ
+	// accountNo ê°€ ì‹¤ì œë¡œ ì¡´ìž¬í•˜ëŠ”ì§€ DBí™•ì¸
 	_DBConnectorTLS->Query(L"SELECT `accountNo` FROM `account` WHERE accountno = %I64d", accountNo);
 	if (_DBConnectorTLS->FetchRow() == NULL)
 	{
-		// ¹Ù·Î ½ÇÆÐÀÀ´ä º¸³½´Ù
+		// ë°”ë¡œ ì‹¤íŒ¨ì‘ë‹µ ë³´ë‚¸ë‹¤
 		StreamBuffer * resPacket = PacketAlloc(NetServer);
 		MakePacket_New_Client_Login(resPacket, accountNo, dfLOGIN_STATUS_ACCOUNT_MISS);
 		SendDisConnect(clientID, resPacket);
@@ -28,7 +28,7 @@ void LoginNetServer::Login(INT64 clientID, StreamBuffer * packet)
 	_DBConnectorTLS->Query(L"SELECT `accountNo` FROM `sessionkey` WHERE accountno = %I64d", accountNo);
 	if (_DBConnectorTLS->FetchRow() == NULL)
 	{
-		// ¹Ù·Î ½ÇÆÐÀÀ´ä º¸³½´Ù
+		// ë°”ë¡œ ì‹¤íŒ¨ì‘ë‹µ ë³´ë‚¸ë‹¤
 		StreamBuffer * resPacket = PacketAlloc(NetServer);
 		MakePacket_New_Client_Login(resPacket, accountNo, dfLOGIN_STATUS_SESSION_MISS);
 		SendDisConnect(clientID, resPacket);
@@ -41,17 +41,17 @@ void LoginNetServer::Login(INT64 clientID, StreamBuffer * packet)
 	MYSQL_ROW statusRow = _DBConnectorTLS->FetchRow();
 	if (statusRow == NULL)
 	{
-		// ¹Ù·Î ½ÇÆÐÀÀ´ä º¸³½´Ù
+		// ë°”ë¡œ ì‹¤íŒ¨ì‘ë‹µ ë³´ë‚¸ë‹¤
 		StreamBuffer * resPacket = PacketAlloc(NetServer);
 		MakePacket_New_Client_Login(resPacket, accountNo, dfLOGIN_STATUS_STATUS_MISS);
 		SendDisConnect(clientID, resPacket);
 		PacketFree(resPacket);
 		return;
 	}
-	// ÀÌ¹Ì Á¢¼ÓÁßÀÎ °æ¿ì
+	// ì´ë¯¸ ì ‘ì†ì¤‘ì¸ ê²½ìš°
 	if (strcmp(statusRow[0], "0") != 0)
 	{
-		// ¹Ù·Î ½ÇÆÐÀÀ´ä º¸³½´Ù
+		// ë°”ë¡œ ì‹¤íŒ¨ì‘ë‹µ ë³´ë‚¸ë‹¤
 		StreamBuffer * resPacket = PacketAlloc(NetServer);
 		MakePacket_New_Client_Login(resPacket, accountNo, dfLOGIN_STATUS_GAME);
 		SendDisConnect(clientID, resPacket);
@@ -60,7 +60,7 @@ void LoginNetServer::Login(INT64 clientID, StreamBuffer * packet)
 	}
 	_DBConnectorTLS->FreeResult();
 
-	// Å×ÀÌºí È®ÀÎ ¿Ï·á, map¿¡ accountNo¿Í parameterÀúÀå
+	// í…Œì´ë¸” í™•ì¸ ì™„ë£Œ, mapì— accountNoì™€ parameterì €ìž¥
 	LOGIN_DATA * loginData = _memoryPoolLogin->Alloc();
 	loginData->accountNo = accountNo;
 	loginData->status = 0;
@@ -73,19 +73,19 @@ void LoginNetServer::Login(INT64 clientID, StreamBuffer * packet)
 	}
 	ReleaseSRWLockExclusive(_mapLock);
 
-	// LAN¼­¹ö¸¦ ÅëÇØ¼­ º¸³»±â
+	// LANì„œë²„ë¥¼ í†µí•´ì„œ ë³´ë‚´ê¸°
 	StreamBuffer * lanPacket = PacketAlloc(LanServer);
 	MakePacket_SS_REQ_New_Client_Login(lanPacket, accountNo, sessionKey, clientID);
 	if (!_lanServer->BroadCastServer(lanPacket))
 	{
-		// ¿¬°áµÈ ¼­¹ö°¡ ¾ø¾î¼­ ¸øº¸³Â´Ù
-		// ½ÇÆÐ ÆÐÅ¶À» º¸³½´Ù
+		// ì—°ê²°ëœ ì„œë²„ê°€ ì—†ì–´ì„œ ëª»ë³´ëƒˆë‹¤
+		// ì‹¤íŒ¨ íŒ¨í‚·ì„ ë³´ë‚¸ë‹¤
 		StreamBuffer * resPacket = PacketAlloc(NetServer);
 		MakePacket_New_Client_Login(resPacket, accountNo, dfLOGIN_STATUS_NOSERVER);
 		SendDisConnect(clientID, resPacket);
 		PacketFree(resPacket);
 
-		//// ¸Ê¿¡ ÀÖ´Â°Íµµ »©¹ö¸°´Ù, ±Ùµ¥ ¾ÈÀüÇÑ°¡?
+		//// ë§µì— ìžˆëŠ”ê²ƒë„ ë¹¼ë²„ë¦°ë‹¤, ê·¼ë° ì•ˆì „í•œê°€?
 		//if ((*_loginData)[clientID]->accountNo == accountNo)
 		//{
 		//	AcquireSRWLockExclusive(_mapLock);
@@ -124,7 +124,7 @@ void LoginNetServer::MakePacket_New_Client_Login(StreamBuffer * packet, INT64 ac
 
 	if (status == dfLOGIN_STATUS_OK)
 	{
-		// Lan¼­¹öÀÇ Á¢¼Ó ¼­¹ö¸®½ºÆ® ¼øÈ¸
+		// Lanì„œë²„ì˜ ì ‘ì† ì„œë²„ë¦¬ìŠ¤íŠ¸ ìˆœíšŒ
 		auto iter = _lanServer->_serverList.begin();
 		auto iterEnd = _lanServer->_serverList.end();
 		for (; iter != iterEnd; ++iter)
@@ -139,7 +139,7 @@ void LoginNetServer::MakePacket_New_Client_Login(StreamBuffer * packet, INT64 ac
 		ChatServerPort = 12001;
 	}
 
-	// Ã¤¿ìÀÚ
+	// ì±„ìš°ìž
 	packet->In(ID, 20);
 	packet->In(Nickname, 20);
 	packet->In(GameServerIP, 16);

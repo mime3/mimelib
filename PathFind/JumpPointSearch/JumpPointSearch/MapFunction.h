@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 char * GetBlock(LPARAM lParam);
 void SetStart(char * block);

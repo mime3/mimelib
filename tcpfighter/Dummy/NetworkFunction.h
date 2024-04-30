@@ -1,25 +1,25 @@
-#pragma once
-// ³×Æ®¿öÅ© ¼¼ÆÃ ÇÔ¼ö
+ï»¿#pragma once
+// ë„¤íŠ¸ì›Œí¬ ì„¸íŒ… í•¨ìˆ˜
 bool Init(SOCKET * listenSocket);
-// ¼½ÅÍ ÀÌµ¿ÀÇ °æ¿ìÀÇ¼ö Å×ÀÌºí ¼¼ÆÃÇÔ¼ö
+// ì„¹í„° ì´ë™ì˜ ê²½ìš°ì˜ìˆ˜ í…Œì´ë¸” ì„¸íŒ…í•¨ìˆ˜
 void TableInit();
-// ¼­¹ö ³×Æ®¿öÅ·ÇÔ¼ö
+// ì„œë²„ ë„¤íŠ¸ì›Œí‚¹í•¨ìˆ˜
 void NetworkingEx();
-// ¸µ¹öÆÛ¿¡ µ¥ÀÌÅÍ ¼ö½ÅºÎ
+// ë§ë²„í¼ì— ë°ì´í„° ìˆ˜ì‹ ë¶€
 bool RecvProc(SOCKET recvSocket);
-// ¸µ¹öÆÛ¿¡¼­ µ¥ÀÌÅÍ Àü¼ÛºÎ
+// ë§ë²„í¼ì—ì„œ ë°ì´í„° ì „ì†¡ë¶€
 void SendProc(SOCKET sendSocket);
-// »õ ¿¬°á½Ã ½ÇÇàµÉ ÇÔ¼ö
+// ìƒˆ ì—°ê²°ì‹œ ì‹¤í–‰ë  í•¨ìˆ˜
 bool LoginProcess(SOCKET socket, SOCKADDR_IN addr);
-// ¿¬°áÁ¾·á½Ã ½ÇÇàµÉ ÇÔ¼ö
+// ì—°ê²°ì¢…ë£Œì‹œ ì‹¤í–‰ë  í•¨ìˆ˜
 void LogoutProcess(SOCKET socket);
-// ¸µ¹öÆÛ¿¡¼­ ÆÐÅ¶ 1°³ »©´Â ºÎºÐ
+// ë§ë²„í¼ì—ì„œ íŒ¨í‚· 1ê°œ ë¹¼ëŠ” ë¶€ë¶„
 void PacketRecv();
-// ÆÐÅ¶ ÆÄ½ÌÇÔ¼ö
-void Parsing(Session * session, WORD message, StreamBuffer * payLoad);
-// ³×Æ®¿öÅ·Áß ¿¬°áÁ¾·á½Ã ½ÇÇàµÉ ÇÔ¼ö
+// íŒ¨í‚· íŒŒì‹±í•¨ìˆ˜
+void Parsing(Session * session, WORD message, MinLib::StreamBuffer * payLoad);
+// ë„¤íŠ¸ì›Œí‚¹ì¤‘ ì—°ê²°ì¢…ë£Œì‹œ ì‹¤í–‰ë  í•¨ìˆ˜
 void CloseSession(Session * session);
-// ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿Í ÀÎÀÚ¸¦ ºñ±³ÇÏ¿© µ¥µå·¹Ä¿´× ¿©ºÎ¸¦ ÆÇº°
+// í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì™€ ì¸ìžë¥¼ ë¹„êµí•˜ì—¬ ë°ë“œë ˆì»¤ë‹ ì—¬ë¶€ë¥¼ íŒë³„
 bool CheckDeadReckoning(Player * player, Pos pos);
-// ¾ø¾îÁ®¾ßÇÒ ¼¼¼ÇÀ» ½ÇÁ¦·Î »èÁ¦ÇÏ´Â ÇÔ¼ö
+// ì—†ì–´ì ¸ì•¼í•  ì„¸ì…˜ì„ ì‹¤ì œë¡œ ì‚­ì œí•˜ëŠ” í•¨ìˆ˜
 void DeleteSession();

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define UM_BUTTON (WM_USER + 1)
 
 char * GetBlock(LPARAM lParam);

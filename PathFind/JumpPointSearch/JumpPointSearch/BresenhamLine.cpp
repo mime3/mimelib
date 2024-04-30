@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "BresenhamLine.h"
 
 
@@ -14,7 +14,7 @@ void BresenhamLine::Check(POINT * start, POINT * end)
 
 bool BresenhamLine::Next(int * x, int * y, DIRECTION axis, POINT start, POINT end)
 {
-	// Á¾Á¡À» ³ÖÀº°æ¿ì
+	// ì¢…ì ì„ ë„£ì€ê²½ìš°
 	if ((*x) == end.x && (*y) == end.y)
 		return false;
 	switch (axis)
@@ -26,7 +26,7 @@ bool BresenhamLine::Next(int * x, int * y, DIRECTION axis, POINT start, POINT en
 		_save += abs(end.y - start.y);
 		if (end.x - start.x <= _save)
 		{
-			if (start.y < end.y) // ¹æÇâÀÌ ¿À¸¥ÂÊ ¾Æ·¡
+			if (start.y < end.y) // ë°©í–¥ì´ ì˜¤ë¥¸ìª½ ì•„ë˜
 				++(*y);
 			else
 				--(*y);
@@ -45,7 +45,7 @@ bool BresenhamLine::Next(int * x, int * y, DIRECTION axis, POINT start, POINT en
 			_save -= abs(end.y - start.y);
 		}
 
-		if (start.y < end.y) // ¹æÇâÀÌ ¿À¸¥ÂÊ ¾Æ·¡
+		if (start.y < end.y) // ë°©í–¥ì´ ì˜¤ë¥¸ìª½ ì•„ë˜
 			++(*y);
 		else
 			--(*y);

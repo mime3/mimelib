@@ -1,38 +1,38 @@
-#pragma once
+ï»¿#pragma once
 class SpriteDIB
 {
 public:
 public:
 	enum
 	{
-		TYPE_BITMAP = 0x4d42 // ÀÏ¹İÀûÀÎ ºñÆ®¸Ê ½Äº°ÄÚµå
+		TYPE_BITMAP = 0x4d42 // ì¼ë°˜ì ì¸ ë¹„íŠ¸ë§µ ì‹ë³„ì½”ë“œ
 	};
 	struct SPRITE
 	{
-		BYTE *byteImage;	// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö ÁÖ¼Ò Æ÷ÀÎÅÍ
-		int	width;			// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö ³ĞÀÌ
-		int height;			// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö ³ôÀÌ
-		int pitch;			// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö ÇÇÄ¡
+		BYTE *byteImage;	// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ì£¼ì†Œ í¬ì¸í„°
+		int	width;			// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ë„“ì´
+		int height;			// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ë†’ì´
+		int pitch;			// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ í”¼ì¹˜
 	
-		int centerPointX;	// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö Áß½Éº¸Á¤ x°ª
-		int centerPointY;	// ½ºÇÁ¶óÀÌÆ® ÀÌ¹ÌÁö Áß½Éº¸Á¤ y°ª
+		int centerPointX;	// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ì¤‘ì‹¬ë³´ì • xê°’
+		int centerPointY;	// ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ì¤‘ì‹¬ë³´ì • yê°’
 	};
 private:
 protected:
-	SPRITE *_spritePointer; // ½ºÇÁ¶óÀÌÆ® ÀúÀåÇÒ ¹è¿­À» °¡¸®Å³ Æ÷ÀÎÅÍ
-	int		_maxSprite;		// ½ºÇÁ¶óÀÌÆ® ÃÖ´ë ¼ö (¹è¿­Å©±â)
-	DWORD	_colorKey;		// ÄÃ·¯Å°
+	SPRITE *_spritePointer; // ìŠ¤í”„ë¼ì´íŠ¸ ì €ì¥í•  ë°°ì—´ì„ ê°€ë¦¬í‚¬ í¬ì¸í„°
+	int		_maxSprite;		// ìŠ¤í”„ë¼ì´íŠ¸ ìµœëŒ€ ìˆ˜ (ë°°ì—´í¬ê¸°)
+	DWORD	_colorKey;		// ì»¬ëŸ¬í‚¤
 public:
 	SpriteDIB(int maxSprite, DWORD colorKey);
 	virtual ~SpriteDIB();
-	// ÀÌ¹ÌÁö¸¦ ½ºÇÁ¶óÀÌÆ®·Î ÀúÀå
+	// ì´ë¯¸ì§€ë¥¼ ìŠ¤í”„ë¼ì´íŠ¸ë¡œ ì €ì¥
 	bool LoadDIBSprite(int spriteIndex, const char *fileName, int centerPointX, int centerPointY);
-	// ½ºÇÁ¶óÀÌÆ® ÇØÁ¦
+	// ìŠ¤í”„ë¼ì´íŠ¸ í•´ì œ
 	void ReleaseDIB(int spriteIndex);
-	// ÄÃ·¯Å° Ã³¸®
+	// ì»¬ëŸ¬í‚¤ ì²˜ë¦¬
 	void DrawSprite(int spriteIndex, int drawX, int drawY, BYTE *dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 	void DrawSpriteRed(int spriteIndex, int drawX, int drawY, BYTE *dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 	void DrawSpriteHalfAlpha(int spriteIndex, int drawX, int drawY, BYTE *dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
-	// ÄÃ·¯Å° ¹ÌÃ³¸®
+	// ì»¬ëŸ¬í‚¤ ë¯¸ì²˜ë¦¬
 	void DrawImage(int spriteIndex, int drawX, int drawY, BYTE *dest, int destWidth, int destHeight, int destPitch, int drawRate = 100);
 };

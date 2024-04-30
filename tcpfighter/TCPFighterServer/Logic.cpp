@@ -1,8 +1,8 @@
-#pragma once
+﻿#pragma once
 #include "stdafx.h"
 
 extern list<Player *> g_playerList;
-extern FrameSkipServer g_frameSkipServer;
+extern MinLib::FrameSkipServer g_frameSkipServer;
 extern DWORD g_systemTime;
 extern DWORD g_delayTime;
 

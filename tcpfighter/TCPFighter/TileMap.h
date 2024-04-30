@@ -1,17 +1,17 @@
-#pragma once
+ï»¿#pragma once
 class TileMap
 {
 private:
-	Pos _cameraPos;			// Ä«¸Ş¶ó ¿ùµåÁÂÇ¥
-	int _spriteNo;			// Å¸ÀÏ ½ºÇÁ¶óÀÌÆ® ¹øÈ£
-	BYTE * _map;	// ¿ùµå¸Ê [x][y]
+	Pos _cameraPos;			// ì¹´ë©”ë¼ ì›”ë“œì¢Œí‘œ
+	int _spriteNo;			// íƒ€ì¼ ìŠ¤í”„ë¼ì´íŠ¸ ë²ˆí˜¸
+	BYTE * _map;	// ì›”ë“œë§µ [x][y]
 protected:
-	// Ä«¸Ş¶ó ¿ùµåÁÂÇ¥ °è»ê
+	// ì¹´ë©”ë¼ ì›”ë“œì¢Œí‘œ ê³„ì‚°
 	void SetCameraPos(Pos pos);
 public:
 	TileMap(int x, int y);
-	// Å¸ÀÏ ±×¸®±â (Àü¿ªÀÇ ScreenDIB, SpriteDIB¿¡ Á¾¼Ó)
+	// íƒ€ì¼ ê·¸ë¦¬ê¸° (ì „ì—­ì˜ ScreenDIB, SpriteDIBì— ì¢…ì†)
 	void DrawTile();
-	// Ä«¸Ş¶ó ¿ùµåÁÂÇ¥ ¸®ÅÏ
+	// ì¹´ë©”ë¼ ì›”ë“œì¢Œí‘œ ë¦¬í„´
 	Pos GetCameraPos();
 };

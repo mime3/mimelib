@@ -1,20 +1,20 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 extern map<SOCKET, Session *> g_user_socket;
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Create_My_Character
-// ¼³¸í : Å¬¶óÀÌ¾ğÆ® ÀÚ½ÅÀÇ Ä³¸¯ÅÍ »ı¼º ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡, (BYTE) HP
-// ¸®ÅÏ :
+// ì„¤ëª… : í´ë¼ì´ì–¸íŠ¸ ìì‹ ì˜ ìºë¦­í„° ìƒì„± íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜, (BYTE) HP
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Create_My_Character(StreamBuffer ** packet, int ID, BYTE direction, Pos pos, BYTE HP)
+void MakePacket_Create_My_Character(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos, BYTE HP)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_CREATE_MY_CHARACTER;
 	ph.bySize = 4 + 1 + 2 + 2 + 1;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << HP << dfNETWORK_PACKET_END;
@@ -24,18 +24,18 @@ void MakePacket_Create_My_Character(StreamBuffer ** packet, int ID, BYTE directi
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Create_Other_Character
-// ¼³¸í : ´Ù¸¥ Å¬¶óÀÌ¾ğÆ®ÀÇ Ä³¸¯ÅÍ »ı¼º ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡, (BYTE) HP
-// ¸®ÅÏ :
+// ì„¤ëª… : ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ì˜ ìºë¦­í„° ìƒì„± íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜, (BYTE) HP
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Create_Other_Character(StreamBuffer ** packet, int ID, BYTE direction, Pos pos, BYTE HP)
+void MakePacket_Create_Other_Character(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos, BYTE HP)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_CREATE_OTHER_CHARACTER;
 	ph.bySize = 4 + 1 + 2 + 2 + 1;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << HP << dfNETWORK_PACKET_END;
@@ -45,18 +45,18 @@ void MakePacket_Create_Other_Character(StreamBuffer ** packet, int ID, BYTE dire
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Delete_Character
-// ¼³¸í : ´Ù¸¥ Å¬¶óÀÌ¾ğÆ® Ä³¸¯ÅÍ »èÁ¦ ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£
-// ¸®ÅÏ :
+// ì„¤ëª… : ë‹¤ë¥¸ í´ë¼ì´ì–¸íŠ¸ ìºë¦­í„° ì‚­ì œ íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Delete_Character(StreamBuffer ** packet, int ID)
+void MakePacket_Delete_Character(MinLib::StreamBuffer ** packet, int ID)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_DELETE_CHARACTER;
 	ph.bySize = 4;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << dfNETWORK_PACKET_END;
@@ -66,18 +66,18 @@ void MakePacket_Delete_Character(StreamBuffer ** packet, int ID)
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Move_Start
-// ¼³¸í : Ä³¸¯ÅÍÀÇ ÀÌµ¿ ½ÃÀÛ ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ìºë¦­í„°ì˜ ì´ë™ ì‹œì‘ íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Move_Start(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
+void MakePacket_Move_Start(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_MOVE_START;
 	ph.bySize = 4 + 1 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << dfNETWORK_PACKET_END;
@@ -87,18 +87,18 @@ void MakePacket_Move_Start(StreamBuffer ** packet, int ID, BYTE direction, Pos p
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Move_Stop
-// ¼³¸í : Ä³¸¯ÅÍÀÇ Á¤Áö ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ìºë¦­í„°ì˜ ì •ì§€ íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Move_Stop(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
+void MakePacket_Move_Stop(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_MOVE_STOP;
 	ph.bySize = 4 + 1 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << dfNETWORK_PACKET_END;
@@ -108,18 +108,18 @@ void MakePacket_Move_Stop(StreamBuffer ** packet, int ID, BYTE direction, Pos po
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Attack1
-// ¼³¸í : Ä³¸¯ÅÍÀÇ °ø°İ ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ìºë¦­í„°ì˜ ê³µê²© íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Attack1(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
+void MakePacket_Attack1(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_ATTACK1;
 	ph.bySize = 4 + 1 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << dfNETWORK_PACKET_END;
@@ -129,18 +129,18 @@ void MakePacket_Attack1(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Attack2
-// ¼³¸í : Ä³¸¯ÅÍÀÇ °ø°İ ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ìºë¦­í„°ì˜ ê³µê²© íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Attack2(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
+void MakePacket_Attack2(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_ATTACK2;
 	ph.bySize = 4 + 1 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << dfNETWORK_PACKET_END;
@@ -150,18 +150,18 @@ void MakePacket_Attack2(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Attack3
-// ¼³¸í : Ä³¸¯ÅÍÀÇ °ø°İ ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (BYTE) ¹æÇâ, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ìºë¦­í„°ì˜ ê³µê²© íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (BYTE) ë°©í–¥, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Attack3(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
+void MakePacket_Attack3(MinLib::StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_ATTACK3;
 	ph.bySize = 4 + 1 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << direction << pos << dfNETWORK_PACKET_END;
@@ -171,18 +171,18 @@ void MakePacket_Attack3(StreamBuffer ** packet, int ID, BYTE direction, Pos pos)
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Damage
-// ¼³¸í : µ¥¹ÌÁö ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °ø°İÀÚ °íÀ¯¹øÈ£, (int) ÇÇ°İÀÚ °íÀ¯¹øÈ£, (BYTE) ÇÇ°İÈÄHP
-// ¸®ÅÏ :
+// ì„¤ëª… : ë°ë¯¸ì§€ íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³µê²©ì ê³ ìœ ë²ˆí˜¸, (int) í”¼ê²©ì ê³ ìœ ë²ˆí˜¸, (BYTE) í”¼ê²©í›„HP
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Damage(StreamBuffer ** packet, int AttackID, int DamageID, BYTE damageHP)
+void MakePacket_Damage(MinLib::StreamBuffer ** packet, int AttackID, int DamageID, BYTE damageHP)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_DAMAGE;
 	ph.bySize = 4 + 4 + 1;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << AttackID << DamageID << damageHP << dfNETWORK_PACKET_END;
@@ -192,18 +192,18 @@ void MakePacket_Damage(StreamBuffer ** packet, int AttackID, int DamageID, BYTE 
 
 /*----------------------------------------------------------*/
 // ::MakePacket_Sync
-// ¼³¸í : µ¥µå·¹Ä¿´× ÈÄ À§Ä¡¸¦ º¸Á¤ÇÒ ½ÌÅ© ÆĞÅ¶ ¸¸µé±â
-// ÀÎÀÚ : (StreamBuffer **) Á÷·ÄÈ­¹öÆÛ 2ÁßÆ÷ÀÎÅÍ, (int) °íÀ¯¹øÈ£, (Pos) À§Ä¡
-// ¸®ÅÏ :
+// ì„¤ëª… : ë°ë“œë ˆì»¤ë‹ í›„ ìœ„ì¹˜ë¥¼ ë³´ì •í•  ì‹±í¬ íŒ¨í‚· ë§Œë“¤ê¸°
+// ì¸ì : (MinLib::StreamBuffer **) ì§ë ¬í™”ë²„í¼ 2ì¤‘í¬ì¸í„°, (int) ê³ ìœ ë²ˆí˜¸, (Pos) ìœ„ì¹˜
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void MakePacket_Sync(StreamBuffer ** packet, int ID, Pos pos)
+void MakePacket_Sync(MinLib::StreamBuffer ** packet, int ID, Pos pos)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_SYNC;
 	ph.bySize = 4 + 2 + 2;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << ID << pos << dfNETWORK_PACKET_END;
@@ -212,14 +212,14 @@ void MakePacket_Sync(StreamBuffer ** packet, int ID, Pos pos)
 }
 
 // ::MakePacket_Echo
-void MakePacket_Echo(StreamBuffer ** packet, DWORD time)
+void MakePacket_Echo(MinLib::StreamBuffer ** packet, DWORD time)
 {
 	PACKET_HEADER ph;
 	ph.byCode = dfPACKET_CODE;
 	ph.byType = dfPACKET_SC_ECHO;
 	ph.bySize = 4;
 
-	*packet = new StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
+	*packet = new MinLib::StreamBuffer(sizeof(ph) + ph.bySize + sizeof(dfNETWORK_PACKET_END));
 	(*packet)->BlankHeader(sizeof(ph));
 
 	**packet << time << dfNETWORK_PACKET_END;
@@ -228,11 +228,11 @@ void MakePacket_Echo(StreamBuffer ** packet, DWORD time)
 
 /*----------------------------------------------------------*/
 // ::UniCast
-// ¼³¸í : ¼¼¼Ç¿¡°Ô ÆĞÅ¶ º¸³»±â
-// ÀÎÀÚ : (StreamBuffer *) Á÷·ÄÈ­¹öÆÛ Æ÷ÀÎÅÍ, (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ, (bool) delete¿©ºÎ
-// ¸®ÅÏ :
+// ì„¤ëª… : ì„¸ì…˜ì—ê²Œ íŒ¨í‚· ë³´ë‚´ê¸°
+// ì¸ì : (MinLib::StreamBuffer *) ì§ë ¬í™”ë²„í¼ í¬ì¸í„°, (Session *) ì„¸ì…˜ í¬ì¸í„°, (bool) deleteì—¬ë¶€
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void UniCast(StreamBuffer * stream, Session * session, bool deletePacket)
+void UniCast(MinLib::StreamBuffer * stream, Session * session, bool deletePacket)
 {
 	int size = stream->GetSize();
 	int retval = session->sendStream.Enqueue(stream->GetBuffer(), size);
@@ -247,11 +247,11 @@ void UniCast(StreamBuffer * stream, Session * session, bool deletePacket)
 
 /*----------------------------------------------------------*/
 // ::BroadCast_All
-// ¼³¸í : ÀüÃ¼¿¡°Ô ÆĞÅ¶ º¸³»±â
-// ÀÎÀÚ : (StreamBuffer *) Á÷·ÄÈ­¹öÆÛ Æ÷ÀÎÅÍ, (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ, (bool) ¼¼¼Ç¿¡°Ô Àü¼Û ¿©ºÎ
-// ¸®ÅÏ :
+// ì„¤ëª… : ì „ì²´ì—ê²Œ íŒ¨í‚· ë³´ë‚´ê¸°
+// ì¸ì : (MinLib::StreamBuffer *) ì§ë ¬í™”ë²„í¼ í¬ì¸í„°, (Session *) ì„¸ì…˜ í¬ì¸í„°, (bool) ì„¸ì…˜ì—ê²Œ ì „ì†¡ ì—¬ë¶€
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void BroadCast_All(StreamBuffer * stream, Session * session, bool dontSend)
+void BroadCast_All(MinLib::StreamBuffer * stream, Session * session, bool dontSend)
 {
 	map<SOCKET, Session *>::iterator iter = g_user_socket.begin();
 	map<SOCKET, Session *>::iterator iterEnd = g_user_socket.end();
@@ -266,11 +266,11 @@ void BroadCast_All(StreamBuffer * stream, Session * session, bool dontSend)
 
 /*----------------------------------------------------------*/
 // ::BroadCast_Sector
-// ¼³¸í : ÁÖº¯ ¼½ÅÍ¿¡°Ô ÆĞÅ¶ º¸³»±â
-// ÀÎÀÚ : (StreamBuffer *) Á÷·ÄÈ­¹öÆÛ Æ÷ÀÎÅÍ, (Session *) ¼¼¼Ç Æ÷ÀÎÅÍ, (bool) ¼¼¼Ç¿¡°Ô Àü¼Û ¿©ºÎ
-// ¸®ÅÏ :
+// ì„¤ëª… : ì£¼ë³€ ì„¹í„°ì—ê²Œ íŒ¨í‚· ë³´ë‚´ê¸°
+// ì¸ì : (MinLib::StreamBuffer *) ì§ë ¬í™”ë²„í¼ í¬ì¸í„°, (Session *) ì„¸ì…˜ í¬ì¸í„°, (bool) ì„¸ì…˜ì—ê²Œ ì „ì†¡ ì—¬ë¶€
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void BroadCast_Sector(StreamBuffer * stream, Session * session, bool dontSend)
+void BroadCast_Sector(MinLib::StreamBuffer * stream, Session * session, bool dontSend)
 {
 	SECTOR_POS pos = SECTOR_MANAGER.CalculateSector(session->character);
 	SECTOR_MANAGER.BroadCast_Sector(stream, session, dontSend, pos);

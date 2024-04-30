@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "SectorManager.h"
 
 extern multimap<TAG_ACTION, SECTOR_POS> g_moveInsertTable;
@@ -145,7 +145,7 @@ bool SectorManager::ChangeSector(Player * player)
 
 	return true;
 }
-// ÇÃ·¹ÀÌ¾î¿¡°Ô ÁÖº¯Ä³¸¯Á¤º¸¸¦ º¸³½´Ù.
+// í”Œë ˆì´ì–´ì—ê²Œ ì£¼ë³€ìºë¦­ì •ë³´ë¥¼ ë³´ë‚¸ë‹¤.
 bool SectorManager::AddSectorUserPacket(Player * player, SECTOR_POS pos)
 {
 	if (pos.x < 0 || pos.y < 0)
@@ -156,20 +156,20 @@ bool SectorManager::AddSectorUserPacket(Player * player, SECTOR_POS pos)
 	{
 		if ((*iter) == player)
 			continue;
-		StreamBuffer * makePlayer;
+		MinLib::StreamBuffer * makePlayer;
 		MakePacket_Create_Other_Character(&makePlayer, (*iter)->_ID, (*iter)->_direction, (*iter)->_pos, (*iter)->_healthPoint);
 		UniCast(makePlayer, player->_session);
-		// ÇöÀç ÀÌµ¿Áß
+		// í˜„ì¬ ì´ë™ì¤‘
 		if ((*iter)->_action != STAND)
 		{
-			StreamBuffer * move;
+			MinLib::StreamBuffer * move;
 			MakePacket_Move_Start(&move, (*iter)->_ID, (*iter)->_action, (*iter)->_pos);
 			UniCast(move, player->_session);
 		}
 	}
 	return true;
 }
-// ÇÃ·¹ÀÌ¾î¿¡°Ô ÁÖº¯ Ä³¸¯»èÁ¦¸¦ º¸³½´Ù.
+// í”Œë ˆì´ì–´ì—ê²Œ ì£¼ë³€ ìºë¦­ì‚­ì œë¥¼ ë³´ë‚¸ë‹¤.
 bool SectorManager::DeleteSectorUserPacket(Player * player, SECTOR_POS pos)
 {
 	if (pos.x < 0 || pos.y < 0)
@@ -180,20 +180,20 @@ bool SectorManager::DeleteSectorUserPacket(Player * player, SECTOR_POS pos)
 	{
 		if ((*iter) == player)
 			continue;
-		StreamBuffer * makePlayer;
+		MinLib::StreamBuffer * makePlayer;
 		MakePacket_Delete_Character(&makePlayer, (*iter)->_ID);
 		UniCast(makePlayer, player->_session);
 	}
 	return true;
 }
-// ¼½ÅÍÀÇ À¯Àú¿¡°Ô ÇÃ·¹ÀÌ¾îÀÇ Á¤º¸¸¦ ÁØ´Ù.
+// ì„¹í„°ì˜ ìœ ì €ì—ê²Œ í”Œë ˆì´ì–´ì˜ ì •ë³´ë¥¼ ì¤€ë‹¤.
 bool SectorManager::AddUserPacket_ForSector(Player * player, SECTOR_POS pos)
 {
 	if (pos.x < 0 || pos.y < 0)
 		return false;
 	list<Player *>::iterator iter = _sector[pos.x][pos.y].begin();
 	list<Player *>::iterator iterEnd = _sector[pos.x][pos.y].end();
-	StreamBuffer * makePlayer, * move;
+	MinLib::StreamBuffer * makePlayer, * move;
 	MakePacket_Create_Other_Character(&makePlayer, player->_ID, player->_direction, player->_pos, player->_healthPoint);
 	MakePacket_Move_Start(&move, player->_ID, player->_action, player->_pos);
 	for (; iter != iterEnd; ++iter)
@@ -207,14 +207,14 @@ bool SectorManager::AddUserPacket_ForSector(Player * player, SECTOR_POS pos)
 	delete move;
 	return true;
 }
-// ¼½ÅÍÀÇ À¯Àú¿¡°Ô ÇÃ·¹ÀÌ¾î¸¦ »èÁ¦ÇÏ¶ó°í ÇÑ´Ù.
+// ì„¹í„°ì˜ ìœ ì €ì—ê²Œ í”Œë ˆì´ì–´ë¥¼ ì‚­ì œí•˜ë¼ê³  í•œë‹¤.
 bool SectorManager::DeleteUserPacket_ForSector(Player * player, SECTOR_POS pos)
 {
 	if (pos.x < 0 || pos.y < 0)
 		return false;
 	list<Player *>::iterator iter = _sector[pos.x][pos.y].begin();
 	list<Player *>::iterator iterEnd = _sector[pos.x][pos.y].end();
-	StreamBuffer * makePlayer;
+	MinLib::StreamBuffer * makePlayer;
 	MakePacket_Delete_Character(&makePlayer, player->_ID);
 	for (; iter != iterEnd; ++iter)
 	{
@@ -233,7 +233,7 @@ bool SectorManager::NewPlayer(Player * player)
 	NotifyAroundSector(player);
 	return true;
 }
-bool SectorManager::BroadCast_Sector(StreamBuffer * stream, Session * session, bool dontSend, SECTOR_POS pos)
+bool SectorManager::BroadCast_Sector(MinLib::StreamBuffer * stream, Session * session, bool dontSend, SECTOR_POS pos)
 {
 	if (pos.x < 0 || pos.y < 0)
 		return false;

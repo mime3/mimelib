@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 #include "pch.h"
 #include "LoginLanServer.h"
 
-// ´Ù¸¥ ¼­¹öÀÇ ·Î±×ÀÎ¼­¹ö Á¢¼Ó Ã³¸®
+// ë‹¤ë¥¸ ì„œë²„ì˜ ë¡œê·¸ì¸ì„œë²„ ì ‘ì† ì²˜ë¦¬
 void LoginLanServer::LoginServer_Login(INT64 clientID, StreamBuffer * packet)
 {
 	SERVER * newServer = new SERVER;
@@ -18,14 +18,14 @@ void LoginLanServer::LoginServer_Login(INT64 clientID, StreamBuffer * packet)
 
 void LoginLanServer::New_Client_Login(StreamBuffer * packet)
 {
-	// À¯Àú¿¡°Ô Á¢¼Ó¼º°ø ¾Ë¸®±â
+	// ìœ ì €ì—ê²Œ ì ‘ì†ì„±ê³µ ì•Œë¦¬ê¸°
 	INT64 accountNo;
 	INT64 parameter;
 	*packet >> accountNo >> parameter;
 	
 	BYTE status = 0;
 
-	// map¿¡¼­ Ã¼Å©
+	// mapì—ì„œ ì²´í¬
 	AcquireSRWLockExclusive(_mapLock);
 	auto iter = _loginData->find(parameter);
 	if(iter != _loginData->end())
@@ -34,7 +34,7 @@ void LoginLanServer::New_Client_Login(StreamBuffer * packet)
 		{
 			status = dfLOGIN_STATUS_OK;
 			iter->second->status = status;
-			//_loginData->erase(iter); // ³ª°¡¸é Áö¿î´Ù
+			//_loginData->erase(iter); // ë‚˜ê°€ë©´ ì§€ìš´ë‹¤
 		}
 	}
 	ReleaseSRWLockExclusive(_mapLock);
@@ -60,7 +60,7 @@ bool LoginLanServer::BroadCastServer(StreamBuffer * packet)
 	return true;
 }
 
-// ÆÐÅ¶ ÆÄ½Ì
+// íŒ¨í‚· íŒŒì‹±
 void LoginLanServer::PacketParse(INT64 clientID, StreamBuffer * packet)
 {
 	WORD type;

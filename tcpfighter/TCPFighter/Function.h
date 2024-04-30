@@ -1,14 +1,14 @@
-#pragma once
-// °ÔÀÓ ¸ŞÀÎ ·çÇÁ
+ï»¿#pragma once
+// ê²Œì„ ë©”ì¸ ë£¨í”„
 void Update(HWND hWnd);
-// Å° ÀÔ·Â È®ÀÎ ÇÔ¼ö
+// í‚¤ ì…ë ¥ í™•ì¸ í•¨ìˆ˜
 void KeyProcess();
-// °ÔÀÓ ·ÎÁ÷
+// ê²Œì„ ë¡œì§
 void Logic();
-// ·»´õ¸µ
+// ë Œë”ë§
 void Render(HWND hWnd);
 
-// ·»´õ¸µ ¿ì¼±µµ °è»ê
+// ë Œë”ë§ ìš°ì„ ë„ ê³„ì‚°
 int GetPriority(Object * object);
-// À¯Àú °Ë»ö
+// ìœ ì € ê²€ìƒ‰
 Player * FindUser(int ID);

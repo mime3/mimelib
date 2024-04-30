@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define SECTOR_X 100
 #define SECTOR_Y 100
 #define SECTOR_WIDTH 300
@@ -39,5 +39,5 @@ public:
 	bool AddUserPacket_ForSector(Player * player, SECTOR_POS pos);
 	bool DeleteUserPacket_ForSector(Player * player, SECTOR_POS pos);
 	bool NewPlayer(Player * player);
-	bool BroadCast_Sector(StreamBuffer * stream, Session * session, bool dontSend, SECTOR_POS pos);
+	bool BroadCast_Sector(MinLib::StreamBuffer * stream, Session * session, bool dontSend, SECTOR_POS pos);
 };

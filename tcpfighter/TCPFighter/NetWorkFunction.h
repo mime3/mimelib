@@ -1,22 +1,22 @@
-#pragma once
-// ³×Æ®¿öÅ© ÃÊ±â¼¼ÆÃ
+ï»¿#pragma once
+// ë„¤íŠ¸ì›Œí¬ ì´ˆê¸°ì„¸íŒ…
 void WsaInit(HWND hWnd);
-// ¸µ¹öÆÛ¿¡¼­ ÆĞÅ¶ ²¨³»±â
+// ë§ë²„í¼ì—ì„œ íŒ¨í‚· êº¼ë‚´ê¸°
 void PacketProc();
-// ÃÖÃÊ ¿¬°á¼º°ø½Ã È£ÃâµÉ ÇÁ·Î½ÃÀú
+// ìµœì´ˆ ì—°ê²°ì„±ê³µì‹œ í˜¸ì¶œë  í”„ë¡œì‹œì €
 void ProcConnect();
-// µ¥ÀÌÅÍ ¼ö½Å½Ã È£ÃâµÉ ÇÁ·Î½ÃÀú
+// ë°ì´í„° ìˆ˜ì‹ ì‹œ í˜¸ì¶œë  í”„ë¡œì‹œì €
 void ProcRead();
-// µ¥ÀÌÅÍ ¼Û½Å°¡´É½Ã È£ÃâµÉ ÇÁ·Î½ÃÀú
+// ë°ì´í„° ì†¡ì‹ ê°€ëŠ¥ì‹œ í˜¸ì¶œë  í”„ë¡œì‹œì €
 void ProcWrite();
-// ¿¬°áÀÌ Á¾·á‰çÀ»¶§ È£ÃâµÉ ÇÁ·Î½ÃÀú
+// ì—°ê²°ì´ ì¢…ë£Œë¬ì„ë•Œ í˜¸ì¶œë  í”„ë¡œì‹œì €
 void ProcClose();
-// ÆĞÅ¶À» ¸µ¹öÆÛ¿¡ ³Ö°í, ¸µ¹öÆÛÀÇ µ¥ÀÌÅÍ¸¦ ¸ğµÎ send½Ãµµ
+// íŒ¨í‚·ì„ ë§ë²„í¼ì— ë„£ê³ , ë§ë²„í¼ì˜ ë°ì´í„°ë¥¼ ëª¨ë‘ sendì‹œë„
 void SendPacket(char * buffer, int size);
-// ¼ö½ÅµÈ ÆĞÅ¶ ÆÄ½Ì
-void PacketParse(BYTE packetType, StreamBuffer &payload);
+// ìˆ˜ì‹ ëœ íŒ¨í‚· íŒŒì‹±
+void PacketParse(BYTE packetType, MinLib::StreamBuffer &payload);
 
-// ÆĞÅ¶ »ı¼º ¹× Àü¼Û
+// íŒ¨í‚· ìƒì„± ë° ì „ì†¡
 void MakeSendPacket(TAG_ACTION action);
 void MakeSendMovePacket(BYTE direction, WORD x, WORD y);
 void MakeSendAttackPacket(int type, BYTE direction, WORD x, WORD y);

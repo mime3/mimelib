@@ -1,14 +1,14 @@
-#pragma once
+ï»¿#pragma once
 class FrameSkip
 {
-	DWORD _systemTick;		// ¸¶Áö¸· ÇÁ·¹ÀÓ ½Ã°£
-	int _maxFrame;			// ¸ñÇ¥ ÇÁ·¹ÀÓ ¼ö
-	int _oneFrameTick;		// 1ÇÁ·¹ÀÓ´ç ½Ã°£
-	int _tick;				// ½Ã°£ ÃÊ°úÄ¡ ÀúÀå º¯¼ö
+	DWORD _systemTick;		// ë§ˆì§€ë§‰ í”„ë ˆìž„ ì‹œê°„
+	int _maxFrame;			// ëª©í‘œ í”„ë ˆìž„ ìˆ˜
+	int _oneFrameTick;		// 1í”„ë ˆìž„ë‹¹ ì‹œê°„
+	int _tick;				// ì‹œê°„ ì´ˆê³¼ì¹˜ ì €ìž¥ ë³€ìˆ˜
 
 public:
 	FrameSkip(int FPS);
 	~FrameSkip();
-	// ÇÁ·¹ÀÓ ½ºÅµ¿©ºÎ
+	// í”„ë ˆìž„ ìŠ¤í‚µì—¬ë¶€
 	bool Skip();
 };

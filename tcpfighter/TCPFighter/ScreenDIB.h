@@ -1,36 +1,36 @@
-#pragma once
+ï»¿#pragma once
 
 class ScreenDIB
 {
 private:
 protected:
-	BITMAPINFO	_DIBInfo;		// ºñÆ®¸ÊÃ³·³ È°¿ëÇÏ±â À§ÇÑ ºñÆ®¸ÊÇì´õ
-	BYTE		*_byteBuffer;	// ¹é¹öÆÛ ÁÖ¼Ò Æ÷ÀÎÅÍ
-	int			_width;			// ¹é¹öÆÛÀÇ ³ĞÀÌ
-	int			_height;		// ¹é¹öÆÛÀÇ ³ôÀÌ
-	int			_pitch;			// ¹é¹öÆÛÀÇ ÇÇÄ¡
-	int			_colorBit;		// ¹é¹öÆÛÀÇ ÄÃ·¯ ºñÆ®¼ö
-	int			_bufferSize;	// ¹éÆÛ¾îÀÇ Å©±â
+	BITMAPINFO	_DIBInfo;		// ë¹„íŠ¸ë§µì²˜ëŸ¼ í™œìš©í•˜ê¸° ìœ„í•œ ë¹„íŠ¸ë§µí—¤ë”
+	BYTE		*_byteBuffer;	// ë°±ë²„í¼ ì£¼ì†Œ í¬ì¸í„°
+	int			_width;			// ë°±ë²„í¼ì˜ ë„“ì´
+	int			_height;		// ë°±ë²„í¼ì˜ ë†’ì´
+	int			_pitch;			// ë°±ë²„í¼ì˜ í”¼ì¹˜
+	int			_colorBit;		// ë°±ë²„í¼ì˜ ì»¬ëŸ¬ ë¹„íŠ¸ìˆ˜
+	int			_bufferSize;	// ë°±í¼ì–´ì˜ í¬ê¸°
 
-	// DIBInfo¼¼ÆÃÇÏ°í ¹é¹öÆÛ»ı¼º
+	// DIBInfoì„¸íŒ…í•˜ê³  ë°±ë²„í¼ìƒì„±
 	void CreateDIBBuffer(int width, int height, int colorBit);	
-	// ¹é¹öÆÛ ÇØÁ¦
+	// ë°±ë²„í¼ í•´ì œ
 	void ReleaseBuffer();										
 
 public:
 	ScreenDIB(int width, int height , int colorBit);
 	virtual ~ScreenDIB();
 
-	// ¹é¹öÆÛ¸¦ È­¸é¿¡ ±×¸°´Ù.
+	// ë°±ë²„í¼ë¥¼ í™”ë©´ì— ê·¸ë¦°ë‹¤.
 	void	DrawBuffer(HWND hWnd, int x = 0, int y = 0);	
-	// ¹é¹öÆÛ 0À¸·Î ÃÊ±âÈ­
+	// ë°±ë²„í¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”
 	void	Clear();										
-	// ¹é¹öÆÛ ³ĞÀÌ¸®ÅÏ
+	// ë°±ë²„í¼ ë„“ì´ë¦¬í„´
 	int		GetWidth();										
-	// ¹é¹öÆÛ ³ôÀÌ ¸®ÅÏ
+	// ë°±ë²„í¼ ë†’ì´ ë¦¬í„´
 	int		GetHeight();									
-	// ¹é¹öÆÛ ÇÇÄ¡ ¸®ÅÏ
+	// ë°±ë²„í¼ í”¼ì¹˜ ë¦¬í„´
 	int		GetPitch();										
-	// ¹é¹öÆÛ ÁÖ¼Ò Æ÷ÀÎÅÍ ¸®ÅÏ
+	// ë°±ë²„í¼ ì£¼ì†Œ í¬ì¸í„° ë¦¬í„´
 	BYTE *	GetByteBuffer();								
 };

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Function.h"
 
 extern ScreenDIB *screen;
@@ -10,21 +10,21 @@ extern TileMap * g_tileMap;
 extern bool active;
 
 extern DWORD time;
-// frame°è»ê
+// frameê³„ì‚°
 DWORD timecheck = timeGetTime();
 int frame = 0;
 int printframe = 0;
 int logic = 0;
 int printlogic = 0;
-// frame°è»ê
+// frameê³„ì‚°
 
-// ÁÖ¿äÇÔ¼ö
+// ì£¼ìš”í•¨ìˆ˜
 
 /*----------------------------------------------------------*/
 // ::Update
-// ¼³¸í : °ÔÀÓ ¸ÞÀÎ ·çÇÁ
-// ÀÎÀÚ : (HWND) À©µµ¿ì ÇÚµé
-// ¸®ÅÏ :
+// ì„¤ëª… : ê²Œìž„ ë©”ì¸ ë£¨í”„
+// ì¸ìž : (HWND) ìœˆë„ìš° í•¸ë“¤
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void Update(HWND hWnd)
 {
@@ -37,7 +37,7 @@ void Update(HWND hWnd)
 		frame++;
 	}
 
-	// frame°è»ê
+	// frameê³„ì‚°
 	DWORD curTime = timeGetTime();
 	if (curTime - timecheck >= 1000)
 	{
@@ -55,26 +55,26 @@ void Update(HWND hWnd)
 	wsprintf(buffer, L"%d", printlogic);
 	TextOut(hdc, 20, 0, buffer, lstrlen(buffer));
 	ReleaseDC(hWnd, hdc);
-	// frame°è»ê
+	// frameê³„ì‚°
 }
 /*----------------------------------------------------------*/
 // ::KeyProcess 
-// ¼³¸í : Å° ÀÔ·ÂÀ» È®ÀÎÇÏ¿© ÇÃ·¹ÀÌ¾î¸¦ ÄÁÆ®·ÑÇÑ´Ù.
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : í‚¤ ìž…ë ¥ì„ í™•ì¸í•˜ì—¬ í”Œë ˆì´ì–´ë¥¼ ì»¨íŠ¸ë¡¤í•œë‹¤.
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void KeyProcess()
 {
-	// ÇöÀç À©µµ¿ì ºñÈ°¼ºÈ­»óÅÂ
+	// í˜„ìž¬ ìœˆë„ìš° ë¹„í™œì„±í™”ìƒíƒœ
 	if (!active)
 		return;
-	// ÇÃ·¹ÀÌ¾î°¡ ¾ÆÁ÷ ¾øÀ½
+	// í”Œë ˆì´ì–´ê°€ ì•„ì§ ì—†ìŒ
 	if (g_player == nullptr)
 		return;
 
-	// 0x8000: ÇöÀç ´­·ÁÁ® ÀÖ´ÂÁö
-	// 0x0001: Àú¹ø¿¡ ´­·È´ø°Ô ÀÖ´ÂÁö
-	// Ã¼Å© ¼ø¼­°¡ À§¿¡ÀÖÀ»¼ö·Ï ¿ì¼±¸í·É
+	// 0x8000: í˜„ìž¬ ëˆŒë ¤ì ¸ ìžˆëŠ”ì§€
+	// 0x0001: ì €ë²ˆì— ëˆŒë ¸ë˜ê²Œ ìžˆëŠ”ì§€
+	// ì²´í¬ ìˆœì„œê°€ ìœ„ì—ìžˆì„ìˆ˜ë¡ ìš°ì„ ëª…ë ¹
 	if (GetAsyncKeyState(0x5A) & 0x8000) // z
 		g_player->Command(ATTACK_TYPE_1);
 	else if (GetAsyncKeyState(0x58) & 0x8000)  // x
@@ -107,9 +107,9 @@ void KeyProcess()
 
 /*----------------------------------------------------------*/
 // ::Logic 
-// ¼³¸í : °ÔÀÓ ·ÎÁ÷
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ê²Œìž„ ë¡œì§
+// ì¸ìž : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void Logic()
 {
@@ -128,13 +128,13 @@ void Logic()
 
 /*----------------------------------------------------------*/
 // ::Render 
-// ¼³¸í : Å¸ÀÏ°ú ¿ÀºêÁ§Æ®µéÀ» È­¸é¿¡ ·»´õ¸µÇÑ´Ù.
-// ÀÎÀÚ : (HWND) À©µµ¿ì ÇÚµé
-// ¸®ÅÏ :
+// ì„¤ëª… : íƒ€ì¼ê³¼ ì˜¤ë¸Œì íŠ¸ë“¤ì„ í™”ë©´ì— ë Œë”ë§í•œë‹¤.
+// ì¸ìž : (HWND) ìœˆë„ìš° í•¸ë“¤
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void Render(HWND hWnd)
 {
-	// Èå¾ô¤Ì¤ÐÇÏµåÄÚµù
+	// íì–½ã…œã… í•˜ë“œì½”ë”©
 	// bubble sort 
 	CList<Object *>::iterator iter, iter2;
 	for (int i = 0; i < g_list.size(); i++)
@@ -178,13 +178,13 @@ void Render(HWND hWnd)
 	screen->DrawBuffer(hWnd);
 }
 
-// ÀÛÀºÇÔ¼ö
+// ìž‘ì€í•¨ìˆ˜
 
 /*----------------------------------------------------------*/
 // ::GetPriority
-// ¼³¸í : ¿ÀºêÁ§Æ®µéÀÇ ·»´õ¸µ ¿ì¼±µµ¸¦ ¸®ÅÏÇÑ´Ù.
-// ÀÎÀÚ : (Object *) ¿ÀºêÁ§Æ® Æ÷ÀÎÅÍ
-// ¸®ÅÏ : (int) ·»´õ¸µ ¿ì¼±µµ
+// ì„¤ëª… : ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ë Œë”ë§ ìš°ì„ ë„ë¥¼ ë¦¬í„´í•œë‹¤.
+// ì¸ìž : (Object *) ì˜¤ë¸Œì íŠ¸ í¬ì¸í„°
+// ë¦¬í„´ : (int) ë Œë”ë§ ìš°ì„ ë„
 /*----------------*////////////////////////*----------------*/
 int GetPriority(Object * object)
 {
@@ -209,9 +209,9 @@ int GetPriority(Object * object)
 
 /*----------------------------------------------------------*/
 // ::FindUser
-// ¼³¸í : ¸®½ºÆ®¿¡¼­ À¯Àú¸¦ Ã£¾Æ¼­ ±× Æ÷ÀÎÅÍ¸¦ ¸®ÅÏÇÑ´Ù.
-// ÀÎÀÚ : (int) À¯Àú ½Äº°¹øÈ£
-// ¸®ÅÏ : (Player *) ÇÃ·¹ÀÌ¾îÀÇ Æ÷ÀÎÅÍ
+// ì„¤ëª… : ë¦¬ìŠ¤íŠ¸ì—ì„œ ìœ ì €ë¥¼ ì°¾ì•„ì„œ ê·¸ í¬ì¸í„°ë¥¼ ë¦¬í„´í•œë‹¤.
+// ì¸ìž : (int) ìœ ì € ì‹ë³„ë²ˆí˜¸
+// ë¦¬í„´ : (Player *) í”Œë ˆì´ì–´ì˜ í¬ì¸í„°
 /*----------------*////////////////////////*----------------*/
 Player * FindUser(int ID)
 {

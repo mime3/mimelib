@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
 extern DoubleBuffer * db;
 extern char map[MAP_Y_SIZE][MAP_X_SIZE];
@@ -120,28 +120,28 @@ bool FindAndDisplayPath(MAP_NODE ** endNode, HDC hdc)
 	if (!FindTile(START, &startX, &startY))
 		return false;
 
-	// ÀÌÀü¿¡»ç¿ëÇÑ open close ¸®½ºÆ® ºñ¿ö¾ßÇÔ
+	// ì´ì „ì—ì‚¬ìš©í•œ open close ë¦¬ìŠ¤íŠ¸ ë¹„ì›Œì•¼í•¨
 	ClearNode();
 	CreateNode(startX, startY, nullptr, NULL, endX, endY);
 	while (true)
 	{
-		// F Å°·Î Á¤·Ä
+		// F í‚¤ë¡œ ì •ë ¬
 		openList.sort(Less());
-		// ÇÏ³ª »Ì±â -> »ÌÀ»°Å ¾øÀ¸¸é ±æÀÌ ¾ø´Ù
+		// í•˜ë‚˜ ë½‘ê¸° -> ë½‘ì„ê±° ì—†ìœ¼ë©´ ê¸¸ì´ ì—†ë‹¤
 		std::list<MAP_NODE *>::iterator iter = openList.begin();
 		if (iter == openList.end())
 			return false;
 		MAP_NODE * output = (*iter);
 		openList.erase(iter);
-		// ¸ñÀûÁöÀÎÁö Ã¼Å© // ¸®ÅÏÀ» ÀÌ°É·Î ÇÏÀÚ
+		// ëª©ì ì§€ì¸ì§€ ì²´í¬ // ë¦¬í„´ì„ ì´ê±¸ë¡œ í•˜ì
 		if (output->h == 0)
 		{
 			*endNode = output;
 			return true;
 		}
-		// close¿¡ ³Ö±â
+		// closeì— ë„£ê¸°
 		closeList.push_back(output);
-		// ÁÖº¯ ³ëµå ¸¸µé±â
+		// ì£¼ë³€ ë…¸ë“œ ë§Œë“¤ê¸°
 		CreateNode(output->x - 1, output->y, output, 10, endX, endY);
 		CreateNode(output->x + 1, output->y, output, 10, endX, endY);
 		CreateNode(output->x, output->y - 1, output, 10, endX, endY);
@@ -151,7 +151,7 @@ bool FindAndDisplayPath(MAP_NODE ** endNode, HDC hdc)
 		CreateNode(output->x + 1, output->y + 1, output, 14, endX, endY);
 		CreateNode(output->x + 1, output->y - 1, output, 14, endX, endY);
 
-		// µÎ ¸®½ºÆ® ¼øÈ¸ÇÏ¸é¼­ ºí·° Ãâ·Â
+		// ë‘ ë¦¬ìŠ¤íŠ¸ ìˆœíšŒí•˜ë©´ì„œ ë¸”ëŸ­ ì¶œë ¥
 		DisplayNode(hdc, startX, startY, endX, endY);
 		db->Flipping();
 	}
@@ -176,23 +176,23 @@ bool FindPath(MAP_NODE ** endNode)
 	CreateNode(startX, startY, nullptr, NULL, endX, endY);
 	while (true)
 	{
-		// F Å°·Î Á¤·Ä
+		// F í‚¤ë¡œ ì •ë ¬
 		openList.sort(Less());
-		// ÇÏ³ª »Ì±â -> »ÌÀ»°Å ¾øÀ¸¸é ±æÀÌ ¾ø´Ù
+		// í•˜ë‚˜ ë½‘ê¸° -> ë½‘ì„ê±° ì—†ìœ¼ë©´ ê¸¸ì´ ì—†ë‹¤
 		std::list<MAP_NODE *>::iterator iter = openList.begin();
 		if ((*iter) == nullptr)
 			return false;
 		MAP_NODE * output = (*iter);
 		openList.erase(iter);
-		// ¸ñÀûÁöÀÎÁö Ã¼Å© // ¸®ÅÏÀ» ÀÌ°É·Î ÇÏÀÚ
+		// ëª©ì ì§€ì¸ì§€ ì²´í¬ // ë¦¬í„´ì„ ì´ê±¸ë¡œ í•˜ì
 		if (output->h == 0)
 		{
 			*endNode = output;
 			return true;
 		}
-		// close¿¡ ³Ö±â
+		// closeì— ë„£ê¸°
 		closeList.push_back(output);
-		// ÁÖº¯ ³ëµå ¸¸µé±â
+		// ì£¼ë³€ ë…¸ë“œ ë§Œë“¤ê¸°
 		CreateNode(output->x - 1, output->y, output, 10, endX, endY);
 		CreateNode(output->x + 1, output->y, output, 10, endX, endY);
 		CreateNode(output->x, output->y - 1, output, 10, endX, endY);
@@ -269,21 +269,21 @@ void DisplayNode(HDC hdc, int startX, int startY, int endX, int endY)
 
 bool CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int endY)
 {
-	// ¾Æ¿ôÁÂÇ¥ °Ë»ç
+	// ì•„ì›ƒì¢Œí‘œ ê²€ì‚¬
 	if (x < 0 || MAP_X_SIZE - 1 < x)
 		return false;
 	if (y < 0 || MAP_Y_SIZE - 1 < y)
 		return false;
-	//	º® °Ë»ç
+	//	ë²½ ê²€ì‚¬
 	if (map[y][x] == WALL)
 		return false;
-	//	³ëµå Áßº¹°Ë»çopen
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬open
 	std::list<MAP_NODE *>::iterator iter = openList.begin();
 	for (; iter != openList.end(); ++iter)
 	{
 		if ((*iter)->x == x && (*iter)->y == y)
 		{
-			//	g°ªÀÌ ³»°¡ ¸¸µé·Á´Â°Íº¸´Ù Å©¸é ºù µ¹¾Æ¿Â°Å´Ï±î g,f¿Í ºÎ¸ğ¸¦ ¹Ù²ãÁà¾ßÇÑ´Ù.
+			//	gê°’ì´ ë‚´ê°€ ë§Œë“¤ë ¤ëŠ”ê²ƒë³´ë‹¤ í¬ë©´ ë¹™ ëŒì•„ì˜¨ê±°ë‹ˆê¹Œ g,fì™€ ë¶€ëª¨ë¥¼ ë°”ê¿”ì¤˜ì•¼í•œë‹¤.
 			if (parent->g + plus < (*iter)->g)
 			{
 				(*iter)->g = parent->g + plus;
@@ -293,7 +293,7 @@ bool CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int endY)
 			return false;
 		}
 	}
-	//	³ëµå Áßº¹°Ë»çclose
+	//	ë…¸ë“œ ì¤‘ë³µê²€ì‚¬close
 	iter = closeList.begin();
 	for (; iter != closeList.end(); ++iter)
 	{

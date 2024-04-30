@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
 Logger::Logger()
 {
@@ -22,7 +22,7 @@ void Logger::Log(const WCHAR * fmt, va_list args)
 {
 	WCHAR logStr[1024];
 	vswprintf_s(logStr, 1024, fmt, args);
-	// logMessage »ı¼º½Ã ½Ã°£ ½ºÆ®¸µÀ¸·Î ÃÊ±âÈ­ °¡´É
+	// logMessage ìƒì„±ì‹œ ì‹œê°„ ìŠ¤íŠ¸ë§ìœ¼ë¡œ ì´ˆê¸°í™” ê°€ëŠ¥
 	wstring logMessage; 
 	CLOCK.GetTimeString(&logMessage);
 	logMessage += logStr;

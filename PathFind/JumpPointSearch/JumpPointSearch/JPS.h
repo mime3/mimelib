@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #define BLOCKSIZE 20
 #define MAP_X_SIZE 60
 #define MAP_Y_SIZE 30
 #define JUMP_MAX 20
 #define POINT_MAX 100
-// °úÁ¤Ç¥½Ã¿ë
+// ê³¼ì •í‘œì‹œìš©
 #define JPS_DISPLAY
 
 using namespace MinLib;
@@ -34,9 +34,9 @@ public:
 	{
 		int x;
 		int y;
-		int g; // Ãâ¹ßÁ¡°úÀÇ °Å¸®
-		int h; // ¸ñÀûÁö±îÁöÀÇ °Å¸®
-		int f; // ÃÑÇÕ
+		int g; // ì¶œë°œì ê³¼ì˜ ê±°ë¦¬
+		int h; // ëª©ì ì§€ê¹Œì§€ì˜ ê±°ë¦¬
+		int f; // ì´í•©
 		MAP_NODE * parent;
 		Direction direction;
 	};
@@ -59,7 +59,7 @@ private:
 	DoubleBuffer * _doubleBuffer;
 	std::list<MAP_NODE *> _openList;
 	std::list<MAP_NODE *> _closeList;
-	std::list<FOUND_NODE *> _foundList; // °úÁ¤ Ç¥½Ã¿ë
+	std::list<FOUND_NODE *> _foundList; // ê³¼ì • í‘œì‹œìš©
 	POINT _resultPath[POINT_MAX];
 	BresenhamLine _bresenLine;
 	POINT _optimizePath[BRESENHAM_MAX];
@@ -75,12 +75,12 @@ protected:
 	bool CreateNode(int x, int y, MAP_NODE * parent, int plus, int endX, int endY);
 	bool CreateNode(int x, int y, MAP_NODE * parent, Direction direction);
 	bool Jump(int x, int y, Direction direction, int * newX, int * newY);
-	bool Jump(int x, int y, Direction direction, int * newX, int * newY, COLORREF color); // °úÁ¤ Ç¥½Ã¿ë
+	bool Jump(int x, int y, Direction direction, int * newX, int * newY, COLORREF color); // ê³¼ì • í‘œì‹œìš©
 	inline bool CheckWalkable(int x, int y);
 	bool CheckPoint(MAP_NODE * parent, int x, int y, Direction direction);
-	bool CheckPoint(MAP_NODE * parent, int x, int y, Direction direction, COLORREF color); // °úÁ¤ Ç¥½Ã¿ë
+	bool CheckPoint(MAP_NODE * parent, int x, int y, Direction direction, COLORREF color); // ê³¼ì • í‘œì‹œìš©
 	void NeighborsNode(MAP_NODE * node);
-	void NeighborsNode(MAP_NODE * node, COLORREF color); // °úÁ¤Ç¥½Ã¿ë
+	void NeighborsNode(MAP_NODE * node, COLORREF color); // ê³¼ì •í‘œì‹œìš©
 	void SaveResult(MAP_NODE *endNode, int * num);
 	void DisplayPath(MAP_NODE *endNode);
 	void OptimizePath(MAP_NODE *endNode);

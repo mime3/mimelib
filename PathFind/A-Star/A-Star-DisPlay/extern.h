@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #define BLOCKSIZE 20
 #define MAP_X_SIZE 60
 #define MAP_Y_SIZE 30
@@ -15,9 +15,9 @@ struct MAP_NODE
 {
 	int x;
 	int y;
-	int g; // Ãâ¹ßÁ¡°úÀÇ °Å¸®
-	int h; // ¸ñÀûÁö±îÁöÀÇ °Å¸®
-	int f; // ÃÑÇÕ
+	int g; // ì¶œë°œì ê³¼ì˜ ê±°ë¦¬
+	int h; // ëª©ì ì§€ê¹Œì§€ì˜ ê±°ë¦¬
+	int f; // ì´í•©
 	MAP_NODE * parent;
 };
 

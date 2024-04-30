@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 struct Pos
 {
@@ -26,36 +26,36 @@ public:
 	};
 private:
 protected:
-	bool	_isDead;				// True½Ã ´ÙÀ½ Action()¿¡¼­ False¹İÈ¯
-	Pos		_pos;					// ÇöÀç À§Ä¡
-	Pos		_oldPos;				// ÀÌµ¿ ºÒ°¡Áö¿ª ÀÌµ¿½Ã µÇµ¹¸®±â¿ë
-	TYPE	_type;					// Å¸ÀÔ ÀúÀå¿ë
-	int		_startSprite;			// ¹İº¹À» À§ÇÑ Ã¹ ½ºÇÁ¶óÀÌÆ®ÀúÀå
-	int		_curSprite;				// ÇöÀç ½ºÇÁ¶óÀÌÆ®
-	int		_endSprite;				// ³¡ ½ºÇÁ¶óÀÌÆ®
-	int		_frameDelay;			// ÇöÀç½ºÇÁ¶óÀÌÆ®ÀÇ °íÁ¤ µô·¹ÀÌ
-	int		_delayCount;			// µô·¹ÀÌÄ«¿îÆ®¿ë
-	bool	_endFrame;				// ³¡ ½ºÆ®¶óÀÌÇÁ¿¡ ÃÖ¼Ò ÇÑ¹ø µµ´ŞÇß´ÂÁö ¿©ºÎ
-	char	_renderColor;			// ·»´õ¸µ ÄÃ·¯ ÇÃ·¡±×
+	bool	_isDead;				// Trueì‹œ ë‹¤ìŒ Action()ì—ì„œ Falseë°˜í™˜
+	Pos		_pos;					// í˜„ì¬ ìœ„ì¹˜
+	Pos		_oldPos;				// ì´ë™ ë¶ˆê°€ì§€ì—­ ì´ë™ì‹œ ë˜ëŒë¦¬ê¸°ìš©
+	TYPE	_type;					// íƒ€ì… ì €ì¥ìš©
+	int		_startSprite;			// ë°˜ë³µì„ ìœ„í•œ ì²« ìŠ¤í”„ë¼ì´íŠ¸ì €ì¥
+	int		_curSprite;				// í˜„ì¬ ìŠ¤í”„ë¼ì´íŠ¸
+	int		_endSprite;				// ë ìŠ¤í”„ë¼ì´íŠ¸
+	int		_frameDelay;			// í˜„ì¬ìŠ¤í”„ë¼ì´íŠ¸ì˜ ê³ ì • ë”œë ˆì´
+	int		_delayCount;			// ë”œë ˆì´ì¹´ìš´íŠ¸ìš©
+	bool	_endFrame;				// ë ìŠ¤íŠ¸ë¼ì´í”„ì— ìµœì†Œ í•œë²ˆ ë„ë‹¬í–ˆëŠ”ì§€ ì—¬ë¶€
+	char	_renderColor;			// ë Œë”ë§ ì»¬ëŸ¬ í”Œë˜ê·¸
 
 public:
 	Object(Pos pos);
 	virtual ~Object();
 	virtual bool Action() = 0;
 	virtual void Draw() = 0;
-	// À§Ä¡ ¸®ÅÏ
+	// ìœ„ì¹˜ ë¦¬í„´
 	Pos GetPos();			
-	// Å¸ÀÔ ¸®ÅÏ
+	// íƒ€ì… ë¦¬í„´
 	TYPE GetType();					
-	// ½ºÇÁ¶óÀÌÆ® ¸®ÅÏ
+	// ìŠ¤í”„ë¼ì´íŠ¸ ë¦¬í„´
 	int GetSprite();				
-	// ÇÁ·¹ÀÓ ÁøÇà
+	// í”„ë ˆì„ ì§„í–‰
 	void NextFrame();				
-	// À§Ä¡ °­Á¦º¯°æ
+	// ìœ„ì¹˜ ê°•ì œë³€ê²½
 	void SetPos(Pos pos);			
-	// ·»´õ¸µ ÄÃ·¯ ÇÃ·¡±× º¯°æ
+	// ë Œë”ë§ ì»¬ëŸ¬ í”Œë˜ê·¸ ë³€ê²½
 	void ChangeColor(char color);	
-	// deadÇÃ·¡±× º¯°æ
+	// deadí”Œë˜ê·¸ ë³€ê²½
 	void Die();						
 };
 
@@ -65,21 +65,21 @@ public:
 
 class Effect : public Object
 {
-	bool _infinite;					// ¹«ÇÑÁö¼Ó¿©ºÎ
-	bool _isHalfAlpha;				// ¹İÅõ¸í¿©ºÎ
-	int  _drawRate;					// ½ºÇÁ¶óÀÌÆ® Ãâ·ÂºñÀ²
-	int	 _waitFrame;				// Ã¹ ½ºÇÁ¶óÀÌÆ® ½ÃÀÛ Áö¿¬½Ã°£
+	bool _infinite;					// ë¬´í•œì§€ì†ì—¬ë¶€
+	bool _isHalfAlpha;				// ë°˜íˆ¬ëª…ì—¬ë¶€
+	int  _drawRate;					// ìŠ¤í”„ë¼ì´íŠ¸ ì¶œë ¥ë¹„ìœ¨
+	int	 _waitFrame;				// ì²« ìŠ¤í”„ë¼ì´íŠ¸ ì‹œì‘ ì§€ì—°ì‹œê°„
 public:
 	Effect(Pos pos, SPRITE sprite, bool isHalfAlpha = false, int waitFrame = 0);
 	virtual bool Action() override;
 	virtual void Draw() override;
-	// _infinite ¸®ÅÏ
+	// _infinite ë¦¬í„´
 	bool GetInfinite();
-	// ÀÌÆåÆ® ÀÌµ¿
+	// ì´í™íŠ¸ ì´ë™
 	void Move(int direction);
-	// ÀÌÆåÆ® Ãâ·ÂºñÀ² º¯°æ
+	// ì´í™íŠ¸ ì¶œë ¥ë¹„ìœ¨ ë³€ê²½
 	void ChangeRate(int rate);
-	// ÀÌÆåÆ® À§Ä¡¿Í ´ë±âÇÁ·¹ÀÓ º¯°æ
+	// ì´í™íŠ¸ ìœ„ì¹˜ì™€ ëŒ€ê¸°í”„ë ˆì„ ë³€ê²½
 	void ChangePosAndDelay(int AttackID, int DamageID);
 };
 
@@ -90,44 +90,44 @@ public:
 class Player : public Object
 {
 private:
-	int			_id;				// ½Äº°¹øÈ£
-	bool		_owner;				// ÇÃ·¹ÀÌ¾î Ã¼Å©¿ë
+	int			_id;				// ì‹ë³„ë²ˆí˜¸
+	bool		_owner;				// í”Œë ˆì´ì–´ ì²´í¬ìš©
 	int			_healthPoint;		// HP
-	int			_direction;			// Stand½Ã ÃÄ´Ùº¸´Â ¹æÇâ
-	bool		_canAction;			// action ¼öÇà°¡´É ¿©ºÎ
-	TAG_ACTION  _command;			// µé¾î¿Â ¸í·É
-	TAG_ACTION	_action;			// ´ÙÀ½ ¸í·É -> ÇöÀç ¼öÇàÁßÀÎ ¸í·É
-	Effect		*_shadow;			// ÀÚ±â ±×¸²ÀÚ Æ÷ÀÎÅÍ
-	Effect		*_HPGuage;			// ÀÚ±â hp¹Ù Æ÷ÀÎÅÍ
+	int			_direction;			// Standì‹œ ì³ë‹¤ë³´ëŠ” ë°©í–¥
+	bool		_canAction;			// action ìˆ˜í–‰ê°€ëŠ¥ ì—¬ë¶€
+	TAG_ACTION  _command;			// ë“¤ì–´ì˜¨ ëª…ë ¹
+	TAG_ACTION	_action;			// ë‹¤ìŒ ëª…ë ¹ -> í˜„ì¬ ìˆ˜í–‰ì¤‘ì¸ ëª…ë ¹
+	Effect		*_shadow;			// ìê¸° ê·¸ë¦¼ì í¬ì¸í„°
+	Effect		*_HPGuage;			// ìê¸° hpë°” í¬ì¸í„°
 protected:
-	bool Move(int direction);		// action¿¡ ÀÇÇØ È£Ãâ
-	bool Attack(int type);			// action¿¡ ÀÇÇØ È£Ãâ
+	bool Move(int direction);		// actionì— ì˜í•´ í˜¸ì¶œ
+	bool Attack(int type);			// actionì— ì˜í•´ í˜¸ì¶œ
 	void Stand();
 public:
 	Player(Pos pos);
 	Player(int id, int direction, Pos pos, int healthPoint);
 	~Player() ;
-	// ¼¼ÆÃµÈ _action À¸·Î Çàµ¿
+	// ì„¸íŒ…ëœ _action ìœ¼ë¡œ í–‰ë™
 	virtual bool Action() override;			
-	// ·»´õ¸µ
+	// ë Œë”ë§
 	virtual void Draw() override;			
-	// ´ÙÀ½ action, _command ¼¼ÆÃ
+	// ë‹¤ìŒ action, _command ì„¸íŒ…
 	inline void Command(TAG_ACTION tag);
-	// ID°¡Á®¿À±â
+	// IDê°€ì ¸ì˜¤ê¸°
 	inline int GetID();
-	// HP°¡Á®¿À±â
+	// HPê°€ì ¸ì˜¤ê¸°
 	inline int GetHealthPoint();
-	// ¹æÇâ char·Î ¸®ÅÏ
+	// ë°©í–¥ charë¡œ ë¦¬í„´
 	inline char GetDirection();
-	// ÇöÀç¾×¼Ç ¸®ÅÏ
+	// í˜„ì¬ì•¡ì…˜ ë¦¬í„´
 	inline TAG_ACTION GetAction();
-	// À§Ä¡ °­Á¦ º¯°æ
+	// ìœ„ì¹˜ ê°•ì œ ë³€ê²½
 	void ForceSetPos(Pos pos);
-	// ÀÚ½ÅÀÇ ÇÃ·¹ÀÌ¾î ÇÃ·¡±× È°¼ºÈ­
+	// ìì‹ ì˜ í”Œë ˆì´ì–´ í”Œë˜ê·¸ í™œì„±í™”
 	inline void SetOwner();
-	// Stand¹æÇâ ÀüÈ¯
+	// Standë°©í–¥ ì „í™˜
 	inline void ChangeDirection(TAG_ACTION tag);
-	// HPº¯°æ
+	// HPë³€ê²½
 	inline void ChangeHP(int healthPoint);
 };
 

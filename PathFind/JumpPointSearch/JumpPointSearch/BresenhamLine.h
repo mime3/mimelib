@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define BRESENHAM_MAX 100
 
 class BresenhamLine

@@ -1,13 +1,13 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 
 
 extern bool Check_1Sec(ULONGLONG * time);
 
 /*----------------------------------------------------------*/
 // ChatNetServer::UpdateThreadMain (private) (static) (callback)
-// ¼³¸í : ÄÁÅÙÃ÷¸¦ Ã³¸®ÇÏ´Â ´Üµ¶ Update½º·¹µå
-// ÀÎÀÚ : (LPVOID) this¸¦ ³Ñ°Ü¹ŞÀ½
-// ¸®ÅÏ : (unsigned int) 0
+// ì„¤ëª… : ì»¨í…ì¸ ë¥¼ ì²˜ë¦¬í•˜ëŠ” ë‹¨ë… UpdateìŠ¤ë ˆë“œ
+// ì¸ì : (LPVOID) thisë¥¼ ë„˜ê²¨ë°›ìŒ
+// ë¦¬í„´ : (unsigned int) 0
 /*----------------*////////////////////////*----------------*/
 unsigned int __stdcall ChatNetServer::UpdateThreadMain(LPVOID lpParam)
 {
@@ -17,7 +17,7 @@ unsigned int __stdcall ChatNetServer::UpdateThreadMain(LPVOID lpParam)
 		Message * message = nullptr;
 		if (!_this->GetMessageData(&message))
 		{
-			// ¹®Á¦¹ß»ı°¡´É
+			// ë¬¸ì œë°œìƒê°€ëŠ¥
 			if (_this->_exitFlag)
 				break;
 			WaitForSingleObject(_this->_wakeUpEvent, INFINITE);
@@ -49,9 +49,9 @@ unsigned int __stdcall ChatNetServer::UpdateThreadMain(LPVOID lpParam)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::PutMessageData (private)
-// ¼³¸í : Message¸¦ Å¥¿¡ ³Ö°í Update½º·¹µå¸¦ ±ú¿î´Ù
-// ÀÎÀÚ : (Message *) ¸Ş½ÃÁö Æ÷ÀÎÅÍ 
-// ¸®ÅÏ : 
+// ì„¤ëª… : Messageë¥¼ íì— ë„£ê³  UpdateìŠ¤ë ˆë“œë¥¼ ê¹¨ìš´ë‹¤
+// ì¸ì : (Message *) ë©”ì‹œì§€ í¬ì¸í„° 
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::PutMessageData(Message * message)
 {
@@ -61,9 +61,9 @@ void ChatNetServer::PutMessageData(Message * message)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::GetMessageData (private)
-// ¼³¸í : Å¥¿¡¼­ Message¸¦ ²¨³½´Ù
-// ÀÎÀÚ : (Message **) ¸Ş½ÃÁöÆ÷ÀÎÅÍ¸¦ ¹ŞÀ» ÁÖ¼Ò 
-// ¸®ÅÏ : (bool) ¼º°ø¿©ºÎ
+// ì„¤ëª… : íì—ì„œ Messageë¥¼ êº¼ë‚¸ë‹¤
+// ì¸ì : (Message **) ë©”ì‹œì§€í¬ì¸í„°ë¥¼ ë°›ì„ ì£¼ì†Œ 
+// ë¦¬í„´ : (bool) ì„±ê³µì—¬ë¶€
 /*----------------*////////////////////////*----------------*/
 bool ChatNetServer::GetMessageData(Message ** message)
 {
@@ -72,9 +72,9 @@ bool ChatNetServer::GetMessageData(Message ** message)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::NewPlayer (private)
-// ¼³¸í : »õ·Î¿î ÇÃ·¹ÀÌ¾î »ı¼º
-// ÀÎÀÚ : (MESSAGE *) ¸Ş½ÃÁö Æ÷ÀÎÅÍ 
-// ¸®ÅÏ : 
+// ì„¤ëª… : ìƒˆë¡œìš´ í”Œë ˆì´ì–´ ìƒì„±
+// ì¸ì : (MESSAGE *) ë©”ì‹œì§€ í¬ì¸í„° 
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::NewPlayer(MESSAGE * message)
 {
@@ -82,7 +82,7 @@ void ChatNetServer::NewPlayer(MESSAGE * message)
 	newPlayer->sessionID = message->sessionID;
 	newPlayer->loginFlag = false;
 	newPlayer->accountNo = 0;
-	// .. sectorÀº ¾îµğ·Î?
+	// .. sectorì€ ì–´ë””ë¡œ?
 	newPlayer->loginFlag = false;
 	newPlayer->sectorX = -1;
 	newPlayer->sectorY = -1;
@@ -91,9 +91,9 @@ void ChatNetServer::NewPlayer(MESSAGE * message)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::DeletePlayer (private)
-// ¼³¸í : ÇÃ·¹ÀÌ¾î »èÁ¦
-// ÀÎÀÚ : (__int64)  ¼¼¼ÇID
-// ¸®ÅÏ : 
+// ì„¤ëª… : í”Œë ˆì´ì–´ ì‚­ì œ
+// ì¸ì : (__int64)  ì„¸ì…˜ID
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::DeletePlayer(__int64 sessionID)
 {
@@ -105,7 +105,7 @@ void ChatNetServer::DeletePlayer(__int64 sessionID)
 		InterlockedDecrement((LONG *)&_LOGIN_PLAYER);
 	_playerMap.erase(sessionID);
 
-	// ¼½ÅÍ¿¡¼­ ÇÃ·¹ÀÌ¾î »èÁ¦
+	// ì„¹í„°ì—ì„œ í”Œë ˆì´ì–´ ì‚­ì œ
 	if (!(player->sectorX < 0) && !(SECTOR_X - 1 < player->sectorX))
 	{
 		if (!(player->sectorY < 0) && !(SECTOR_Y - 1 < player->sectorY))
@@ -127,9 +127,9 @@ void ChatNetServer::DeletePlayer(__int64 sessionID)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::PacketProc (private)
-// ¼³¸í : ÆĞÅ¶À» Ã³¸®ÇÏ±âÀü¿¡ typeº°·Î ÆÄ½ÌÇÏ´ÂºÎºĞ
-// ÀÎÀÚ : (MESSAGE *) ¸Ş½ÃÁö
-// ¸®ÅÏ : 
+// ì„¤ëª… : íŒ¨í‚·ì„ ì²˜ë¦¬í•˜ê¸°ì „ì— typeë³„ë¡œ íŒŒì‹±í•˜ëŠ”ë¶€ë¶„
+// ì¸ì : (MESSAGE *) ë©”ì‹œì§€
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::PacketProc(MESSAGE * message)
 {
@@ -156,9 +156,9 @@ void ChatNetServer::PacketProc(MESSAGE * message)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::Login (private)
-// ¼³¸í : ·Î±×ÀÎ ÆĞÅ¶ Ã³¸®ºÎ
-// ÀÎÀÚ : (__int64) ¼¼¼ÇID, (StreamBuffer *) typeÀÌ ºüÁø ÆĞÅ¶
-// ¸®ÅÏ : (bool) Á¤»ó Ã³¸®¿©ºÎ
+// ì„¤ëª… : ë¡œê·¸ì¸ íŒ¨í‚· ì²˜ë¦¬ë¶€
+// ì¸ì : (__int64) ì„¸ì…˜ID, (StreamBuffer *) typeì´ ë¹ ì§„ íŒ¨í‚·
+// ë¦¬í„´ : (bool) ì •ìƒ ì²˜ë¦¬ì—¬ë¶€
 /*----------------*////////////////////////*----------------*/
 bool ChatNetServer::Login(__int64 sessionID, StreamBuffer * data)
 {
@@ -175,7 +175,7 @@ bool ChatNetServer::Login(__int64 sessionID, StreamBuffer * data)
 	data->Out((char *)player->nickName, 20 * 2);
 	data->Out(player->sessionKey, 64);
 
-	 //°ËÁõ
+	 //ê²€ì¦
 	AcquireSRWLockExclusive(_keyMapLock);
 	auto iter = _keyMap->find(player->accountNo);
 	if (iter == _keyMap->end())
@@ -212,9 +212,9 @@ bool ChatNetServer::Login(__int64 sessionID, StreamBuffer * data)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::MoveSector (private)
-// ¼³¸í : ¼½ÅÍÀÌµ¿ ÆĞÅ¶ Ã³¸®ºÎ
-// ÀÎÀÚ : (__int64) ¼¼¼ÇID, (StreamBuffer *) typeÀÌ ºüÁø ÆĞÅ¶
-// ¸®ÅÏ : (bool) Á¤»ó Ã³¸®¿©ºÎ
+// ì„¤ëª… : ì„¹í„°ì´ë™ íŒ¨í‚· ì²˜ë¦¬ë¶€
+// ì¸ì : (__int64) ì„¸ì…˜ID, (StreamBuffer *) typeì´ ë¹ ì§„ íŒ¨í‚·
+// ë¦¬í„´ : (bool) ì •ìƒ ì²˜ë¦¬ì—¬ë¶€
 /*----------------*////////////////////////*----------------*/
 bool ChatNetServer::MoveSector(__int64 sessionID, StreamBuffer * data)
 {
@@ -252,7 +252,7 @@ bool ChatNetServer::MoveSector(__int64 sessionID, StreamBuffer * data)
 		return false;
 	}
 	
-	// ·Î±×ÀÎ Á÷ÈÄ´Â -1ÀÌ¶ó¼­ °Ë»ç
+	// ë¡œê·¸ì¸ ì§í›„ëŠ” -1ì´ë¼ì„œ ê²€ì‚¬
 	if (player->sectorX != 65535)
 	{
 		auto iter = _sector[player->sectorY][player->sectorX].playerSet.begin();
@@ -267,7 +267,7 @@ bool ChatNetServer::MoveSector(__int64 sessionID, StreamBuffer * data)
 		}
 	}
 
-	// ½ÇÁ¦ ÀÌµ¿
+	// ì‹¤ì œ ì´ë™
 	player->sectorX = sectorX;
 	player->sectorY = sectorY;
 	_sector[sectorY][sectorX].playerSet.insert(sessionID);
@@ -282,13 +282,13 @@ bool ChatNetServer::MoveSector(__int64 sessionID, StreamBuffer * data)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::Chat (private)
-// ¼³¸í : Ã¤ÆÃ ÆĞÅ¶ Ã³¸®ºÎ
-// ÀÎÀÚ : (__int64) ¼¼¼ÇID, (StreamBuffer *) typeÀÌ ºüÁø ÆĞÅ¶ 
-// ¸®ÅÏ : (bool) Á¤»ó Ã³¸®¿©ºÎ
+// ì„¤ëª… : ì±„íŒ… íŒ¨í‚· ì²˜ë¦¬ë¶€
+// ì¸ì : (__int64) ì„¸ì…˜ID, (StreamBuffer *) typeì´ ë¹ ì§„ íŒ¨í‚· 
+// ë¦¬í„´ : (bool) ì •ìƒ ì²˜ë¦¬ì—¬ë¶€
 /*----------------*////////////////////////*----------------*/
 bool ChatNetServer::Chat(__int64 sessionID, StreamBuffer * data)
 {
-	// player°Ë»ö
+	// playerê²€ìƒ‰
 	auto find = _playerMap.find(sessionID);
 	if (find == _playerMap.end())
 	{
@@ -303,17 +303,17 @@ bool ChatNetServer::Chat(__int64 sessionID, StreamBuffer * data)
 		return false;
 	}
 
-	// data ²¨³»±â
+	// data êº¼ë‚´ê¸°
 	__int64 accountNo;
 	WORD chatLen;
 	*data >> accountNo >> chatLen;
-	// NoºÒÀÏÄ¡
+	// Noë¶ˆì¼ì¹˜
 	if (player->accountNo != accountNo)
 	{
 		OnError(WRONG_ACCOUNT_NO, L"Wrong_Account_No");
 		return false;
 	}
-	// ChatLenÀÇ ±æÀÌ°¡ ³²Àº ÆĞÅ¶µ¥ÀÌÅÍ¶û ºÒÀÏÄ¡
+	// ChatLenì˜ ê¸¸ì´ê°€ ë‚¨ì€ íŒ¨í‚·ë°ì´í„°ë‘ ë¶ˆì¼ì¹˜
 	if (data->GetUseSize() != chatLen)
 	{
 		chatLen = data->GetUseSize();
@@ -324,11 +324,11 @@ bool ChatNetServer::Chat(__int64 sessionID, StreamBuffer * data)
 	data->Out((char *)chat, chatLen);
 	chat[chatLen / 2] = 0;
 
-	// DB¿¡ ÀúÀå
+	// DBì— ì €ì¥
 	//_dbConnector.Query_Save(L"INSERT INTO `chatlog`(`accountno`, `date`, `log`) VALUES(%d, NOW(), \"%s\")",
 	//	accountNo, chat);
 
-	// ÆĞÅ¶ »ı¼º
+	// íŒ¨í‚· ìƒì„±
 	StreamBuffer * chat_Res = PacketAlloc(NetServer);
 	MakePacket_Res_Chat(chat_Res, player->accountNo, player->ID, player->nickName, chatLen, chat);
 	BroadCastNeighborSector(chat_Res, player);
@@ -341,9 +341,9 @@ bool ChatNetServer::Chat(__int64 sessionID, StreamBuffer * data)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::MakePacket_Res_Login (private)
-// ¼³¸í : ·Î±×ÀÎ ÆĞÅ¶ »ı¼º
-// ÀÎÀÚ : (StreamBuffer *) ÆĞÅ¶Æ÷ÀÎÅÍ, (bool) ·Î±×ÀÎ ¿©ºÎ, (__int64) °èÁ¤¹øÈ£
-// ¸®ÅÏ : 
+// ì„¤ëª… : ë¡œê·¸ì¸ íŒ¨í‚· ìƒì„±
+// ì¸ì : (StreamBuffer *) íŒ¨í‚·í¬ì¸í„°, (bool) ë¡œê·¸ì¸ ì—¬ë¶€, (__int64) ê³„ì •ë²ˆí˜¸
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::MakePacket_Res_Login(StreamBuffer * packet, bool login, __int64 accountNo)
 {
@@ -352,9 +352,9 @@ void ChatNetServer::MakePacket_Res_Login(StreamBuffer * packet, bool login, __in
 
 /*----------------------------------------------------------*/
 // ChatNetServer::MakePacket_Res_MoveSector (private)
-// ¼³¸í : ¼½ÅÍÀÌµ¿ ÆĞÅ¶ »ı¼º
-// ÀÎÀÚ : (StreamBuffer *) ÆĞÅ¶Æ÷ÀÎÅÍ, (__int64) °èÁ¤¹øÈ£, (WORD)¼½ÅÍ XÁÂÇ¥, (WORD) ¼½ÅÍ YÁÂÇ¥
-// ¸®ÅÏ : 
+// ì„¤ëª… : ì„¹í„°ì´ë™ íŒ¨í‚· ìƒì„±
+// ì¸ì : (StreamBuffer *) íŒ¨í‚·í¬ì¸í„°, (__int64) ê³„ì •ë²ˆí˜¸, (WORD)ì„¹í„° Xì¢Œí‘œ, (WORD) ì„¹í„° Yì¢Œí‘œ
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::MakePacket_Res_MoveSector(StreamBuffer * packet, __int64 accountNo, WORD sectorX, WORD sectorY)
 {
@@ -363,9 +363,9 @@ void ChatNetServer::MakePacket_Res_MoveSector(StreamBuffer * packet, __int64 acc
 
 /*----------------------------------------------------------*/
 // ChatNetServer::MakePacket_Res_Chat (private)
-// ¼³¸í : Ã¤ÆÃ ÆĞÅ¶ »ı¼º
-// ÀÎÀÚ : (StreamBuffer *) ÆĞÅ¶Æ÷ÀÎÅÍ, (__int64) °èÁ¤¹øÈ£, (WCHAR) ID Æ÷ÀÎÅÍ, (WCHAR) ´Ğ³×ÀÓ Æ÷ÀÎÅÍ, (WORD) Ã¤ÆÃ ¹ÙÀÌÆ®±æÀÌ, (WCHAR) Ã¤ÆÃ Æ÷ÀÎÅÍ 
-// ¸®ÅÏ : 
+// ì„¤ëª… : ì±„íŒ… íŒ¨í‚· ìƒì„±
+// ì¸ì : (StreamBuffer *) íŒ¨í‚·í¬ì¸í„°, (__int64) ê³„ì •ë²ˆí˜¸, (WCHAR) ID í¬ì¸í„°, (WCHAR) ë‹‰ë„¤ì„ í¬ì¸í„°, (WORD) ì±„íŒ… ë°”ì´íŠ¸ê¸¸ì´, (WCHAR) ì±„íŒ… í¬ì¸í„° 
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::MakePacket_Res_Chat(StreamBuffer * packet, __int64 accountNo, WCHAR * ID, WCHAR * nickName, WORD chatLen, WCHAR * chat)
 {
@@ -378,13 +378,13 @@ void ChatNetServer::MakePacket_Res_Chat(StreamBuffer * packet, __int64 accountNo
 
 /*----------------------------------------------------------*/
 // ChatNetServer::BroadCastNeighborSector (private)
-// ¼³¸í : ÇÃ·¹ÀÌ¾îÀÇ ÇöÀç À§Ä¡ÀÇ ¼½ÅÍ¿Í ±× ÁÖº¯¼½ÅÍÀÇ ÇÃ·¹ÀÌ¾î¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÀÎÀÚ : (StreamBuffer *) ÆĞÅ¶ Æ÷ÀÎÅÍ, (PLAYER *) ÇÃ·¹ÀÌ¾î Æ÷ÀÎÅÍ
-// ¸®ÅÏ : 
+// ì„¤ëª… : í”Œë ˆì´ì–´ì˜ í˜„ì¬ ìœ„ì¹˜ì˜ ì„¹í„°ì™€ ê·¸ ì£¼ë³€ì„¹í„°ì˜ í”Œë ˆì´ì–´ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
+// ì¸ì : (StreamBuffer *) íŒ¨í‚· í¬ì¸í„°, (PLAYER *) í”Œë ˆì´ì–´ í¬ì¸í„°
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::BroadCastNeighborSector(StreamBuffer * packet, PLAYER * player)
 {
-	// 1¼½ÅÍ¾¿ ºê·ÎµåÄ³½ºÆ®, ÃÑ 9¼½ÅÍ
+	// 1ì„¹í„°ì”© ë¸Œë¡œë“œìºìŠ¤íŠ¸, ì´ 9ì„¹í„°
 	WORD sectorX = player->sectorX;
 	WORD sectorY = player->sectorY;
 	BroadCastSector(packet, sectorX, sectorY);
@@ -400,13 +400,13 @@ void ChatNetServer::BroadCastNeighborSector(StreamBuffer * packet, PLAYER * play
 
 /*----------------------------------------------------------*/
 // ChatNetServer::BroadCastSector (private)
-// ¼³¸í : ¼½ÅÍ¾ÈÀÇ ÇÃ·¹ÀÌ¾î¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÀÎÀÚ : (StreamBuffer *) ÆĞÅ¶ Æ÷ÀÎÅÍ, (WORD) ¼½ÅÍ XÁÂÇ¥, (WORD) ¼½ÅÍ YÁÂÇ¥
-// ¸®ÅÏ : 
+// ì„¤ëª… : ì„¹í„°ì•ˆì˜ í”Œë ˆì´ì–´ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
+// ì¸ì : (StreamBuffer *) íŒ¨í‚· í¬ì¸í„°, (WORD) ì„¹í„° Xì¢Œí‘œ, (WORD) ì„¹í„° Yì¢Œí‘œ
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::BroadCastSector(StreamBuffer * packet, WORD sectorX, WORD sectorY)
 {
-	// ¼½ÅÍÀ§Ä¡ È®ÀÎ
+	// ì„¹í„°ìœ„ì¹˜ í™•ì¸
 	if (sectorX < 0 || SECTOR_X - 1 < sectorX)
 		return;
 	if (sectorY < 0 || SECTOR_Y - 1 < sectorY)
@@ -422,9 +422,9 @@ void ChatNetServer::BroadCastSector(StreamBuffer * packet, WORD sectorX, WORD se
 
 /*----------------------------------------------------------*/
 // ChatNetServer::ChatNetServer (public)
-// ¼³¸í : »ı¼ºÀÚ
-// ÀÎÀÚ :  
-// ¸®ÅÏ : 
+// ì„¤ëª… : ìƒì„±ì
+// ì¸ì :  
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 ChatNetServer::ChatNetServer() : _dbConnector("DBconfig.cnf")
 {
@@ -435,9 +435,9 @@ ChatNetServer::ChatNetServer() : _dbConnector("DBconfig.cnf")
 
 /*----------------------------------------------------------*/
 // ChatNetServer::~ChatNetServer (public)
-// ¼³¸í : ¼Ò¸êÀÚ
-// ÀÎÀÚ :  
-// ¸®ÅÏ : 
+// ì„¤ëª… : ì†Œë©¸ì
+// ì¸ì :  
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 ChatNetServer::~ChatNetServer()
 {
@@ -447,20 +447,20 @@ ChatNetServer::~ChatNetServer()
 
 /*----------------------------------------------------------*/
 // ChatNetServer::~ChatNetServer (public)
-// ¼³¸í : ¼Ò¸êÀÚ
-// ÀÎÀÚ :  
-// ¸®ÅÏ : 
+// ì„¤ëª… : ì†Œë©¸ì
+// ì¸ì :  
+// ë¦¬í„´ : 
 /*----------------*////////////////////////*----------------*/
 
 void ChatNetServer::Stop()
 {
 	NetServer::Stop();
 
-	// ¾÷µ¥ÀÌÆ® ½º·¹µå Á¾·á
+	// ì—…ë°ì´íŠ¸ ìŠ¤ë ˆë“œ ì¢…ë£Œ
 	_exitFlag = true;
 	SetEvent(_wakeUpEvent);
 	WaitForSingleObject(_updateThread, INFINITE);
-	// ¸ğµç ÇÃ·¹ÀÌ¾î Áö¿ì±â
+	// ëª¨ë“  í”Œë ˆì´ì–´ ì§€ìš°ê¸°
 	auto iter = _playerMap.begin();
 	auto iterEnd = _playerMap.end();
 	for (; iter != iterEnd;)
@@ -468,7 +468,7 @@ void ChatNetServer::Stop()
 		_memoryPoolPlayer.Free(iter->second);
 		iter = _playerMap.erase(iter);
 	}
-	// ¸ğµç ¸Ş½ÃÁö Áö¿ì±â
+	// ëª¨ë“  ë©”ì‹œì§€ ì§€ìš°ê¸°
 	INT64 qsize = _messageQueue.GetUseCount();
 	while (qsize--)
 	{
@@ -483,9 +483,9 @@ void ChatNetServer::Stop()
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnClientJoin ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::OnClientJoin(__int64 ClientID, Session * session)
 {
@@ -499,9 +499,9 @@ void ChatNetServer::OnClientJoin(__int64 ClientID, Session * session)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnClientLeave ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::OnClientLeave(__int64 ClientID)
 {
@@ -515,9 +515,9 @@ void ChatNetServer::OnClientLeave(__int64 ClientID)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnConnectionRequest ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 bool ChatNetServer::OnConnectionRequest(WCHAR * ClientIP, int Port)
 {
@@ -526,9 +526,9 @@ bool ChatNetServer::OnConnectionRequest(WCHAR * ClientIP, int Port)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnRecv ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::OnRecv(__int64 clientID, StreamBuffer * packet)
 {
@@ -548,9 +548,9 @@ void ChatNetServer::OnRecv(__int64 clientID, StreamBuffer * packet)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnSend ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::OnSend(__int64 clientID, int sendSize)
 {
@@ -558,9 +558,9 @@ void ChatNetServer::OnSend(__int64 clientID, int sendSize)
 
 /*----------------------------------------------------------*/
 // ChatNetServer::OnError ()
-// ¼³¸í : 
-// ÀÎÀÚ : () 
-// ¸®ÅÏ : ()
+// ì„¤ëª… : 
+// ì¸ì : () 
+// ë¦¬í„´ : ()
 /*----------------*////////////////////////*----------------*/
 void ChatNetServer::OnError(int errorCode, const WCHAR * errorMessage)
 {

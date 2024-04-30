@@ -1,4 +1,4 @@
-#ifndef __MINLIB_GDI_COLOR__
+﻿#ifndef __MINLIB_GDI_COLOR__
 #define __MINLIB_GDI_COLOR__
 #pragma once
 #include <windows.h>

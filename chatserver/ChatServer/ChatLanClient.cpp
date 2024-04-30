@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ChatLanClient.h"
 
 void ChatLanClient::REQ_New_Client_Login(__int64 clientID, StreamBuffer * packet)
@@ -11,7 +11,7 @@ void ChatLanClient::REQ_New_Client_Login(__int64 clientID, StreamBuffer * packet
 	packet->Out(sessionKey.key, 64);
 	*packet >> parameter;
 
-	// accountNo, KEY pair¸¦ ÀúÀå
+	// accountNo, KEY pairë¥¼ ì €ìž¥
 	AcquireSRWLockExclusive(_keyMapLock);
 	if (!_keyMap->insert(pair<INT64, SESSION_KEY>(accountNo, sessionKey)).second)
 		(*_keyMap)[accountNo] = sessionKey;
@@ -43,7 +43,7 @@ void ChatLanClient::MakePacket_Loginserver_Login(StreamBuffer * packet)
 {
 	*packet << (WORD)en_PACKET_SS_LOGINSERVER_LOGIN << (BYTE)dfSERVER_TYPE_CHAT;
 	WCHAR serverName[32];
-	swprintf_s(serverName, 32, L"Ã¤ÆÃ¼­¹öÀÓ");
+	swprintf_s(serverName, 32, L"ì±„íŒ…ì„œë²„ìž„");
 	packet->In(serverName, 32);
 }
 
@@ -58,7 +58,7 @@ void ChatLanClient::OnClientJoin(__int64 ClientID, Session * session)
 
 void ChatLanClient::OnClientLeave(__int64 ClientID)
 {
-	// ½º·¹µåÅ°°í Àç¿¬°á
+	// ìŠ¤ë ˆë“œí‚¤ê³  ìž¬ì—°ê²°
 	if (_serverID == ClientID)
 	{
 		_serverID = 0;
@@ -87,7 +87,7 @@ void ChatLanClient::OnError(int errorCode, const WCHAR * errorMessage)
 
 void ChatLanClient::OnConnect(__int64 ClientID)
 {
-	// ÀúÀå
+	// ì €ìž¥
 	_serverID = ClientID;
 
 	StreamBuffer * loginPacket = PacketAlloc(LanClient);

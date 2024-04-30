@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ChatMonitorClient.h"
 
 ChatMonitorClient::ChatMonitorClient(const char * configFile, WCHAR * processName, int ID) : MonitorLanClient(configFile, processName, ID)
@@ -9,15 +9,15 @@ void ChatMonitorClient::OnUpdate()
 {
 	time_t curTime = time(NULL);
 	/*
-dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
-	dfMONITOR_DATA_TYPE_CHAT_CPU,                           // Ã¤ÆÃ¼­¹ö CPU »ç¿ë·ü (Ä¿³Î + À¯Àú)
-	dfMONITOR_DATA_TYPE_CHAT_MEMORY_COMMIT,                 // Ã¤ÆÃ¼­¹ö ¸Ş¸ğ¸® À¯Àú Ä¿¹Ô »ç¿ë·® (Private) MByte
-	dfMONITOR_DATA_TYPE_CHAT_PACKET_POOL,                   // Ã¤ÆÃ¼­¹ö ÆĞÅ¶Ç® »ç¿ë·®
-	dfMONITOR_DATA_TYPE_CHAT_SESSION,                       // Ã¤ÆÃ¼­¹ö Á¢¼Ó ¼¼¼ÇÀüÃ¼
-	dfMONITOR_DATA_TYPE_CHAT_PLAYER,                        // Ã¤ÆÃ¼­¹ö ·Î±×ÀÎÀ» ¼º°øÇÑ ÀüÃ¼ ÀÎ¿ø
+dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // ì±„íŒ…ì„œë²„ ON
+	dfMONITOR_DATA_TYPE_CHAT_CPU,                           // ì±„íŒ…ì„œë²„ CPU ì‚¬ìš©ë¥  (ì»¤ë„ + ìœ ì €)
+	dfMONITOR_DATA_TYPE_CHAT_MEMORY_COMMIT,                 // ì±„íŒ…ì„œë²„ ë©”ëª¨ë¦¬ ìœ ì € ì»¤ë°‹ ì‚¬ìš©ëŸ‰ (Private) MByte
+	dfMONITOR_DATA_TYPE_CHAT_PACKET_POOL,                   // ì±„íŒ…ì„œë²„ íŒ¨í‚·í’€ ì‚¬ìš©ëŸ‰
+	dfMONITOR_DATA_TYPE_CHAT_SESSION,                       // ì±„íŒ…ì„œë²„ ì ‘ì† ì„¸ì…˜ì „ì²´
+	dfMONITOR_DATA_TYPE_CHAT_PLAYER,                        // ì±„íŒ…ì„œë²„ ë¡œê·¸ì¸ì„ ì„±ê³µí•œ ì „ì²´ ì¸ì›
 	*/
 
-	// ¼­¹ö ¿Â
+	// ì„œë²„ ì˜¨
 	StreamBuffer * serverOn = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(serverOn,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,
@@ -26,7 +26,7 @@ dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
 	SendPacket(_serverID, serverOn);
 	PacketFree(serverOn);
 
-	// ÇÁ·Î¼¼½º CPU
+	// í”„ë¡œì„¸ìŠ¤ CPU
 	StreamBuffer * processCPU = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(processCPU,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_CPU,
@@ -35,7 +35,7 @@ dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
 	SendPacket(_serverID, processCPU);
 	PacketFree(processCPU);
 
-	// ÇÁ·Î¼¼½º Ä¿¹Ô ¸Ş¸ğ¸®
+	// í”„ë¡œì„¸ìŠ¤ ì»¤ë°‹ ë©”ëª¨ë¦¬
 	StreamBuffer * processMemory = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(processMemory,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_MEMORY_COMMIT,
@@ -44,7 +44,7 @@ dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
 	SendPacket(_serverID, processMemory);
 	PacketFree(processMemory);
 
-	// ÆĞÅ¶Ç® »ç¿ë·®
+	// íŒ¨í‚·í’€ ì‚¬ìš©ëŸ‰
 	StreamBuffer * packetPool = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(packetPool,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_PACKET_POOL,
@@ -53,7 +53,7 @@ dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
 	SendPacket(_serverID, packetPool);
 	PacketFree(packetPool);
 
-	// Ã¤ÆÃ¼­¹ö ¼¼¼Ç¼ö
+	// ì±„íŒ…ì„œë²„ ì„¸ì…˜ìˆ˜
 	StreamBuffer * sessionTotal = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(sessionTotal,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_SESSION,
@@ -62,7 +62,7 @@ dfMONITOR_DATA_TYPE_CHAT_SERVER_ON,                         // Ã¤ÆÃ¼­¹ö ON
 	SendPacket(_serverID, sessionTotal);
 	PacketFree(sessionTotal);
 
-	// Ã¤ÆÃ¼­¹ö ·Î±×ÀÎ ¼º°ø À¯Àú
+	// ì±„íŒ…ì„œë²„ ë¡œê·¸ì¸ ì„±ê³µ ìœ ì €
 	StreamBuffer * loginUser = PacketAlloc(LanClient);
 	MakePacket_Monitor_Data_Update(loginUser,
 		(BYTE)dfMONITOR_DATA_TYPE_CHAT_PLAYER,

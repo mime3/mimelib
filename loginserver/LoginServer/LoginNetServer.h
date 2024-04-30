@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <unordered_map>
 #include "NetServer.h"
 #include "DBConnector.h"
@@ -28,7 +28,7 @@ public:
 	LoginNetServer();
 	~LoginNetServer();
 
-	// NetServerÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+	// NetServerì„(ë¥¼) í†µí•´ ìƒì†ë¨
 	virtual void OnClientJoin(INT64 ClientID, Session * session) override;
 	virtual void OnClientLeave(INT64 ClientID) override;
 	virtual bool OnConnectionRequest(WCHAR * ClientIP, int Port) override;

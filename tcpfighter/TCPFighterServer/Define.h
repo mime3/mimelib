@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define NETWORK_PORT	20000
 
 #define dfRANGE_MOVE_TOP	0

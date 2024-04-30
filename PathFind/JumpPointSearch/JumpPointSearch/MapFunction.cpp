@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 extern char g_map[MAP_Y_SIZE][MAP_X_SIZE];
 extern JPS::MAP_STATUS select;
 extern bool click;

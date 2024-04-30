@@ -1,15 +1,17 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 
 extern Session mySession;
 extern WCHAR g_IP[];
 extern Player * g_player;
 extern CList<Object *>	g_list;
 
+using namespace MinLib;
+
 /*----------------------------------------------------------*/
 // ::WsaInit
-// ¼³¸í : wsa¼¼ÆÃ, ¼ÒÄÏ¼¼ÆÃ, connect
-// ÀÎÀÚ : (HWND) À©µµ¿ì ÇÚµé
-// ¸®ÅÏ :
+// ì„¤ëª… : wsaì„¸íŒ…, ì†Œì¼“ì„¸íŒ…, connect
+// ì¸ì : (HWND) ìœˆë„ìš° í•¸ë“¤
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void WsaInit(HWND hWnd)
 {
@@ -32,9 +34,9 @@ void WsaInit(HWND hWnd)
 
 /*----------------------------------------------------------*/
 // ::PacketProc
-// ¼³¸í : ¸µ¹öÆÛ¿¡¼­ ÆĞÅ¶À» 1°³ ²¨³½´Ù.
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ë§ë²„í¼ì—ì„œ íŒ¨í‚·ì„ 1ê°œ êº¼ë‚¸ë‹¤.
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void PacketProc()
 {
@@ -43,7 +45,7 @@ void PacketProc()
 		int payloadSize;
 		int retval;
 		PacketHeader packetHeader;
-		// Çì´õºÎÅÍ ÀĞ¾î¾ß µÉ¶§
+		// í—¤ë”ë¶€í„° ì½ì–´ì•¼ ë ë•Œ
 		if (!mySession.headerSaveFlag)
 		{
 			retval = mySession.resvStream->Peek((char*)&packetHeader, sizeof(packetHeader));
@@ -54,7 +56,7 @@ void PacketProc()
 				break;
 			payloadSize = packetHeader.size + 1;
 		}
-		// payload¸¸ ÀĞÀ¸¸é µÉ¶§
+		// payloadë§Œ ì½ìœ¼ë©´ ë ë•Œ
 		else
 			payloadSize = mySession.saveHeader.size + 1;
 		
@@ -69,15 +71,15 @@ void PacketProc()
 			}
 			break;
 		}
-		// EndCode »©°í Áö¿ò
+		// EndCode ë¹¼ê³  ì§€ì›€
 		mySession.resvStream->RemoveData(retval - 1);
-		packet.moveEndIndex();
+		packet.MoveEndIndex();
 
 		BYTE EndCode;
 		retval = mySession.resvStream->Dequeue((char*)&EndCode, sizeof(BYTE));
 		if (EndCode != 0x79)
 			printf_s("EndCode is not Correct!\n");
-		//ENDÄÚµå Á¦°ÅµÈ ÆĞÅ¶
+		//ENDì½”ë“œ ì œê±°ëœ íŒ¨í‚·
 		else
 		{
 			if (mySession.headerSaveFlag)
@@ -93,9 +95,9 @@ void PacketProc()
 
 /*----------------------------------------------------------*/
 // ::ProcConnect
-// ¼³¸í : ¼­¹ö·ÎºÎÅÍ ¿¬°áÀ» ¼ö¶ô¹Ş¾ÒÀ»¶§ Ã³¸®ºÎ
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ì„œë²„ë¡œë¶€í„° ì—°ê²°ì„ ìˆ˜ë½ë°›ì•˜ì„ë•Œ ì²˜ë¦¬ë¶€
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void ProcConnect()
 {
@@ -105,10 +107,10 @@ void ProcConnect()
 
 /*----------------------------------------------------------*/
 // ::ProcRead
-// ¼³¸í : ¼­¹ö·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ Àü¼Û¹Ş¾ÒÀ»¶§ Ã³¸®ºÎ
-//  ¤¤  : ¼ÒÄÏÀ¸·ÎºÎÅÍ recvÇØ¼­ ¸µ¹öÆÛ¿¡ ³Ö´Â´Ù.
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ì„œë²„ë¡œë¶€í„° ë°ì´í„°ë¥¼ ì „ì†¡ë°›ì•˜ì„ë•Œ ì²˜ë¦¬ë¶€
+//  ã„´  : ì†Œì¼“ìœ¼ë¡œë¶€í„° recví•´ì„œ ë§ë²„í¼ì— ë„£ëŠ”ë‹¤.
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void ProcRead()
 {
@@ -118,10 +120,10 @@ void ProcRead()
 
 	int retval = recv(mySession.sock, writePointer, putSize, 0);
 	mySession.resvStream->MoveWritePos(retval);
-	// RSTÃ³¸®
+	// RSTì²˜ë¦¬
 	if (retval == 0 || retval == SOCKET_ERROR)
 	{
-		// ¹ŞÀ»°Ô ¿ø·¡ ¾ø´Ù
+		// ë°›ì„ê²Œ ì›ë˜ ì—†ë‹¤
 		if (GetLastError() == WSAEWOULDBLOCK)
 			return;
 		ProcClose();
@@ -133,9 +135,9 @@ void ProcRead()
 
 /*----------------------------------------------------------*/
 // ::ProcWrite
-// ¼³¸í : ¼Û½ÅÀÌ ºÒ°¡´É¿¡¼­ °¡´ÉÀ¸·Î ¹Ù²î¾úÀ»¶§ Ã³¸®ºÎ
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ì†¡ì‹ ì´ ë¶ˆê°€ëŠ¥ì—ì„œ ê°€ëŠ¥ìœ¼ë¡œ ë°”ë€Œì—ˆì„ë•Œ ì²˜ë¦¬ë¶€
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void ProcWrite()
 {
@@ -145,9 +147,9 @@ void ProcWrite()
 
 /*----------------------------------------------------------*/
 // ::ProcClose
-// ¼³¸í : ¿¬°áÀÌ Á¾·á‰çÀ»¶§ Ã³¸®ºÎ
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ì—°ê²°ì´ ì¢…ë£Œë¬ì„ë•Œ ì²˜ë¦¬ë¶€
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void ProcClose()
 {
@@ -157,9 +159,9 @@ void ProcClose()
 
 /*----------------------------------------------------------*/
 // ::SendPacket
-// ¼³¸í : ÆĞÅ¶À» send¸µ¹öÆÛ¿¡ ³Ö°í send¸µ¹öÆÛ¸¦ ¸ğµÎ sendÇÑ´Ù.
-// ÀÎÀÚ : (char *)ÆĞÅ¶, (int) ÆĞÅ¶Å©±â
-// ¸®ÅÏ :
+// ì„¤ëª… : íŒ¨í‚·ì„ sendë§ë²„í¼ì— ë„£ê³  sendë§ë²„í¼ë¥¼ ëª¨ë‘ sendí•œë‹¤.
+// ì¸ì : (char *)íŒ¨í‚·, (int) íŒ¨í‚·í¬ê¸°
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void SendPacket(char * buffer, int size)
 {
@@ -168,7 +170,7 @@ void SendPacket(char * buffer, int size)
 		if (mySession.connected == false)
 			return;
 		int retval = mySession.sendStream->Enqueue(buffer, size);
-		// send ¸µ¹öÆÛ Æ÷È­
+		// send ë§ë²„í¼ í¬í™”
 		if (retval != size)
 		{
 			ProcClose();
@@ -180,10 +182,10 @@ void SendPacket(char * buffer, int size)
 		{
 			int sendSize = mySession.sendStream->GetNotBrokenGetSize();
 			retval = send(mySession.sock, mySession.sendStream->GetReadBufferPtr(), sendSize, 0);
-			// send ¸µ¹öÆÛ°¡ ºñ¿öÁü
+			// send ë§ë²„í¼ê°€ ë¹„ì›Œì§
 			if (retval == 0)
 				return;
-			// sendºÒ°¡´É»óÅÂ
+			// sendë¶ˆê°€ëŠ¥ìƒíƒœ
 			else if (retval == SOCKET_ERROR)
 			{
 				if (GetLastError() == WSAEWOULDBLOCK)
@@ -203,10 +205,10 @@ void SendPacket(char * buffer, int size)
 
 /*----------------------------------------------------------*/
 // ::PacketParse
-// ¼³¸í : ÆĞÅ¶ÀÇ Payload¸¦ Å¸ÀÔÀ¸·Î ±¸ºĞÇÏ¿© µ¥ÀÌÅÍ¸¦ »©³½´Ù.
-//  ¤¤  : »©³½ ³»¿ëÀ¸·Î Ã³¸®ÇÒ°Íµµ Ã³¸®ÇÑ´Ù.
-// ÀÎÀÚ : (BYTE) ÆĞÅ¶Å¸ÀÔ, (StreamBuffer&) Payload
-// ¸®ÅÏ :
+// ì„¤ëª… : íŒ¨í‚·ì˜ Payloadë¥¼ íƒ€ì…ìœ¼ë¡œ êµ¬ë¶„í•˜ì—¬ ë°ì´í„°ë¥¼ ë¹¼ë‚¸ë‹¤.
+//  ã„´  : ë¹¼ë‚¸ ë‚´ìš©ìœ¼ë¡œ ì²˜ë¦¬í• ê²ƒë„ ì²˜ë¦¬í•œë‹¤.
+// ì¸ì : (BYTE) íŒ¨í‚·íƒ€ì…, (StreamBuffer&) Payload
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void PacketParse(BYTE packetType, StreamBuffer &payload)
 {
@@ -340,9 +342,9 @@ void PacketParse(BYTE packetType, StreamBuffer &payload)
 
 /*----------------------------------------------------------*/
 // ::MakeSendPacket
-// ¼³¸í : ÀÎÀÚ·Î ¹ŞÀº Å¸ÀÔÀ¸·Î ÆĞÅ¶À» ¸¸µå´Â ÇÔ¼ö¸¦ È£ÃâÇÑ´Ù.
-// ÀÎÀÚ : (TAG_ACTION)Å¸ÀÔ
-// ¸®ÅÏ :
+// ì„¤ëª… : ì¸ìë¡œ ë°›ì€ íƒ€ì…ìœ¼ë¡œ íŒ¨í‚·ì„ ë§Œë“œëŠ” í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•œë‹¤.
+// ì¸ì : (TAG_ACTION)íƒ€ì…
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void MakeSendPacket(TAG_ACTION action)
 {
@@ -375,9 +377,9 @@ void MakeSendPacket(TAG_ACTION action)
 
 /*----------------------------------------------------------*/
 // ::MakeSendMovePacket
-// ¼³¸í : ÀÌµ¿ÆĞÅ¶À» ¸¸µé°í Àü¼ÛÇÑ´Ù.
-// ÀÎÀÚ : (BYTE)¹æÇâ, (WORD)xÁÂÇ¥, (WORD)yÁÂÇ¥
-// ¸®ÅÏ :
+// ì„¤ëª… : ì´ë™íŒ¨í‚·ì„ ë§Œë“¤ê³  ì „ì†¡í•œë‹¤.
+// ì¸ì : (BYTE)ë°©í–¥, (WORD)xì¢Œí‘œ, (WORD)yì¢Œí‘œ
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void MakeSendMovePacket(BYTE direction, WORD x, WORD y)
 {
@@ -390,9 +392,9 @@ void MakeSendMovePacket(BYTE direction, WORD x, WORD y)
 
 /*----------------------------------------------------------*/
 // ::MakeSendAttackPacket
-// ¼³¸í : °ø°İÆĞÅ¶À» ¸¸µé°í Àü¼ÛÇÑ´Ù.
-// ÀÎÀÚ : (int)°ø°İ Å¸ÀÔ, (BYTE)¹æÇâ, (WORD)xÁÂÇ¥, (WORD)yÁÂÇ¥
-// ¸®ÅÏ :
+// ì„¤ëª… : ê³µê²©íŒ¨í‚·ì„ ë§Œë“¤ê³  ì „ì†¡í•œë‹¤.
+// ì¸ì : (int)ê³µê²© íƒ€ì…, (BYTE)ë°©í–¥, (WORD)xì¢Œí‘œ, (WORD)yì¢Œí‘œ
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void MakeSendAttackPacket(int type, BYTE direction, WORD x, WORD y)
 {
@@ -405,9 +407,9 @@ void MakeSendAttackPacket(int type, BYTE direction, WORD x, WORD y)
 
 /*----------------------------------------------------------*/
 // ::MakeSendStandPacket
-// ¼³¸í : Á¤ÁöÆĞÅ¶À» ¸¸µé°í Àü¼ÛÇÑ´Ù.
-// ÀÎÀÚ : (BYTE)¹æÇâ, (WORD)xÁÂÇ¥, (WORD)yÁÂÇ¥
-// ¸®ÅÏ :
+// ì„¤ëª… : ì •ì§€íŒ¨í‚·ì„ ë§Œë“¤ê³  ì „ì†¡í•œë‹¤.
+// ì¸ì : (BYTE)ë°©í–¥, (WORD)xì¢Œí‘œ, (WORD)yì¢Œí‘œ
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void MakeSendStandPacket(BYTE direction, WORD x, WORD y)
 {

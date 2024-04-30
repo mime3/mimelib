@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "stdafx.h"
 
 //extern multimap<TAG_ACTION, SECTOR_POS> g_moveInsertTable;
@@ -11,10 +11,10 @@ extern int g_ID;
 
 /*----------------------------------------------------------*/
 // ::Init
-// ¼³¸í : ³×Æ®¿öÅ© ¼¼ÆÃÇÔ¼ö
-//  ¤¤  : ¸®½¼¼ÒÄÏÀ» ¼¼ÆÃÇÑ´Ù.
-// ÀÎÀÚ : (SOCKET *) ¸®½¼¼ÒÄÏ Æ÷ÀÎÅÍ
-// ¸®ÅÏ : (bool) ¼º°ø¿©ºÎ
+// ì„¤ëª… : ë„¤íŠ¸ì›Œí¬ ì„¸íŒ…í•¨ìˆ˜
+//  ã„´  : ë¦¬ìŠ¨ì†Œì¼“ì„ ì„¸íŒ…í•œë‹¤.
+// ì¸ì : (SOCKET *) ë¦¬ìŠ¨ì†Œì¼“ í¬ì¸í„°
+// ë¦¬í„´ : (bool) ì„±ê³µì—¬ë¶€
 /*----------------*////////////////////////*----------------*/
 //bool Init(SOCKET * listenSocket)
 //{
@@ -49,14 +49,14 @@ extern int g_ID;
 
 /*----------------------------------------------------------*/
 // ::TableInit
-// ¼³¸í : Àü¿ª ÀÌµ¿Å×ÀÌºí ¸ÖÆ¼¸Ê ¼¼ÆÃÇÔ¼ö
-//  ¤¤  : ÇÃ·¹ÀÌ¾îÀÇ ÀÌµ¿½Ã ½Å±Ô¼½ÅÍ, »èÁ¦¼½ÅÍÀÇ Á¤º¸¸¦ ´ã´Â´Ù.
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ì „ì—­ ì´ë™í…Œì´ë¸” ë©€í‹°ë§µ ì„¸íŒ…í•¨ìˆ˜
+//  ã„´  : í”Œë ˆì´ì–´ì˜ ì´ë™ì‹œ ì‹ ê·œì„¹í„°, ì‚­ì œì„¹í„°ì˜ ì •ë³´ë¥¼ ë‹´ëŠ”ë‹¤.
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 //void TableInit()
 //{
-//	// Ãß°¡·Î Á¤º¸°¡ ÇÊ¿äÇÑ ¼½ÅÍÀÇ »ó´ëÀ§Ä¡, ±âÁØÀº »õ ¼½ÅÍ
+//	// ì¶”ê°€ë¡œ ì •ë³´ê°€ í•„ìš”í•œ ì„¹í„°ì˜ ìƒëŒ€ìœ„ì¹˜, ê¸°ì¤€ì€ ìƒˆ ì„¹í„°
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{-1, -1}));
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{-1, 0}));
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{-1, 1}));
@@ -89,7 +89,7 @@ extern int g_ID;
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LD, SECTOR_POS{-1, 1}));
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LD, SECTOR_POS{0, 1}));
 //	g_moveInsertTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LD, SECTOR_POS{1, 1}));
-//	// »èÁ¦µÇ¾ßÇÒ Á¤º¸ÀÇ »ó´ë¼½ÅÍÀ§Ä¡, ±âÁØÀº ¿ø·¡¼½ÅÍ
+//	// ì‚­ì œë˜ì•¼í•  ì •ë³´ì˜ ìƒëŒ€ì„¹í„°ìœ„ì¹˜, ê¸°ì¤€ì€ ì›ë˜ì„¹í„°
 //	g_moveDeleteTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{ 1, -1 }));
 //	g_moveDeleteTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{ 1, 0 }));
 //	g_moveDeleteTable.insert(pair<TAG_ACTION, SECTOR_POS>(ACTION_MOVE_LL, SECTOR_POS{ 1, 1 }));
@@ -126,9 +126,9 @@ extern int g_ID;
 
 /*----------------------------------------------------------*/
 // ::NetworkingEx
-// ¼³¸í : ³×Æ®¿öÅ© SelectÇÔ¼öºÎºĞ
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : ë„¤íŠ¸ì›Œí¬ Selectí•¨ìˆ˜ë¶€ë¶„
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void NetworkingEx()
 {
@@ -171,7 +171,7 @@ void NetworkingEx()
 			RecvProc(readSet.fd_array[i]);
 		}
 
-		// ·çÇÁ Á¾·á
+		// ë£¨í”„ ì¢…ë£Œ
 		if (iter == moniter.user_socket.end())
 			break;
 	}
@@ -179,18 +179,18 @@ void NetworkingEx()
 
 /*----------------------------------------------------------*/
 // ::RecvProc
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 bool RecvProc(SOCKET recvSocket)
 {
 	Session * sendSession = moniter.user_socket[recvSocket];
 
-	// ÇÑ¹ø¿¡ ÀúÀå°¡´ÉÇÑ ¾çÀÌ³ª ÃÖ´ë 2000¹ÙÀÌÆ®
+	// í•œë²ˆì— ì €ì¥ê°€ëŠ¥í•œ ì–‘ì´ë‚˜ ìµœëŒ€ 2000ë°”ì´íŠ¸
 	int size = min(sendSession->recvStream.GetNotBrokenPutSize(), 2000);
 	int received = recv(sendSession->socket, sendSession->recvStream.GetWriteBufferPtr(), size, 0);
-	// Á¾·á ¸Ş½ÃÁö
+	// ì¢…ë£Œ ë©”ì‹œì§€
 	if (received == 0 || received == SOCKET_ERROR)
 	{
 		LogoutProcess(recvSocket);
@@ -202,9 +202,9 @@ bool RecvProc(SOCKET recvSocket)
 
 /*----------------------------------------------------------*/
 // ::SendProc
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void SendProc(SOCKET sendSocket)
 {
@@ -212,10 +212,10 @@ void SendProc(SOCKET sendSocket)
 	while (1)
 	{
 		int sendSize = sendSession->sendStream.GetNotBrokenGetSize();
-		// send ¸µ¹öÆÛ°¡ ºñ¿öÁü
+		// send ë§ë²„í¼ê°€ ë¹„ì›Œì§
 		if (sendSize == 0)
 			break;
-		// blockSocketÀÌ±â ¶§¹®¿¡ sendSize == retvalÀÌ ¾Æ´Ï¸é ºí·°»óÅÂ°¡µÇ¸ç ¹«Á¶°Ç °°À»¶§¸¸ ¸®ÅÏ
+		// blockSocketì´ê¸° ë•Œë¬¸ì— sendSize == retvalì´ ì•„ë‹ˆë©´ ë¸”ëŸ­ìƒíƒœê°€ë˜ë©° ë¬´ì¡°ê±´ ê°™ì„ë•Œë§Œ ë¦¬í„´
 		int retval = send(sendSession->socket, sendSession->sendStream.GetReadBufferPtr(), sendSize, 0);
 		if (retval == SOCKET_ERROR)
 			break;
@@ -226,9 +226,9 @@ void SendProc(SOCKET sendSocket)
 
 /*----------------------------------------------------------*/
 // ::PacketRecv
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void PacketRecv()
 {
@@ -251,7 +251,7 @@ void PacketRecv()
 				if (received < sizeof(packetHeader))
 					break;
 				iter->second->recvStream.RemoveData(received);
-				// ÆĞÅ¶ÄÚµå °ËÁõ
+				// íŒ¨í‚·ì½”ë“œ ê²€ì¦
 				if (packetHeader.byCode != dfPACKET_CODE)
 				{
 					CloseSession(iter->second);
@@ -266,7 +266,7 @@ void PacketRecv()
 			}
 
 			
-			// Çì´õ´Â ¹Ş¾ÒÁö¸¸ payload°¡ ¸ğµÎ µµÂøÇÏÁö ¾Ê¾Ò´Ù.
+			// í—¤ë”ëŠ” ë°›ì•˜ì§€ë§Œ payloadê°€ ëª¨ë‘ ë„ì°©í•˜ì§€ ì•Šì•˜ë‹¤.
 			if (iter->second->recvStream.GetUseSize() < packetHeader.bySize + sizeof(BYTE))
 			{
 				iter->second->saveHeaderFlag = true;
@@ -274,9 +274,9 @@ void PacketRecv()
 				break;
 			}
 
-			StreamBuffer payLoad(packetHeader.bySize);
+			MinLib::StreamBuffer payLoad(packetHeader.bySize);
 			received = iter->second->recvStream.Dequeue(payLoad.GetBuffer(), packetHeader.bySize);
-			payLoad.moveEndIndex();
+			payLoad.MoveEndIndex();
 
 			BYTE endCode;
 			int retval = iter->second->recvStream.Peek((char *)&endCode, sizeof(endCode));
@@ -305,9 +305,9 @@ void PacketRecv()
 
 /*----------------------------------------------------------*/
 // ::LoginProcess
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 //bool LoginProcess(SOCKET socket, SOCKADDR_IN addr)
 //{
@@ -318,10 +318,10 @@ void PacketRecv()
 //		//LOG(Logger::LOG_LEVEL_ERROR, L"new operator error");
 //		return false;
 //	}
-//	StreamBuffer * packet;
+//	MinLib::StreamBuffer * packet;
 //	MakePacket_Create_My_Character(&packet, g_ID, ACTION_MOVE_LL, newPlayer->_pos, newPlayer->_healthPoint);
 //	UniCast(packet, newSession);
-//	// »õ À¯Àú¿¡ ±âÁ¸À¯Àú ¸ñ·ÏÀ», ±âÁ¸À¯Àú¿¡°Ô »õ À¯Àú¸¦
+//	// ìƒˆ ìœ ì €ì— ê¸°ì¡´ìœ ì € ëª©ë¡ì„, ê¸°ì¡´ìœ ì €ì—ê²Œ ìƒˆ ìœ ì €ë¥¼
 //	SECTOR_MANAGER.NewPlayer(newPlayer);
 //	g_ID++;
 //	return true;
@@ -329,25 +329,25 @@ void PacketRecv()
 
 /*----------------------------------------------------------*/
 // ::LogoutProcess
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void LogoutProcess(SOCKET socket)
 {
-	//// ¼½ÅÍ¿¡¼­ »èÁ¦
+	//// ì„¹í„°ì—ì„œ ì‚­ì œ
 	//Session * logout = g_user_socket[socket];
 	//SECTOR_MANAGER.DeletePlayer(logout->character);
-	//// ¼¼¼Ç¸®½ºÆ®¿¡¼­ »èÁ¦
+	//// ì„¸ì…˜ë¦¬ìŠ¤íŠ¸ì—ì„œ ì‚­ì œ
 	//g_user_socket.erase(socket);
-	//// »èÁ¦¿¹Á¤ ¼¼¼Ç¸®½ºÆ®¿¡ »ğÀÔ
+	//// ì‚­ì œì˜ˆì • ì„¸ì…˜ë¦¬ìŠ¤íŠ¸ì— ì‚½ì…
 	//g_deleteUser_socket.insert(pair<SOCKET, Session *>(socket, logout));
 
-	//// ¼ÒÄÏ´İ±â
+	//// ì†Œì¼“ë‹«ê¸°
 	//closesocket(socket);
-	//// ÇØ´ç À¯Àú ³ª°¨À» ¼½ÅÍÀÇ À¯Àú¿¡°Ô ¾Ë¸²
+	//// í•´ë‹¹ ìœ ì € ë‚˜ê°ì„ ì„¹í„°ì˜ ìœ ì €ì—ê²Œ ì•Œë¦¼
 	//Session * logout = g_user_socket[socket];
-	//StreamBuffer * packet;
+	//MinLib::StreamBuffer * packet;
 	//MakePacket_Delete_Character(&packet, logout->character->GetID());
 	//BroadCast_Sector(packet, logout);
 
@@ -369,11 +369,11 @@ void LogoutProcess(SOCKET socket)
 
 /*----------------------------------------------------------*/
 // ::Parsing
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
-void Parsing(Session * session, WORD message, StreamBuffer * payload)
+void Parsing(Session * session, WORD message, MinLib::StreamBuffer * payload)
 {
 	session->lastRecvTime = GetTickCount64();
 	switch (message)
@@ -469,9 +469,9 @@ void Parsing(Session * session, WORD message, StreamBuffer * payload)
 
 /*----------------------------------------------------------*/
 // ::CloseSession
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 void CloseSession(Session * session)
 {
@@ -480,9 +480,9 @@ void CloseSession(Session * session)
 
 /*----------------------------------------------------------*/
 // ::CheckDeadReckoning
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 bool CheckDeadReckoning(Player * player, Pos pos)
 {
@@ -495,9 +495,9 @@ bool CheckDeadReckoning(Player * player, Pos pos)
 
 /*----------------------------------------------------------*/
 // ::DeleteSession
-// ¼³¸í : 
-// ÀÎÀÚ : 
-// ¸®ÅÏ :
+// ì„¤ëª… : 
+// ì¸ì : 
+// ë¦¬í„´ :
 /*----------------*////////////////////////*----------------*/
 //void DeleteSession()
 //{
@@ -505,7 +505,7 @@ bool CheckDeadReckoning(Player * player, Pos pos)
 //	map<SOCKET, Session *>::iterator iterEnd = g_deleteUser_socket.end();
 //	for (; iter != iterEnd;)
 //	{
-//		StreamBuffer * deleteUser;
+//		MinLib::StreamBuffer * deleteUser;
 //		MakePacket_Delete_Character(&deleteUser, iter->second->character->_ID);
 //		BroadCast_Sector(deleteUser, iter->second);
 //		LOG(Logger::LOG_LEVEL_DEBUG, L"DisConnect %Id\n", iter->second->character->_ID);
